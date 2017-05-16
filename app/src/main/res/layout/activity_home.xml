@@ -26,6 +26,7 @@
                 app:contentInsetLeft="0dp"
                 app:contentInsetRight="0dp"
                 app:contentInsetStart="0dp"
+                android:elevation="4dp"
                 app:layout_scrollFlags="scroll|enterAlways">
                 <include layout="@layout/layout_menu_home"/>
             </android.support.v7.widget.Toolbar>

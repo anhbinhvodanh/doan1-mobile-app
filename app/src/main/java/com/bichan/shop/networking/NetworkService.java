@@ -2,6 +2,7 @@ package com.bichan.shop.networking;
 
 import com.bichan.shop.models.CategoryResponse;
 import com.bichan.shop.models.HomeCategoryResponse;
+import com.bichan.shop.models.HomeSliderResponse;
 
 import retrofit2.http.GET;
 import rx.Observable;
@@ -17,4 +18,7 @@ public interface NetworkService {
 
     @GET("api/category?act=getCategories")
     Observable<CategoryResponse> getCategory();
+
+    @GET("api/setting?act=getSlider")
+    Observable<HomeSliderResponse> getHomeSlider();
 }

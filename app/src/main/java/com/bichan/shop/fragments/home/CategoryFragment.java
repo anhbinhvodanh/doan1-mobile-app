@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.AppCompatImageButton;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
@@ -110,6 +111,10 @@ public class CategoryFragment extends BaseFragment implements HomeActivity.OnBac
         manager.setSpanCount(1);
         rvCategory.setLayoutManager(manager);
         rvCategory.setAdapter(adapter);
+
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(rvCategory.getContext(),
+                manager.getOrientation());
+        rvCategory.addItemDecoration(dividerItemDecoration);
 
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override

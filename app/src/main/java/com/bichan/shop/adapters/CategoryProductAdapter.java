@@ -1,8 +1,8 @@
 package com.bichan.shop.adapters;
 
 import android.content.Context;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -72,7 +72,9 @@ public class CategoryProductAdapter extends RecyclerView.Adapter<CategoryProduct
         CategorySectionListProductAdapter itemListDataAdapter = new CategorySectionListProductAdapter(mContext, singleSectionItems);
 
         itemRowHolder.recycler_view_list.setHasFixedSize(true);
-        itemRowHolder.recycler_view_list.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false));
+        StaggeredGridLayoutManager manager = new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.HORIZONTAL);
+        manager.setSpanCount(1);
+        itemRowHolder.recycler_view_list.setLayoutManager(manager);
         itemRowHolder.recycler_view_list.setAdapter(itemListDataAdapter);
 
 

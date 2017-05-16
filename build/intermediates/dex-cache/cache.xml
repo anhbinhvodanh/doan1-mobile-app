@@ -3,30 +3,30 @@
 
     <item
         is-multidex="false"
-        jar="C:\Users\cuong\.android\build-cache\dc0f6058925e97f38212d9076ec613e490d27e1c\output\jars\classes.jar"
+        jar="C:\Users\cuong\.android\build-cache\78ff1cceec0dd64623b330f559cc069178164ec3\output\jars\classes.jar"
         jumboMode="false"
         optimize="true"
         revision="25.0.3"
-        sha1="f322302daa06b8119852609942ecd23c5b922d07">
-        <dex dex="D:\study\2016-2017 hk2\DO AN 1\app-mobile\MyApplication2\app\build\intermediates\pre-dexed\debug\classes_844c76758e76e77ceacdf8e470a740cfce906dbb.jar" />
+        sha1="86e0b0b0a66461e30af1f794f6080f7833d03c2f">
+        <dex dex="D:\study\2016-2017 hk2\DO AN 1\app-mobile\doan1-mobile-app\app\build\intermediates\pre-dexed\debug\classes_ea892e6eae9355b01a5cd1acae3fa13bbe318d93.jar" />
     </item>
     <item
         is-multidex="false"
-        jar="C:\Users\cuong\.gradle\caches\modules-2\files-2.1\com.squareup.picasso\picasso\2.5.2\7446d06ec8d4f7ffcc53f1da37c95f200dcb9387\picasso-2.5.2.jar"
+        jar="C:\Users\cuong\.gradle\caches\modules-2\files-2.1\com.nineoldandroids\library\2.4.0\e9b63380f3a242dbdbf103a2355ad7e43bad17cb\library-2.4.0.jar"
         jumboMode="false"
         optimize="true"
         revision="25.0.3"
-        sha1="7446d06ec8d4f7ffcc53f1da37c95f200dcb9387">
-        <dex dex="D:\study\2016-2017 hk2\DO AN 1\app-mobile\MyApplication2\app\build\intermediates\pre-dexed\debug\picasso-2.5.2_45fad7fd06e85a24b6b8236c4904645a8167a2dc.jar" />
+        sha1="e9b63380f3a242dbdbf103a2355ad7e43bad17cb">
+        <dex dex="D:\study\2016-2017 hk2\DO AN 1\app-mobile\doan1-mobile-app\app\build\intermediates\pre-dexed\debug\library-2.4.0_6327e7bf46469473d4068531bb791cd43966da73.jar" />
     </item>
     <item
         is-multidex="false"
-        jar="C:\Users\cuong\.android\build-cache\2778ec785525d9fd6b2fe693439718c409c8816f\output\jars\classes.jar"
+        jar="C:\Users\cuong\.android\build-cache\280d684310696db6b859babdbba2934910fa7a4f\output\jars\classes.jar"
         jumboMode="false"
         optimize="true"
         revision="25.0.3"
-        sha1="2eea36cdde0e16e8a8d5df0d56dc2e9c7eaad66d">
-        <dex dex="D:\study\2016-2017 hk2\DO AN 1\app-mobile\MyApplication2\app\build\intermediates\pre-dexed\debug\classes_5aad536429aa76c5b735be8b8953f2e3edc59671.jar" />
+        sha1="08962e03b6a954c65d4944e092879b7f5ee1208d">
+        <dex dex="D:\study\2016-2017 hk2\DO AN 1\app-mobile\doan1-mobile-app\app\build\intermediates\pre-dexed\debug\classes_63eccfdc3619ed995ecc9751d7f91d9568de9c7c.jar" />
     </item>
 
 </items>

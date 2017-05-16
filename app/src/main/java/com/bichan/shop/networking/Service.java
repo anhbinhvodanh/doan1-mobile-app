@@ -3,6 +3,7 @@ package com.bichan.shop.networking;
 
 import com.bichan.shop.models.CategoryResponse;
 import com.bichan.shop.models.HomeCategoryResponse;
+import com.bichan.shop.models.HomeSliderResponse;
 
 import rx.Observable;
 import rx.Subscriber;
@@ -96,6 +97,41 @@ public class Service {
                     @Override
                     public void onNext(CategoryResponse categoryResponse) {
                         callback.onSuccess(categoryResponse);
+                    }
+                });
+    }
+
+
+    public interface GetHomeSliderCallback {
+        void onSuccess(HomeSliderResponse homeSliderResponse);
+        void onError(NetworkError networkError);
+    }
+
+    public Subscription getHomeSlider(final GetHomeSliderCallback callback) {
+        return networkService.getHomeSlider()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .onErrorResumeNext(new Func1<Throwable, Observable<? extends HomeSliderResponse>>() {
+                    @Override
+                    public Observable<? extends HomeSliderResponse> call(Throwable throwable) {
+                        return Observable.error(throwable);
+                    }
+                })
+                .subscribe(new Subscriber<HomeSliderResponse>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        callback.onError(new NetworkError(e));
+
+                    }
+
+                    @Override
+                    public void onNext(HomeSliderResponse homeSliderResponse) {
+                        callback.onSuccess(homeSliderResponse);
                     }
                 });
     }

@@ -11,7 +11,9 @@ import com.bichan.shop.fragments.home.CartFragment;
 import com.bichan.shop.fragments.home.CategoryFragment;
 import com.bichan.shop.fragments.home.HomeCategoryListFragment;
 import com.bichan.shop.networking.Service;
+import com.nex3z.notificationbadge.NotificationBadge;
 import com.roughike.bottombar.BottomBar;
+import com.roughike.bottombar.BottomBarTab;
 import com.roughike.bottombar.OnTabReselectListener;
 import com.roughike.bottombar.OnTabSelectListener;
 
@@ -26,12 +28,14 @@ public class HomeActivity extends BaseApp implements OnTabSelectListener, OnTabR
 
     @BindView(R.id.bottomBar)
     BottomBar bottomBar;
+    @BindView(R.id.favoriteBadge)
+    NotificationBadge favoriteBadge;
 
     private HomeCategoryListFragment homeCategoryListFragment;
     private CategoryFragment categoryFragment;
     private CartFragment cartFragment;
     private AccountFragment accountFragment;
-
+    BottomBarTab cartTab;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,6 +50,10 @@ public class HomeActivity extends BaseApp implements OnTabSelectListener, OnTabR
     private void initView(){
         bottomBar.setOnTabReselectListener(this);
         bottomBar.setOnTabSelectListener(this);
+        cartTab = bottomBar.getTabWithId(R.id.tab_cart);
+        cartTab.setBadgeCount(5);
+
+        favoriteBadge.setNumber(3);
     }
 
     private void init(){
