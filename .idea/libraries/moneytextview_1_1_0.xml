@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="moneytextview-1.1.0">
+    <CLASSES>
+      <root url="file://$USER_HOME$/.android/build-cache/dc0f6058925e97f38212d9076ec613e490d27e1c/output/res" />
+      <root url="jar://$USER_HOME$/.android/build-cache/dc0f6058925e97f38212d9076ec613e490d27e1c/output/jars/classes.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.fabiomsr/moneytextview/1.1.0/54d584f8e125afcb4452d5aade0c39aee228603e/moneytextview-1.1.0-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

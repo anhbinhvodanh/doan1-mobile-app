@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="ratioHeight" format="float" />
+    <attr name="ratioWidth" format="float" />
+    <declare-styleable name="ImageViewRatio">
+        <attr name="ratioHeight"/>
+        <attr name="ratioWidth" />
+    </declare-styleable>
+    <declare-styleable name="FrameLayoutRatio">
+        <attr name="ratioHeight"/>
+        <attr name="ratioWidth"/>
+    </declare-styleable>
+</resources>

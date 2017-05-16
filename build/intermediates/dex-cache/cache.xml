@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        is-multidex="false"
+        jar="C:\Users\cuong\.android\build-cache\dc0f6058925e97f38212d9076ec613e490d27e1c\output\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.3"
+        sha1="f322302daa06b8119852609942ecd23c5b922d07">
+        <dex dex="D:\study\2016-2017 hk2\DO AN 1\app-mobile\MyApplication2\app\build\intermediates\pre-dexed\debug\classes_844c76758e76e77ceacdf8e470a740cfce906dbb.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\cuong\.gradle\caches\modules-2\files-2.1\com.squareup.picasso\picasso\2.5.2\7446d06ec8d4f7ffcc53f1da37c95f200dcb9387\picasso-2.5.2.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.3"
+        sha1="7446d06ec8d4f7ffcc53f1da37c95f200dcb9387">
+        <dex dex="D:\study\2016-2017 hk2\DO AN 1\app-mobile\MyApplication2\app\build\intermediates\pre-dexed\debug\picasso-2.5.2_45fad7fd06e85a24b6b8236c4904645a8167a2dc.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\cuong\.android\build-cache\2778ec785525d9fd6b2fe693439718c409c8816f\output\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.3"
+        sha1="2eea36cdde0e16e8a8d5df0d56dc2e9c7eaad66d">
+        <dex dex="D:\study\2016-2017 hk2\DO AN 1\app-mobile\MyApplication2\app\build\intermediates\pre-dexed\debug\classes_5aad536429aa76c5b735be8b8953f2e3edc59671.jar" />
+    </item>
+
+</items>

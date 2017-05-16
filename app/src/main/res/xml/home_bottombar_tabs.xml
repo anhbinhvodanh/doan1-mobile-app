@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<tabs>
+    <tab
+        id="@+id/tab_home"
+        icon="@drawable/ic_home_black_24dp"
+        title="Trang chủ" />
+    <tab
+        id="@+id/tab_category"
+        icon="@drawable/ic_menu_black_24dp"
+        title="Danh mục" />
+    <tab
+        id="@+id/tab_cart"
+        icon="@drawable/ic_shopping_cart_black_24dp"
+        title="Giỏ hàng" />
+    <tab
+        id="@+id/tab_account"
+        icon="@drawable/ic_account_circle_black_24dp"
+        title="Tài khoản" />
+</tabs>

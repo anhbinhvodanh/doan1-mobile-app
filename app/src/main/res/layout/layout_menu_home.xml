@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <com.bichan.shop.custom.views.ShadowLayout
+        android:id="@+id/shadowLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        app:slCornerRadius="@dimen/defaultMenuDropShadowCornerRadius"
+        app:slShadowColor="@color/md_grey_500"
+        app:slShadowSize="@dimen/defaultMenuDropShadowSize">
+        <android.support.v7.widget.CardView
+            app:cardElevation="4dp"
+            app:cardBackgroundColor="@android:color/white"
+            android:layout_margin="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="?attr/selectableItemBackground">
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="?android:selectableItemBackground">
+                <android.support.v7.widget.AppCompatImageButton
+                    android:layout_width="48dp"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:background="@drawable/selector_light_theme"
+                    android:tint="@color/md_grey_600"
+                    android:src="@drawable/ic_search_black_24dp" />
+                <TextView
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:text="Tìm kiếm sản phẩm"
+                    android:gravity="left|center"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="@color/md_grey_600"/>
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
+    </com.bichan.shop.custom.views.ShadowLayout>
+</LinearLayout>
