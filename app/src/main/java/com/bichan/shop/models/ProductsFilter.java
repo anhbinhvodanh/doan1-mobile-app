@@ -69,7 +69,7 @@ public class ProductsFilter {
             case DESC:
                 return "DESC";
             case ASC:
-                return "";
+                return "ASC";
         }
         return "";
     }
@@ -89,7 +89,7 @@ public class ProductsFilter {
             case NAME:
                 return "p.name";
             case PRICE:
-                return "po.price";
+                return "po.discount";
             case QUANTITY:
                 return "po.quantity";
         }

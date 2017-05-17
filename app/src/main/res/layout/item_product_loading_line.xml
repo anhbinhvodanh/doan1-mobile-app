@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="4dp">
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/md_white_1000">
+        <com.elyeproj.loaderviewlibrary.LoaderImageView
+            android:layout_gravity="center"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_margin="8dp" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:background="?android:selectableItemBackground"
+            android:orientation="vertical">
+            <com.elyeproj.loaderviewlibrary.LoaderTextView
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"/>
+            <com.elyeproj.loaderviewlibrary.LoaderTextView
+                android:layout_marginTop="4dp"
+                android:layout_width="110dp"
+                android:layout_height="wrap_content"/>
+            <LinearLayout
+                android:layout_marginTop="4dp"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <com.elyeproj.loaderviewlibrary.LoaderTextView
+                    android:layout_width="80dp"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
+            <com.elyeproj.loaderviewlibrary.LoaderTextView
+                android:layout_marginTop="8dp"
+                android:layout_width="140dp"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

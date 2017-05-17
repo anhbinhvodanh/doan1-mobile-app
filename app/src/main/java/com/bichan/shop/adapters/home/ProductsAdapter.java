@@ -48,6 +48,7 @@ public class ProductsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     public void changeView(){
         single = !single;
+        notifyDataSetChanged();
     }
 
 
@@ -56,6 +57,10 @@ public class ProductsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             itemsList.add(null);
         }
         notifyDataSetChanged();
+    }
+
+    public boolean isSingle(){
+        return single;
     }
 
     public void stopLoading(){
@@ -77,6 +82,10 @@ public class ProductsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         notifyDataSetChanged();
     }
 
+    public void clearAll(){
+        this.itemsList.clear();
+        notifyDataSetChanged();
+    }
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
@@ -84,11 +93,11 @@ public class ProductsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         View v = null;
         switch (i){
             case VIEW_TYPE_LOADING:
-                v = LayoutInflater.from(viewGroup.getContext()).inflate(single?R.layout.item_product_loading:R.layout.item_product_loading, null);
+                v = LayoutInflater.from(viewGroup.getContext()).inflate(single?R.layout.item_product_loading_line:R.layout.item_product_loading, null);
                 viewHolder = new LoadingViewHolder(v);
                 break;
             case VIEW_TYPE_PRODUCT:
-                v = LayoutInflater.from(viewGroup.getContext()).inflate(single?R.layout.item_product:R.layout.item_product, null);
+                v = LayoutInflater.from(viewGroup.getContext()).inflate(single?R.layout.item_product_line:R.layout.item_product, null);
                 viewHolder = new SingleItemRowHolder(v);
                 break;
         }

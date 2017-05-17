@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="array_sort_choose">
+        <item>Giá thấp đến cao</item>
+        <item>Giá cao đến thấp</item>
+        <item>Tên sản phẩm (A-Z)</item>
+        <item>Tên sản phẩm (Z-A)</item>
+        <item>Ngày nhập mới nhất</item>
+        <item>Ngày nhập cũ nhất</item>
+        <item>Số lượng thấp đến cao</item>
+        <item>Số lượng cao đến thấp</item>
+    </string-array>
+</resources>

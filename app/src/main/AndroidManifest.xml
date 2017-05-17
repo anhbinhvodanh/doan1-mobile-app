@@ -10,6 +10,7 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
+        android:name=".MyApplication"
         android:theme="@style/AppTheme">
         <activity android:name=".MainActivity">
             <intent-filter>
@@ -19,7 +20,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".activities.home.HomeActivity" />
-        <activity android:name=".activities.products.ProductsActivity"></activity>
+        <activity android:name=".activities.products.ProductsActivity" />
+        <activity android:name=".activities.search.SearchActivity"></activity>
     </application>
 
 </manifest>

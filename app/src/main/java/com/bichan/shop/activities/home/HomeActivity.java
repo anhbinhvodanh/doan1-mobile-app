@@ -1,11 +1,15 @@
 package com.bichan.shop.activities.home;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.v4.app.FragmentTransaction;
+import android.view.View;
 
+import com.balysv.materialripple.MaterialRippleLayout;
 import com.bichan.shop.BaseApp;
 import com.bichan.shop.R;
+import com.bichan.shop.activities.search.SearchActivity;
 import com.bichan.shop.fragments.home.AccountFragment;
 import com.bichan.shop.fragments.home.CartFragment;
 import com.bichan.shop.fragments.home.CategoryFragment;
@@ -30,6 +34,8 @@ public class HomeActivity extends BaseApp implements OnTabSelectListener, OnTabR
     BottomBar bottomBar;
     @BindView(R.id.favoriteBadge)
     NotificationBadge favoriteBadge;
+    @BindView(R.id.btnSearch)
+    MaterialRippleLayout btnSearch;
 
     private HomeCategoryListFragment homeCategoryListFragment;
     private CategoryFragment categoryFragment;
@@ -49,6 +55,14 @@ public class HomeActivity extends BaseApp implements OnTabSelectListener, OnTabR
     private void initView(){
         bottomBar.setOnTabReselectListener(this);
         bottomBar.setOnTabSelectListener(this);
+        btnSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent productsIntent = new Intent(HomeActivity.this, SearchActivity.class);
+                startActivity(productsIntent);
+                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+            }
+        });
         cartTab = bottomBar.getTabWithId(R.id.tab_cart);
         cartTab.setBadgeCount(5);
         favoriteBadge.setNumber(3);
