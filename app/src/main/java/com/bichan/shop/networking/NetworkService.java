@@ -3,8 +3,10 @@ package com.bichan.shop.networking;
 import com.bichan.shop.models.CategoryResponse;
 import com.bichan.shop.models.HomeCategoryResponse;
 import com.bichan.shop.models.HomeSliderResponse;
+import com.bichan.shop.models.ProductMiniResponse;
 
 import retrofit2.http.GET;
+import retrofit2.http.Query;
 import rx.Observable;
 
 /**
@@ -21,4 +23,13 @@ public interface NetworkService {
 
     @GET("api/setting?act=getSlider")
     Observable<HomeSliderResponse> getHomeSlider();
+
+    @GET("api/product?act=getProducts&filter_sub_category=true")
+    Observable<ProductMiniResponse> getProducts(
+            @Query("filter_category_id") String categoryId,
+            @Query("filter_name") String name,
+            @Query("start") int start,
+            @Query("limit") int limit,
+            @Query("sort") String sort,
+            @Query("order") String order);
 }

@@ -4,6 +4,8 @@ package com.bichan.shop.networking;
 import com.bichan.shop.models.CategoryResponse;
 import com.bichan.shop.models.HomeCategoryResponse;
 import com.bichan.shop.models.HomeSliderResponse;
+import com.bichan.shop.models.ProductMiniResponse;
+import com.bichan.shop.models.ProductsFilter;
 
 import rx.Observable;
 import rx.Subscriber;
@@ -132,6 +134,46 @@ public class Service {
                     @Override
                     public void onNext(HomeSliderResponse homeSliderResponse) {
                         callback.onSuccess(homeSliderResponse);
+                    }
+                });
+    }
+
+    public interface GetProductsCallback {
+        void onSuccess(ProductMiniResponse productMiniResponse);
+        void onError(NetworkError networkError);
+    }
+
+    public Subscription getProducts(ProductsFilter productsFilter, final GetProductsCallback callback) {
+        return networkService.getProducts(
+                productsFilter.getCategoryId(),
+                productsFilter.getName(),
+                productsFilter.getStart(),
+                productsFilter.getLimit(),
+                productsFilter.getSortType(),
+                productsFilter.getSortOrder())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .onErrorResumeNext(new Func1<Throwable, Observable<? extends ProductMiniResponse>>() {
+                    @Override
+                    public Observable<? extends ProductMiniResponse> call(Throwable throwable) {
+                        return Observable.error(throwable);
+                    }
+                })
+                .subscribe(new Subscriber<ProductMiniResponse>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        callback.onError(new NetworkError(e));
+
+                    }
+
+                    @Override
+                    public void onNext(ProductMiniResponse productMiniResponse) {
+                        callback.onSuccess(productMiniResponse);
                     }
                 });
     }

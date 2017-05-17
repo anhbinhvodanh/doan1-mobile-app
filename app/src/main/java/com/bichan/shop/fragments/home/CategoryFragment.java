@@ -1,6 +1,7 @@
 package com.bichan.shop.fragments.home;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.AppCompatImageButton;
@@ -13,12 +14,12 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bichan.shop.BaseFragment;
 import com.bichan.shop.R;
 import com.bichan.shop.activities.home.HomeActivity;
-import com.bichan.shop.adapters.CategoryAdapter;
+import com.bichan.shop.activities.products.ProductsActivity;
+import com.bichan.shop.adapters.home.CategoryAdapter;
 import com.bichan.shop.models.Category;
 import com.bichan.shop.models.CategoryResponse;
 import com.bichan.shop.networking.NetworkError;
@@ -41,7 +42,6 @@ import rx.subscriptions.CompositeSubscription;
 public class CategoryFragment extends BaseFragment implements HomeActivity.OnBackPressedListener{
     @Inject
     public Service service;
-
     @BindView(R.id.rvCategory)
     RecyclerView rvCategory;
     @BindView(R.id.layoutBack)
@@ -52,6 +52,7 @@ public class CategoryFragment extends BaseFragment implements HomeActivity.OnBac
     Button btnMore;
     @BindView(R.id.tvName)
     TextView tvName;
+    
 
     private CompositeSubscription subscriptions;
     private ArrayList<Category> categories;
@@ -127,10 +128,20 @@ public class CategoryFragment extends BaseFragment implements HomeActivity.OnBac
             @Override
             public void onClick(View v) {
                 if(categorySelected != null){
-                    Toast.makeText(getActivity(), categorySelected.getName(), Toast.LENGTH_SHORT).show();
+                    openProducts(categorySelected);
                 }
             }
+            
         });
+    }
+
+    private void openProducts(Category categorySelected) {
+        Intent productsIntent = new Intent(getActivity(), ProductsActivity.class);
+        productsIntent.putExtra(ProductsActivity.EXTRA_CATEGORY_ID, categorySelected.getCategoryId());
+        productsIntent.putExtra(ProductsActivity.EXTRA_CATEGORY_NAME, categorySelected.getName());
+        productsIntent.putExtra(ProductsActivity.EXTRA_NAME_SEARCH, "");
+        getActivity().startActivity(productsIntent);
+        getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
     }
 
     private void getCategoryList(){
@@ -195,7 +206,9 @@ public class CategoryFragment extends BaseFragment implements HomeActivity.OnBac
                     homeActivity.setOnBackPressedListener(CategoryFragment.this);
                 }else{
                     stackCategories.pop();
-                    Toast.makeText(getActivity(), categorySelected.getName(), Toast.LENGTH_SHORT).show();
+                    if(categorySelected != null){
+                        openProducts(categorySelected);
+                    }
                 }
                 setLayoutBackInfo();
             }

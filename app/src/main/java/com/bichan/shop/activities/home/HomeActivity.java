@@ -22,7 +22,7 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class HomeActivity extends BaseApp implements OnTabSelectListener, OnTabReselectListener {
+public class HomeActivity extends BaseApp implements OnTabSelectListener, OnTabReselectListener{
     @Inject
     public Service service;
 
@@ -42,7 +42,6 @@ public class HomeActivity extends BaseApp implements OnTabSelectListener, OnTabR
         getDeps().inject(this);
         setContentView(R.layout.activity_home);
         ButterKnife.bind(this);
-
         init();
         initView();
     }
@@ -52,7 +51,6 @@ public class HomeActivity extends BaseApp implements OnTabSelectListener, OnTabR
         bottomBar.setOnTabSelectListener(this);
         cartTab = bottomBar.getTabWithId(R.id.tab_cart);
         cartTab.setBadgeCount(5);
-
         favoriteBadge.setNumber(3);
     }
 
@@ -79,7 +77,8 @@ public class HomeActivity extends BaseApp implements OnTabSelectListener, OnTabR
 
 
     private void showHomeCategoryListFragment(){
-        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        FragmentTransaction ft = getSupportFragmentManager()
+                .beginTransaction();
 
         if (homeCategoryListFragment.isAdded()) {
             ft.show(homeCategoryListFragment);
@@ -93,7 +92,8 @@ public class HomeActivity extends BaseApp implements OnTabSelectListener, OnTabR
     }
 
     private void showCategoryFragment(){
-        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        FragmentTransaction ft = getSupportFragmentManager()
+                .beginTransaction();
 
         if (categoryFragment.isAdded()) {
             ft.show(categoryFragment);
@@ -120,6 +120,7 @@ public class HomeActivity extends BaseApp implements OnTabSelectListener, OnTabR
     }
 
     protected OnBackPressedListener onBackPressedListener;
+
 
     public interface OnBackPressedListener {
         void doBack();

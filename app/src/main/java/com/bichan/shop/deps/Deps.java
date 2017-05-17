@@ -1,5 +1,6 @@
 package com.bichan.shop.deps;
 
+import com.bichan.shop.activities.products.ProductsActivity;
 import com.bichan.shop.fragments.home.CategoryFragment;
 import com.bichan.shop.fragments.home.HomeCategoryListFragment;
 import com.bichan.shop.networking.NetworkModule;
@@ -20,4 +21,5 @@ public interface Deps {
     void inject(HomeActivity homeActivity);
     void inject(HomeCategoryListFragment homeCategoryListFragment);
     void inject(CategoryFragment categoryFragment);
+    void inject(ProductsActivity productsActivity);
 }

@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 import com.bichan.shop.BaseFragment;
 import com.bichan.shop.BuildConfig;
 import com.bichan.shop.R;
-import com.bichan.shop.adapters.CategoryProductAdapter;
+import com.bichan.shop.adapters.home.CategoryProductAdapter;
 import com.bichan.shop.models.HomeCategory;
 import com.bichan.shop.models.HomeCategoryResponse;
 import com.bichan.shop.models.HomeSlider;
