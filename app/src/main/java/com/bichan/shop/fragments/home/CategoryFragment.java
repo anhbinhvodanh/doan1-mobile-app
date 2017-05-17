@@ -98,7 +98,7 @@ public class CategoryFragment extends BaseFragment implements HomeActivity.OnBac
         adapter.setOnItemClickListener(new CategoryAdapter.OnItemClickListener() {
             @Override
             public void onClick(int position) {
-                categorySelected = adapter.getCategories().get(position);
+                categorySelected = (Category) adapter.getObjects().get(position);
                 stackCategories.push(categorySelected);
                 nextCaterogy(categorySelected.getCategoryId());
             }
@@ -145,9 +145,11 @@ public class CategoryFragment extends BaseFragment implements HomeActivity.OnBac
     }
 
     private void getCategoryList(){
+        adapter.startLoading();
         Subscription subscription = service.getCategory(new Service.GetCategoryCallback() {
             @Override
             public void onSuccess(CategoryResponse categoryResponse) {
+                adapter.stopLoading();
                 categories = categoryResponse.getCategories();
                 nextCaterogy("0");
             }

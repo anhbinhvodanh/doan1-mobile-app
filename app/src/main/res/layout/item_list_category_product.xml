@@ -23,9 +23,7 @@
             android:layout_gravity="center_vertical"
             android:layout_toLeftOf="@+id/btnMore"
             android:text="Sample title"
-            android:textColor="@android:color/black"
-            android:textSize="18sp" />
-
+            android:textColor="@android:color/black" />
         <Button
             android:id="@+id/btnMore"
             android:layout_width="wrap_content"
@@ -33,17 +31,17 @@
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:text="Xem thêm"
-            android:background="@drawable/button_more"
-            android:textColor="#FFF" />
-
+            android:text="Xem tất cả"
+            android:textAllCaps="false"
+            android:background="@drawable/selector_light_theme"
+            android:textColor="@color/colorPrimary" />
 
     </RelativeLayout>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rvCategoryProductList"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="240dp"
         android:layout_gravity="center_vertical"
         android:orientation="horizontal" />
 

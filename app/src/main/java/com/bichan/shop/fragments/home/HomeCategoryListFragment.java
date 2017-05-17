@@ -1,5 +1,6 @@
 package com.bichan.shop.fragments.home;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,6 +12,7 @@ import android.view.ViewGroup;
 import com.bichan.shop.BaseFragment;
 import com.bichan.shop.BuildConfig;
 import com.bichan.shop.R;
+import com.bichan.shop.activities.products.ProductsActivity;
 import com.bichan.shop.adapters.home.CategoryProductAdapter;
 import com.bichan.shop.models.HomeCategory;
 import com.bichan.shop.models.HomeCategoryResponse;
@@ -22,6 +24,7 @@ import com.daimajia.slider.library.Animations.DescriptionAnimation;
 import com.daimajia.slider.library.SliderLayout;
 import com.daimajia.slider.library.SliderTypes.BaseSliderView;
 import com.daimajia.slider.library.SliderTypes.DefaultSliderView;
+import com.elyeproj.loaderviewlibrary.LoaderImageView;
 
 import java.util.ArrayList;
 
@@ -41,7 +44,8 @@ public class HomeCategoryListFragment extends BaseFragment implements BaseSlider
     RecyclerView rvCategoryProduct;
     @BindView(R.id.slider)
     SliderLayout sliderLayout;
-
+    @BindView(R.id.sliderLoading)
+    LoaderImageView sliderLoading;
     private CompositeSubscription subscriptions;
     private ArrayList<HomeCategory> homeCategories;
     private CategoryProductAdapter adapter;
@@ -90,6 +94,18 @@ public class HomeCategoryListFragment extends BaseFragment implements BaseSlider
         rvCategoryProduct.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
         rvCategoryProduct.setAdapter(adapter);
         rvCategoryProduct.setNestedScrollingEnabled(false);
+
+        adapter.setOnItemClickListener(new CategoryProductAdapter.OnItemClickListener() {
+            @Override
+            public void onClick(HomeCategory homeCategory) {
+                Intent productsIntent = new Intent(getActivity(), ProductsActivity.class);
+                productsIntent.putExtra(ProductsActivity.EXTRA_CATEGORY_ID, homeCategory.getCategoryId());
+                productsIntent.putExtra(ProductsActivity.EXTRA_CATEGORY_NAME, homeCategory.getName());
+                productsIntent.putExtra(ProductsActivity.EXTRA_NAME_SEARCH, "");
+                getActivity().startActivity(productsIntent);
+                getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+            }
+        });
     }
 
     private void getHomeCategoryList(){
@@ -130,7 +146,7 @@ public class HomeCategoryListFragment extends BaseFragment implements BaseSlider
         rx.Observable.from(homeSliders).subscribe(new Subscriber<HomeSlider>() {
             @Override
             public void onCompleted() {
-
+                sliderLoading.setVisibility(View.GONE);
             }
 
             @Override

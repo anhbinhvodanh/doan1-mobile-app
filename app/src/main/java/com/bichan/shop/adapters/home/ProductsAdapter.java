@@ -117,8 +117,16 @@ public class ProductsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 singleItemRowHolder.tvName.setText(singleItem.getName());
                 singleItemRowHolder.tvDiscount.setAmount(Float.parseFloat(singleItem.getDiscount()));
                 singleItemRowHolder.tvPrice.setAmount(Float.parseFloat(singleItem.getPrice()));
-                int sale = (int) ( 100 - Float.parseFloat(singleItem.getDiscount()) / (Float.parseFloat(singleItem.getPrice())) * 100);
-                singleItemRowHolder.tvSale.setText("-" + sale + "%");
+                float discount = Float.parseFloat(singleItem.getDiscount());
+                float price = Float.parseFloat(singleItem.getPrice());
+                if(discount == price){
+                    singleItemRowHolder.tvPrice.setVisibility(View.INVISIBLE);
+                    singleItemRowHolder.tvSale.setVisibility(View.INVISIBLE);
+                }else {
+                    int sale = (int) ( 100 - (discount / price) * 100);
+                    singleItemRowHolder.tvSale.setText("-" + sale + "%");
+                }
+
                 singleItemRowHolder.ratingBar.setRating(2);
                 Picasso.with(mContext).load(BuildConfig.BASEURL_IMAGES + singleItem.getImage()).into(singleItemRowHolder.image);
                 break;

@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bichan.shop.R;
 import com.bichan.shop.models.HomeCategory;
@@ -24,12 +23,17 @@ public class CategoryProductAdapter extends RecyclerView.Adapter<CategoryProduct
 
     private ArrayList<HomeCategory> dataList;
     private Context mContext;
+    private OnItemClickListener onItemClickListener;
 
     public CategoryProductAdapter(Context context, ArrayList<HomeCategory> dataList) {
         this.dataList = dataList;
         this.mContext = context;
     }
 
+
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener){
+        this.onItemClickListener = onItemClickListener;
+    }
 
     public void startLoading(){
         if(dataList != null){
@@ -61,11 +65,11 @@ public class CategoryProductAdapter extends RecyclerView.Adapter<CategoryProduct
     }
 
     @Override
-    public void onBindViewHolder(ItemRowHolder itemRowHolder, int i) {
+    public void onBindViewHolder(ItemRowHolder itemRowHolder, final int i) {
+        final HomeCategory homeCategory = dataList.get(i);
+        final String sectionName = homeCategory.getName();
 
-        final String sectionName = dataList.get(i).getName();
-
-        ArrayList singleSectionItems = dataList.get(i).getProductMinis();
+        ArrayList singleSectionItems = homeCategory.getProductMinis();
 
         itemRowHolder.itemTitle.setText(sectionName);
 
@@ -81,11 +85,17 @@ public class CategoryProductAdapter extends RecyclerView.Adapter<CategoryProduct
         itemRowHolder.btnMore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(v.getContext(), "click event on more, "+sectionName , Toast.LENGTH_SHORT).show();
+                if(onItemClickListener != null && homeCategory.getCategoryId() != null){
+                    onItemClickListener.onClick(homeCategory);
+                }
             }
         });
 
 
+    }
+
+    public interface OnItemClickListener{
+        void onClick(HomeCategory homeCategory);
     }
 
     @Override

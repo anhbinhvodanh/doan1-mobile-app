@@ -10,6 +10,7 @@ import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -37,8 +38,10 @@ public class SearchActivity extends AppCompatActivity {
     EditText edtSearch;
     @BindView(R.id.rvHistory)
     RecyclerView rvHistory;
-    Set<String> textSearchHistory;
+    @BindView(R.id.btnDelete)
+    Button btnDelete;
 
+    Set<String> textSearchHistory;
     private String categoryId;
     private String categoryName;
     private String textSearch;
@@ -85,6 +88,18 @@ public class SearchActivity extends AppCompatActivity {
                     }
                 }
                 return false;
+            }
+        });
+
+        btnDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Prefs.remove(MyApplication.KEY_SEARCH_HISTORY);
+                textSearchHistory = Prefs.getOrderedStringSet(MyApplication.KEY_SEARCH_HISTORY, new ArraySet<String>());
+                searchHistoryAdapter.clearAll();
+                for(String s : textSearchHistory){
+                    searchHistoryAdapter.addItem(s);
+                }
             }
         });
 

@@ -11,10 +11,19 @@
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-            <com.daimajia.slider.library.SliderLayout
-                android:id="@+id/slider"
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="160dp"/>
+                android:layout_height="wrap_content">
+                <com.daimajia.slider.library.SliderLayout
+                    android:id="@+id/slider"
+                    android:layout_width="match_parent"
+                    android:layout_height="160dp"/>
+                <com.elyeproj.loaderviewlibrary.LoaderImageView
+                    android:id="@+id/sliderLoading"
+                    android:layout_gravity="center"
+                    android:layout_width="match_parent"
+                    android:layout_height="160dp"/>
+            </RelativeLayout>
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rvCategoryProduct"
                 android:layout_width="match_parent"

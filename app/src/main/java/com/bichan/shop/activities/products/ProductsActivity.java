@@ -137,6 +137,7 @@ public class ProductsActivity extends BaseApp implements View.OnClickListener{
     }
 
     private void getMoreProduct(){
+        endless.setLoadMoreAvailable(false);
         productsAdapter.startLoading();
         Subscription subscription = service.getProducts(productsFilter, new Service.GetProductsCallback() {
             @Override
@@ -145,6 +146,7 @@ public class ProductsActivity extends BaseApp implements View.OnClickListener{
                 endless.loadMoreComplete();
                 if(productMiniResponse.getProductMinis().size() != 0){
                     productsAdapter.addProducts(productMiniResponse.getProductMinis());
+                    endless.setLoadMoreAvailable(true);
                 }else{
                     endless.setLoadMoreAvailable(false);
                 }
