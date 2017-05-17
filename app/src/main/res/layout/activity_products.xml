@@ -102,6 +102,15 @@
                             android:text="Sắp xếp"/>
                     </LinearLayout>
                 </com.balysv.materialripple.MaterialRippleLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                    <View
+                        android:layout_width="1sp"
+                        android:layout_height="match_parent"
+                        android:background="@color/colorBackgound"/>
+                </LinearLayout>
                 <com.balysv.materialripple.MaterialRippleLayout
                     android:id="@+id/btnChangeView"
                     android:layout_weight="1"
@@ -115,8 +124,6 @@
                         android:layout_gravity="center"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentLeft="true"
-                        android:layout_centerVertical="true"
                         android:tint="@color/md_black_1000"
                         android:src="@drawable/ic_view_list_black_24dp" />
                 </com.balysv.materialripple.MaterialRippleLayout>
