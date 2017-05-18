@@ -12,12 +12,15 @@ import android.view.ViewGroup;
 import com.bichan.shop.BaseFragment;
 import com.bichan.shop.BuildConfig;
 import com.bichan.shop.R;
+import com.bichan.shop.activities.product.ProductDetailActivity;
 import com.bichan.shop.activities.products.ProductsActivity;
 import com.bichan.shop.adapters.home.CategoryProductAdapter;
+import com.bichan.shop.adapters.home.ProductsAdapter;
 import com.bichan.shop.models.HomeCategory;
 import com.bichan.shop.models.HomeCategoryResponse;
 import com.bichan.shop.models.HomeSlider;
 import com.bichan.shop.models.HomeSliderResponse;
+import com.bichan.shop.models.ProductMini;
 import com.bichan.shop.networking.NetworkError;
 import com.bichan.shop.networking.Service;
 import com.daimajia.slider.library.Animations.DescriptionAnimation;
@@ -98,14 +101,32 @@ public class HomeCategoryListFragment extends BaseFragment implements BaseSlider
         adapter.setOnItemClickListener(new CategoryProductAdapter.OnItemClickListener() {
             @Override
             public void onClick(HomeCategory homeCategory) {
-                Intent productsIntent = new Intent(getActivity(), ProductsActivity.class);
-                productsIntent.putExtra(ProductsActivity.EXTRA_CATEGORY_ID, homeCategory.getCategoryId());
-                productsIntent.putExtra(ProductsActivity.EXTRA_CATEGORY_NAME, homeCategory.getName());
-                productsIntent.putExtra(ProductsActivity.EXTRA_NAME_SEARCH, "");
-                getActivity().startActivity(productsIntent);
-                getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                openProductsActivity(homeCategory.getCategoryId(), homeCategory.getName(), "");
             }
         });
+
+        adapter.setOnItemProductClickListener(new ProductsAdapter.OnItemProductClickListener() {
+            @Override
+            public void onClick(ProductMini productMini) {
+                openProductDetailActivity(productMini.getProductId());
+            }
+        });
+    }
+
+    private void openProductsActivity(String categoryId, String name, String nameSearch){
+        Intent productsIntent = new Intent(getActivity(), ProductsActivity.class);
+        productsIntent.putExtra(ProductsActivity.EXTRA_CATEGORY_ID, categoryId);
+        productsIntent.putExtra(ProductsActivity.EXTRA_CATEGORY_NAME, name);
+        productsIntent.putExtra(ProductsActivity.EXTRA_NAME_SEARCH, "");
+        getActivity().startActivity(productsIntent);
+        getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+    }
+
+    private void openProductDetailActivity(String productId){
+        Intent intent = new Intent(getActivity(), ProductDetailActivity.class);
+        intent.putExtra(ProductDetailActivity.EXTRA_PRODUCT_ID, productId);
+        getActivity().startActivity(intent);
+        getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
     }
 
     private void getHomeCategoryList(){
@@ -161,6 +182,9 @@ public class HomeCategoryListFragment extends BaseFragment implements BaseSlider
                 defaultSliderView.image(BuildConfig.BASEURL_IMAGES + homeSlider.getImage())
                         .setScaleType(BaseSliderView.ScaleType.Fit)
                         .setOnSliderClickListener(HomeCategoryListFragment.this);
+                defaultSliderView.bundle(new Bundle());
+                defaultSliderView.getBundle().putString("id",homeSlider.getId());
+                defaultSliderView.getBundle().putString("type",homeSlider.getType());
                 sliderLayout.addSlider(defaultSliderView);
             }
         });
@@ -177,6 +201,19 @@ public class HomeCategoryListFragment extends BaseFragment implements BaseSlider
 
     @Override
     public void onSliderClick(BaseSliderView slider) {
-
+        if(slider.getBundle() != null){
+            String id = (String) slider.getBundle().get("id");
+            String type = (String) slider.getBundle().get("type");
+            switch (type){
+                case "product":
+                    openProductsActivity(id, "", "");
+                    break;
+                case "category":
+                    openProductDetailActivity(id);
+                    break;
+            }
+        }
     }
+
+
 }

@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.bichan.shop.R;
 import com.bichan.shop.models.HomeCategory;
+import com.bichan.shop.models.ProductMini;
 import com.bichan.shop.models.ProductMiniLoading;
 
 import java.util.ArrayList;
@@ -24,12 +25,16 @@ public class CategoryProductAdapter extends RecyclerView.Adapter<CategoryProduct
     private ArrayList<HomeCategory> dataList;
     private Context mContext;
     private OnItemClickListener onItemClickListener;
+    private ProductsAdapter.OnItemProductClickListener onItemProductClickListener;
 
     public CategoryProductAdapter(Context context, ArrayList<HomeCategory> dataList) {
         this.dataList = dataList;
         this.mContext = context;
     }
 
+    public void setOnItemProductClickListener(ProductsAdapter.OnItemProductClickListener onItemProductClickListener){
+        this.onItemProductClickListener = onItemProductClickListener;
+    }
 
     public void setOnItemClickListener(OnItemClickListener onItemClickListener){
         this.onItemClickListener = onItemClickListener;
@@ -82,6 +87,15 @@ public class CategoryProductAdapter extends RecyclerView.Adapter<CategoryProduct
         itemRowHolder.recycler_view_list.setAdapter(itemListDataAdapter);
 
 
+        itemListDataAdapter.setOnItemProductClickListener(new ProductsAdapter.OnItemProductClickListener() {
+            @Override
+            public void onClick(ProductMini productMini) {
+                if(onItemProductClickListener != null){
+                    onItemProductClickListener.onClick(productMini);
+                }
+            }
+        });
+
         itemRowHolder.btnMore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -97,6 +111,8 @@ public class CategoryProductAdapter extends RecyclerView.Adapter<CategoryProduct
     public interface OnItemClickListener{
         void onClick(HomeCategory homeCategory);
     }
+
+
 
     @Override
     public int getItemCount() {

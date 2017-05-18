@@ -4,6 +4,8 @@ import com.bichan.shop.models.CategoryResponse;
 import com.bichan.shop.models.HomeCategoryResponse;
 import com.bichan.shop.models.HomeSliderResponse;
 import com.bichan.shop.models.ProductMiniResponse;
+import com.bichan.shop.models.ProductOptionResponse;
+import com.bichan.shop.models.ProductResponse;
 
 import retrofit2.http.GET;
 import retrofit2.http.Query;
@@ -32,4 +34,12 @@ public interface NetworkService {
             @Query("limit") int limit,
             @Query("sort") String sort,
             @Query("order") String order);
+
+    @GET("api/product?act=getProduct")
+    Observable<ProductResponse> getProduct(
+            @Query("product_id") String productId);
+
+    @GET("api/product?act=getOptionsByProductId")
+    Observable<ProductOptionResponse> getProductOption(
+            @Query("product_id") String productId);
 }

@@ -5,6 +5,8 @@ import com.bichan.shop.models.CategoryResponse;
 import com.bichan.shop.models.HomeCategoryResponse;
 import com.bichan.shop.models.HomeSliderResponse;
 import com.bichan.shop.models.ProductMiniResponse;
+import com.bichan.shop.models.ProductOptionResponse;
+import com.bichan.shop.models.ProductResponse;
 import com.bichan.shop.models.ProductsFilter;
 
 import rx.Observable;
@@ -174,6 +176,76 @@ public class Service {
                     @Override
                     public void onNext(ProductMiniResponse productMiniResponse) {
                         callback.onSuccess(productMiniResponse);
+                    }
+                });
+    }
+
+
+    public interface GetProductCallback {
+        void onSuccess(ProductResponse productResponse);
+        void onError(NetworkError networkError);
+    }
+
+    public Subscription getProduct(String productId, final GetProductCallback callback) {
+        return networkService.getProduct(productId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .onErrorResumeNext(new Func1<Throwable, Observable<? extends ProductResponse>>() {
+                    @Override
+                    public Observable<? extends ProductResponse> call(Throwable throwable) {
+                        return Observable.error(throwable);
+                    }
+                })
+                .subscribe(new Subscriber<ProductResponse>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        callback.onError(new NetworkError(e));
+
+                    }
+
+                    @Override
+                    public void onNext(ProductResponse productMiniResponse) {
+                        callback.onSuccess(productMiniResponse);
+                    }
+                });
+    }
+
+
+    public interface GetProductOptionCallback {
+        void onSuccess(ProductOptionResponse productOptionResponse);
+        void onError(NetworkError networkError);
+    }
+
+    public Subscription getProductOption(String productId, final GetProductOptionCallback callback) {
+        return networkService.getProductOption(productId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .onErrorResumeNext(new Func1<Throwable, Observable<? extends ProductOptionResponse>>() {
+                    @Override
+                    public Observable<? extends ProductOptionResponse> call(Throwable throwable) {
+                        return Observable.error(throwable);
+                    }
+                })
+                .subscribe(new Subscriber<ProductOptionResponse>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        callback.onError(new NetworkError(e));
+
+                    }
+
+                    @Override
+                    public void onNext(ProductOptionResponse productOptionResponse) {
+                        callback.onSuccess(productOptionResponse);
                     }
                 });
     }

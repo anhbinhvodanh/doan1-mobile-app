@@ -9,7 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RatingBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.balysv.materialripple.MaterialRippleLayout;
 import com.bichan.shop.BuildConfig;
@@ -30,11 +29,16 @@ import java.util.ArrayList;
 public class ProductsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public static final int VIEW_TYPE_LOADING = 0;
     public static final int VIEW_TYPE_PRODUCT = 1;
-
+    private OnItemProductClickListener onItemProductClickListener;
     private boolean single = false;
 
     private ArrayList<Object> itemsList;
     private Context mContext;
+
+    public void setOnItemProductClickListener(OnItemProductClickListener onItemProductClickListener){
+        this.onItemProductClickListener = onItemProductClickListener;
+    }
+
 
     public ProductsAdapter(Context context, ArrayList<Object> itemsList) {
         this.itemsList = itemsList;
@@ -112,7 +116,7 @@ public class ProductsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             case VIEW_TYPE_LOADING:
                 break;
             case VIEW_TYPE_PRODUCT:
-                ProductMini singleItem = (ProductMini) itemsList.get(i);
+                final ProductMini singleItem = (ProductMini) itemsList.get(i);
                 SingleItemRowHolder singleItemRowHolder = (SingleItemRowHolder) holder;
                 singleItemRowHolder.tvName.setText(singleItem.getName());
                 singleItemRowHolder.tvDiscount.setAmount(Float.parseFloat(singleItem.getDiscount()));
@@ -129,6 +133,17 @@ public class ProductsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
                 singleItemRowHolder.ratingBar.setRating(2);
                 Picasso.with(mContext).load(BuildConfig.BASEURL_IMAGES + singleItem.getImage()).into(singleItemRowHolder.image);
+
+                singleItemRowHolder.layout.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if(onItemProductClickListener != null){
+                            onItemProductClickListener.onClick(singleItem);
+                        }
+                    }
+                });
+
+
                 break;
         }
 
@@ -152,7 +167,6 @@ public class ProductsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     }
 
     public class SingleItemRowHolder extends RecyclerView.ViewHolder {
-
         protected TextView tvName,  tvSale;
         protected MoneyTextView tvDiscount, tvPrice;
         protected ImageViewRatio image;
@@ -169,19 +183,13 @@ public class ProductsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             this.layout = (MaterialRippleLayout) view.findViewById(R.id.ripple);
             Drawable drawable = ratingBar.getProgressDrawable();
             drawable.setColorFilter(mContext.getResources().getColor(R.color.md_yellow_600), PorterDuff.Mode.SRC_ATOP);
-
-            layout.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Toast.makeText(v.getContext(), tvName.getText(), Toast.LENGTH_SHORT).show();
-                }
-            });
-
-
         }
 
     }
 
+    public interface OnItemProductClickListener{
+        void onClick(ProductMini productMini);
+    }
 
 
 }

@@ -2,10 +2,10 @@
 <resources>
     <color name="colorPrimary">#2C3033</color>
     <color name="colorPrimaryDark">#2C3033</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="colorAccent">#BA8253</color>
     <color name="colorBackgound">#f1f1f1</color>
     <color name="colorMaterialRipple">#d7000000</color>
-
+    <color name="actionbar_opacity">#33000000</color>
     <color name="md_red_50">#FFEBEE</color>
     <color name="md_red_100">#FFCDD2</color>
     <color name="md_red_200">#EF9A9A</color>

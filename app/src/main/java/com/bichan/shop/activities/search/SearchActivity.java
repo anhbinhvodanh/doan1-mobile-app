@@ -1,7 +1,11 @@
 package com.bichan.shop.activities.search;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.util.ArraySet;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatImageButton;
@@ -13,6 +17,7 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bichan.shop.MyApplication;
 import com.bichan.shop.R;
@@ -29,6 +34,7 @@ public class SearchActivity extends AppCompatActivity {
     public static final String EXTRA_CATEGORY_ID = "EXTRA_CATEGORY_ID";
     public static final String EXTRA_CATEGORY_NAME = "EXTRA_CATEGORY_NAME";
     public static final String EXTRA_NAME_SEARCH = "EXTRA_NAME_SEARCH";
+    private static final int ZBAR_CAMERA_PERMISSION = 1;
 
     @BindView(R.id.btnBack)
     AppCompatImageButton btnBack;
@@ -40,6 +46,8 @@ public class SearchActivity extends AppCompatActivity {
     RecyclerView rvHistory;
     @BindView(R.id.btnDelete)
     Button btnDelete;
+    @BindView(R.id.btnBarcode)
+    AppCompatImageButton btnBarcode;
 
     Set<String> textSearchHistory;
     private String categoryId;
@@ -103,12 +111,20 @@ public class SearchActivity extends AppCompatActivity {
             }
         });
 
+        btnBarcode.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                requestPermission();
+            }
+        });
+
         rvHistory.setHasFixedSize(true);
         searchHistoryAdapter = new SearchHistoryAdapter();
         manager = new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL);
         manager.setSpanCount(1);
         rvHistory.setLayoutManager(manager);
         rvHistory.setAdapter(searchHistoryAdapter);
+
 
         for(String s : textSearchHistory){
             searchHistoryAdapter.addItem(s);
@@ -129,6 +145,35 @@ public class SearchActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    private void requestPermission(){
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.CAMERA}, ZBAR_CAMERA_PERMISSION);
+        } else {
+            // open cammera
+            showSearchBarcodeActivity();
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,  String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case ZBAR_CAMERA_PERMISSION:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    showSearchBarcodeActivity();
+                } else {
+                    Toast.makeText(this, "Please grant camera permission to use the QR Scanner", Toast.LENGTH_SHORT).show();
+                }
+                return;
+        }
+    }
+
+
+    private void showSearchBarcodeActivity(){
+        Intent searchBarcodeActivityIntent = new Intent(this, SearchBarcodeActivity.class);
+        startActivity(searchBarcodeActivityIntent);
     }
 
     private void openProducts(String textSearch) {

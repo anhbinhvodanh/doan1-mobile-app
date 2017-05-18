@@ -48,6 +48,16 @@
                     android:imeOptions="actionDone"
                     android:hint="Nhập nội dung tìm kiếm"/>
                 <android.support.v7.widget.AppCompatImageButton
+                    android:id="@+id/btnBarcode"
+                    android:layout_gravity="center"
+                    android:layout_width="42dp"
+                    android:layout_height="42dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:background="?android:selectableItemBackground"
+                    android:tint="@color/md_black_1000"
+                    android:src="@drawable/ic_scan_barcode" />
+                <android.support.v7.widget.AppCompatImageButton
                     android:id="@+id/btnClear"
                     android:layout_gravity="center"
                     android:layout_width="42dp"

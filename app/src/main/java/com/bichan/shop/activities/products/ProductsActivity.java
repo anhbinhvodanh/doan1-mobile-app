@@ -13,8 +13,10 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.balysv.materialripple.MaterialRippleLayout;
 import com.bichan.shop.BaseApp;
 import com.bichan.shop.R;
+import com.bichan.shop.activities.product.ProductDetailActivity;
 import com.bichan.shop.activities.search.SearchActivity;
 import com.bichan.shop.adapters.home.ProductsAdapter;
+import com.bichan.shop.models.ProductMini;
 import com.bichan.shop.models.ProductMiniResponse;
 import com.bichan.shop.models.ProductsFilter;
 import com.bichan.shop.models.SortOrder;
@@ -121,6 +123,16 @@ public class ProductsActivity extends BaseApp implements View.OnClickListener{
             public void onLoadMore(int page) {
                 productsFilter.next();
                 getMoreProduct();
+            }
+        });
+
+        productsAdapter.setOnItemProductClickListener(new ProductsAdapter.OnItemProductClickListener() {
+            @Override
+            public void onClick(ProductMini productMini) {
+                Intent intent = new Intent(ProductsActivity.this, ProductDetailActivity.class);
+                intent.putExtra(ProductDetailActivity.EXTRA_PRODUCT_ID, productMini.getProductId());
+                startActivity(intent);
+                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
             }
         });
     }
