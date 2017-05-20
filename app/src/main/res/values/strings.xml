@@ -4,4 +4,6 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_choose_sort_product">Sắp xếp theo:</string>
+    <string name="dialog_loading_title">Vui lòng đợi</string>
+    <string name="dialog_loading_mess">Dữ liệu đang được cập nhập...</string>
 </resources>

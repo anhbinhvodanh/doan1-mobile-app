@@ -25,7 +25,13 @@
         <activity android:name=".activities.search.SearchActivity" />
         <activity android:name=".activities.search.SearchBarcodeActivity" />
         <activity android:name=".activities.product.ProductDetailActivity" />
-        <activity android:name=".activities.product.ProductDescriptionActivity"></activity>
+        <activity android:name=".activities.product.ProductDescriptionActivity" />
+
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="314275058994253" />
+
+        <activity android:name=".activities.login.LoginActivity"></activity>
     </application>
 
 </manifest>

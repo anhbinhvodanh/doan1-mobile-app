@@ -3,6 +3,15 @@
 
     <item
         is-multidex="false"
+        jar="C:\Users\cuong\.android\build-cache\9a9278c0fb66af57a88a1c8ffc9fd2e2241e9d50\output\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.3"
+        sha1="3f0a85e6000998ac322ddd50750e8cf91601a84b">
+        <dex dex="D:\study\2016-2017 hk2\DO AN 1\app-mobile\doan1-mobile-app\app\build\intermediates\pre-dexed\debug\classes_91c68d4af286ad9463965ba77ce0d5c992b9c8e4.jar" />
+    </item>
+    <item
+        is-multidex="false"
         jar="C:\Users\cuong\.android\build-cache\f6cf7ddeeb5203f498e318690bf5a955e97c2f8e\output\jars\classes.jar"
         jumboMode="false"
         optimize="true"
@@ -12,21 +21,30 @@
     </item>
     <item
         is-multidex="false"
-        jar="C:\Users\cuong\.android\build-cache\9bbc7e8b2ab4910864431da146c08e52df291c1c\output\jars\classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="25.0.3"
-        sha1="f2cdf81179968e7ffcde9044d869fbd737905262">
-        <dex dex="D:\study\2016-2017 hk2\DO AN 1\app-mobile\doan1-mobile-app\app\build\intermediates\pre-dexed\debug\classes_b002a2d82260e36d0ae299371e6535741fd83742.jar" />
-    </item>
-    <item
-        is-multidex="false"
         jar="C:\Users\cuong\.gradle\caches\modules-2\files-2.1\com.nineoldandroids\library\2.4.0\e9b63380f3a242dbdbf103a2355ad7e43bad17cb\library-2.4.0.jar"
         jumboMode="false"
         optimize="true"
         revision="25.0.3"
         sha1="e9b63380f3a242dbdbf103a2355ad7e43bad17cb">
         <dex dex="D:\study\2016-2017 hk2\DO AN 1\app-mobile\doan1-mobile-app\app\build\intermediates\pre-dexed\debug\library-2.4.0_6327e7bf46469473d4068531bb791cd43966da73.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\cuong\.android\build-cache\c1c76095d3b87ea32ff4a532b8affce5d58a6024\output\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.3"
+        sha1="69e74a8b1cbf5b8ee0fc0cca6bab1ac6c45efef8">
+        <dex dex="D:\study\2016-2017 hk2\DO AN 1\app-mobile\doan1-mobile-app\app\build\intermediates\pre-dexed\debug\classes_65c9745648ee04515cc5ad92f1561f56677bda2b.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\cuong\.android\build-cache\5b56108a85433a635b641c4a2d8c1d11d592dba7\output\jars\libs\signpost-core-1.2.1.1.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.3"
+        sha1="47d92007ca13efd47efad1af94d842ecb5066310">
+        <dex dex="D:\study\2016-2017 hk2\DO AN 1\app-mobile\doan1-mobile-app\app\build\intermediates\pre-dexed\release\signpost-core-1.2.1.1_ff593f092c6938848572a52661a55b5c607a24d8.jar" />
     </item>
     <item
         is-multidex="false"
@@ -57,21 +75,21 @@
     </item>
     <item
         is-multidex="false"
-        jar="C:\Users\cuong\.android\build-cache\ca55ff8e9195d509568975167330e11833b47f28\output\jars\classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="25.0.3"
-        sha1="d3b394848f31ac12c50e0227af889247943b11b2">
-        <dex dex="D:\study\2016-2017 hk2\DO AN 1\app-mobile\doan1-mobile-app\app\build\intermediates\pre-dexed\debug\classes_dd4f8250d32dda3efe26117cdc839f34fa987a6b.jar" />
-    </item>
-    <item
-        is-multidex="false"
         jar="C:\Users\cuong\.android\build-cache\45cbf5a93e899f60f496c1422081c4f15c7c42d0\output\jars\classes.jar"
         jumboMode="false"
         optimize="true"
         revision="25.0.3"
         sha1="b74e6684048d5e4a6db0f2552241966f85c78993">
         <dex dex="D:\study\2016-2017 hk2\DO AN 1\app-mobile\doan1-mobile-app\app\build\intermediates\pre-dexed\debug\classes_9473e56ad7f59edae28682303e8cad919780b1d1.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\cuong\.android\build-cache\6ddd81d8b08bb78ca7c77179e97d16d5615c665a\output\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.3"
+        sha1="0a534044236cf81b002604643d23e7ca56bd1ee0">
+        <dex dex="D:\study\2016-2017 hk2\DO AN 1\app-mobile\doan1-mobile-app\app\build\intermediates\pre-dexed\debug\classes_ef8c144639bec46d7f9c9747aa9d45958f451af0.jar" />
     </item>
     <item
         is-multidex="false"
@@ -84,12 +102,156 @@
     </item>
     <item
         is-multidex="false"
+        jar="C:\Users\cuong\.android\build-cache\4da07abea26326ea394d3656cd5b415ac385ae23\output\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.3"
+        sha1="da832806828ba407284c0c4b1d87b8f9ed9f2520">
+        <dex dex="D:\study\2016-2017 hk2\DO AN 1\app-mobile\doan1-mobile-app\app\build\intermediates\pre-dexed\debug\classes_4fef4231d4a8fbd70188cda77d555860c4fb2dee.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\cuong\.android\build-cache\960720b5110295387d3e36cf4261fe3a693e90d1\output\jars\libs\bolts.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.3"
+        sha1="1e5ba33c837d05dcca9dc40a0ab458f8599d7aef">
+        <dex dex="D:\study\2016-2017 hk2\DO AN 1\app-mobile\doan1-mobile-app\app\build\intermediates\pre-dexed\release\bolts_e431f3ff7613195aa6f4f7fb6178e9bd6c2fcce7.jar" />
+    </item>
+    <item
+        is-multidex="false"
         jar="C:\Users\cuong\.android\build-cache\280d684310696db6b859babdbba2934910fa7a4f\output\jars\classes.jar"
         jumboMode="false"
         optimize="true"
         revision="25.0.3"
         sha1="08962e03b6a954c65d4944e092879b7f5ee1208d">
         <dex dex="D:\study\2016-2017 hk2\DO AN 1\app-mobile\doan1-mobile-app\app\build\intermediates\pre-dexed\debug\classes_63eccfdc3619ed995ecc9751d7f91d9568de9c7c.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\cuong\.android\build-cache\78ff1cceec0dd64623b330f559cc069178164ec3\output\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.3"
+        sha1="86e0b0b0a66461e30af1f794f6080f7833d03c2f">
+        <dex dex="D:\study\2016-2017 hk2\DO AN 1\app-mobile\doan1-mobile-app\app\build\intermediates\pre-dexed\debug\classes_ea892e6eae9355b01a5cd1acae3fa13bbe318d93.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\cuong\.android\build-cache\5b56108a85433a635b641c4a2d8c1d11d592dba7\output\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.3"
+        sha1="58212743ae626c2ab2ff337ec41687749891ea8a">
+        <dex dex="D:\study\2016-2017 hk2\DO AN 1\app-mobile\doan1-mobile-app\app\build\intermediates\pre-dexed\release\classes_3c5be2ba121ccfdfb59d3ec3a58b69571029538d.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\cuong\.android\build-cache\960720b5110295387d3e36cf4261fe3a693e90d1\output\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.3"
+        sha1="c0f518f689067f548432e9e694c9fa4a00edb0d8">
+        <dex dex="D:\study\2016-2017 hk2\DO AN 1\app-mobile\doan1-mobile-app\app\build\intermediates\pre-dexed\release\classes_d2906b9d851b3a6727f5231240921a87c9e48673.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\cuong\.android\build-cache\37c1fd34040c3ee9dd7fa01355f6535852df5379\output\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.3"
+        sha1="8a43729dd397e849f2a8bdc5d57a2f3170efb3ed">
+        <dex dex="D:\study\2016-2017 hk2\DO AN 1\app-mobile\doan1-mobile-app\app\build\intermediates\pre-dexed\debug\classes_a8879489734a38e455b4bace8b6b65e11b5441a5.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\cuong\.android\build-cache\9bbc7e8b2ab4910864431da146c08e52df291c1c\output\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.3"
+        sha1="f2cdf81179968e7ffcde9044d869fbd737905262">
+        <dex dex="D:\study\2016-2017 hk2\DO AN 1\app-mobile\doan1-mobile-app\app\build\intermediates\pre-dexed\debug\classes_b002a2d82260e36d0ae299371e6535741fd83742.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\cuong\.android\build-cache\5b56108a85433a635b641c4a2d8c1d11d592dba7\output\jars\libs\linkedin-j-android-1.0.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.3"
+        sha1="13bae5a8934c403ab39853974dd6e798d2217ae7">
+        <dex dex="D:\study\2016-2017 hk2\DO AN 1\app-mobile\doan1-mobile-app\app\build\intermediates\pre-dexed\release\linkedin-j-android-1.0_d6f8e380ac649c431f8eda1805bc6aa7376e07a2.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\cuong\.android\build-cache\1e9167c2e57b00dbcc34ba5b4c6238e6b2329192\output\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.3"
+        sha1="900a290779cdb4eb2e63b6f7806fd9f30ce4f60d">
+        <dex dex="D:\study\2016-2017 hk2\DO AN 1\app-mobile\doan1-mobile-app\app\build\intermediates\pre-dexed\debug\classes_f719785691695702693ae0704f70479f87fdf02a.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\cuong\.android\build-cache\c66506951938f38449ca81ebfdf85fde167cfbf5\output\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.3"
+        sha1="d79c575e1d97b0298746a4c032a0c1dc201c2f82">
+        <dex dex="D:\study\2016-2017 hk2\DO AN 1\app-mobile\doan1-mobile-app\app\build\intermediates\pre-dexed\debug\classes_207415ca313ee56c0363b05d0a66155fcf4bda23.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\cuong\.android\build-cache\85804140a2031a14de151feb770bafb9793caa3a\output\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.3"
+        sha1="8f83a631abfdb790591a720e0cfb5f41329831c3">
+        <dex dex="D:\study\2016-2017 hk2\DO AN 1\app-mobile\doan1-mobile-app\app\build\intermediates\pre-dexed\debug\classes_bbd542a03fadcbdecd551c1af8926c122bb7d60c.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\cuong\.gradle\caches\modules-2\files-2.1\org.twitter4j\twitter4j-core\4.0.1\37fd1d1eb3ed57916c9fdd1ea1f6c3afce778c7c\twitter4j-core-4.0.1.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.3"
+        sha1="37fd1d1eb3ed57916c9fdd1ea1f6c3afce778c7c">
+        <dex dex="D:\study\2016-2017 hk2\DO AN 1\app-mobile\doan1-mobile-app\app\build\intermediates\pre-dexed\release\twitter4j-core-4.0.1_f3b92dfa8e4f5ee5fbb9557ce16195a38a6e809f.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\cuong\.android\build-cache\ca55ff8e9195d509568975167330e11833b47f28\output\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.3"
+        sha1="d3b394848f31ac12c50e0227af889247943b11b2">
+        <dex dex="D:\study\2016-2017 hk2\DO AN 1\app-mobile\doan1-mobile-app\app\build\intermediates\pre-dexed\debug\classes_dd4f8250d32dda3efe26117cdc839f34fa987a6b.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\cuong\.android\build-cache\5b56108a85433a635b641c4a2d8c1d11d592dba7\output\jars\libs\signpost-commonshttp4-1.2.1.1.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.3"
+        sha1="1e6380adcb5808bfe13a934a2f35bfeed1adbc49">
+        <dex dex="D:\study\2016-2017 hk2\DO AN 1\app-mobile\doan1-mobile-app\app\build\intermediates\pre-dexed\release\signpost-commonshttp4-1.2.1.1_0a94599cc4c59fe42b7b4b09e077bfced69260b6.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\cuong\.android\build-cache\d7805d6d5dc253ae0ea46f22ae503601d7f9396b\output\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.3"
+        sha1="ec94bba6a9bbd3461d90830e0a0752a6487f5484">
+        <dex dex="D:\study\2016-2017 hk2\DO AN 1\app-mobile\doan1-mobile-app\app\build\intermediates\pre-dexed\debug\classes_f50881680e7c5707256af2a6ac13e7997465302c.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\cuong\.android\build-cache\7cb0d14eb1f5e14142eaefd77dcb96f8ae33f55a\output\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.3"
+        sha1="16ca20a8b28a20a880a3d42ce149cfa3005caada">
+        <dex dex="D:\study\2016-2017 hk2\DO AN 1\app-mobile\doan1-mobile-app\app\build\intermediates\pre-dexed\debug\classes_d953ed39b45a00145d0d3219225d03d015280601.jar" />
     </item>
     <item
         is-multidex="false"
@@ -102,12 +264,12 @@
     </item>
     <item
         is-multidex="false"
-        jar="C:\Users\cuong\.android\build-cache\78ff1cceec0dd64623b330f559cc069178164ec3\output\jars\classes.jar"
+        jar="C:\Users\cuong\.android\build-cache\1362880e0b14d4b986bb5a405f722fd0d0b59945\output\jars\classes.jar"
         jumboMode="false"
         optimize="true"
         revision="25.0.3"
-        sha1="86e0b0b0a66461e30af1f794f6080f7833d03c2f">
-        <dex dex="D:\study\2016-2017 hk2\DO AN 1\app-mobile\doan1-mobile-app\app\build\intermediates\pre-dexed\debug\classes_ea892e6eae9355b01a5cd1acae3fa13bbe318d93.jar" />
+        sha1="7676c0cb230efa6ac41c47867d372ed5913029d4">
+        <dex dex="D:\study\2016-2017 hk2\DO AN 1\app-mobile\doan1-mobile-app\app\build\intermediates\pre-dexed\release\classes_8effece0a714df27bfcf64c157fafcbfebd90bd9.jar" />
     </item>
     <item
         is-multidex="false"

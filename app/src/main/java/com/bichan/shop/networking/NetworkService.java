@@ -6,6 +6,7 @@ import com.bichan.shop.models.HomeSliderResponse;
 import com.bichan.shop.models.ProductMiniResponse;
 import com.bichan.shop.models.ProductOptionResponse;
 import com.bichan.shop.models.ProductResponse;
+import com.bichan.shop.models.ReviewResponse;
 
 import retrofit2.http.GET;
 import retrofit2.http.Query;
@@ -41,5 +42,9 @@ public interface NetworkService {
 
     @GET("api/product?act=getOptionsByProductId")
     Observable<ProductOptionResponse> getProductOption(
+            @Query("product_id") String productId);
+
+    @GET("api/review?act=getReviews")
+    Observable<ReviewResponse> getProductReview(
             @Query("product_id") String productId);
 }

@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="numberpicker-1.0.6">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.android/build-cache/7cb0d14eb1f5e14142eaefd77dcb96f8ae33f55a/output/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.android/build-cache/7cb0d14eb1f5e14142eaefd77dcb96f8ae33f55a/output/res" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.github.travijuu/numberpicker/1.0.6/bef9fa237bfa5d8249fa850f83142a51554db4e6/numberpicker-1.0.6-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/md_white_1000"
+    android:padding="8dp">
+    <RatingBar
+        android:id="@+id/ratingBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:rating="2.5"
+        android:clickable="false"
+        android:isIndicator="true"
+        style="@style/RatingBar"/>
+    <LinearLayout
+        android:layout_marginTop="8dp"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="viết bởi"/>
+        <TextView
+            android:id="@+id/tvName"
+            android:textStyle="bold"
+            android:layout_marginRight="4dp"
+            android:layout_marginLeft="4dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Lý kim Phát"/>
+        <TextView
+            android:layout_marginRight="4dp"
+            android:layout_marginLeft="4dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="vào"/>
+        <TextView
+            android:id="@+id/tvDateAdded"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="15/03/2017"/>
+    </LinearLayout>
+    <TextView
+        android:id="@+id/tvBuy"
+        android:padding="4dp"
+        android:layout_marginTop="4dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Khách đã mua hàng"
+        android:textColor="@color/colorAccent"
+        android:background="@drawable/product_review_tag_bg"/>
+    <TextView
+        android:id="@+id/tvText"
+        android:layout_marginTop="4dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/md_black_1000"
+        android:text="Truyện hay quá nhưng chất lượng sách còn kém"/>
+</LinearLayout>

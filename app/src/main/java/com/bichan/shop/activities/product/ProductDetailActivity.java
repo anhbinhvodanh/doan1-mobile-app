@@ -7,15 +7,19 @@ import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.AppCompatImageButton;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.text.Html;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.bichan.shop.BaseApp;
 import com.bichan.shop.BuildConfig;
 import com.bichan.shop.R;
+import com.bichan.shop.adapters.product.ProductOptionAdapter;
 import com.bichan.shop.models.Product;
 import com.bichan.shop.models.ProductOption;
 import com.bichan.shop.models.ProductOptionImage;
@@ -71,6 +75,10 @@ public class ProductDetailActivity extends BaseApp implements AppBarLayout.OnOff
     TextView tvDescription;
     @BindView(R.id.btnDescriptionMore)
     Button btnDescriptionMore;
+    @BindView(R.id.tvDescriptionTechnical)
+    TextView tvDescriptionTechnical;
+    @BindView(R.id.btnDescriptionTechnicalMore)
+    Button btnDescriptionTechnicalMore;
 
     @BindView(R.id.tvName)
     TextView tvName;
@@ -83,12 +91,23 @@ public class ProductDetailActivity extends BaseApp implements AppBarLayout.OnOff
     @BindView(R.id.ratingBar)
     RatingBar ratingBar;
 
+    @BindView(R.id.rvProductOption)
+    RecyclerView rvProductOption;
+
+    private ProductOptionAdapter productOptionAdapter;
+    StaggeredGridLayoutManager manager;
+
+    private MaterialDialog dialogLoading;
+
     private CompositeSubscription subscriptions;
     private String productId;
     private String optionId;
 
     private Product product;
-    private ArrayList<ProductOption> productOptions;
+    private ProductOption productOption;
+
+    private boolean[] loadingFinish;
+
 
     private void init(){
         appBar.addOnOffsetChangedListener(this);
@@ -101,6 +120,15 @@ public class ProductDetailActivity extends BaseApp implements AppBarLayout.OnOff
             finish();
         }
         subscriptions = new CompositeSubscription();
+        dialogLoading = new MaterialDialog.Builder(this)
+                .title(R.string.dialog_loading_title)
+                .content(R.string.dialog_loading_mess)
+                .progress(true, 0).build();
+
+        loadingFinish = new boolean[2];
+        for(int i = 0 ; i < loadingFinish.length; i++){
+            loadingFinish[i] = false;
+        }
     }
 
     private void initView(){
@@ -115,17 +143,54 @@ public class ProductDetailActivity extends BaseApp implements AppBarLayout.OnOff
         sliderLayout.setCustomAnimation(new DescriptionAnimation());
         sliderLayout.setDuration(4000);
 
+        rvProductOption.setHasFixedSize(true);
+        rvProductOption.setNestedScrollingEnabled(false);
+        productOptionAdapter = new ProductOptionAdapter(this);
+        manager = new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.HORIZONTAL);
+        manager.setSpanCount(1);
+        rvProductOption.setLayoutManager(manager);
+        rvProductOption.setAdapter(productOptionAdapter);
+
+        productOptionAdapter.setOnProductOptionItemClick(new ProductOptionAdapter.OnProductOptionItemClick() {
+            @Override
+            public void onClick(ProductOption productOption) {
+                chooseOption(productOption);
+            }
+        });
+
         btnDescriptionMore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(product != null){
-                    Intent productDescriptionIntent = new Intent(ProductDetailActivity.this, ProductDescriptionActivity.class);
-                    productDescriptionIntent.putExtra(ProductDescriptionActivity.EXTRA_DATA, product.getDescription());
-                    startActivity(productDescriptionIntent);
-                    overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                   openActivityDescription("Mô tả sản phẩm", product.getDescription());
                 }
             }
         });
+
+        btnDescriptionTechnicalMore.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(product != null){
+                    openActivityDescription("Thông tin chi tiết", product.getDescriptionTechnical());
+                }
+            }
+        });
+
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+    }
+
+
+    private void openActivityDescription(String title, String data){
+        Intent productDescriptionIntent = new Intent(ProductDetailActivity.this, ProductDescriptionActivity.class);
+        productDescriptionIntent.putExtra(ProductDescriptionActivity.EXTRA_DATA, data);
+        productDescriptionIntent.putExtra(ProductDescriptionActivity.EXTRA_TITLE, title);
+        startActivity(productDescriptionIntent);
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
     }
 
     @Override
@@ -140,9 +205,14 @@ public class ProductDetailActivity extends BaseApp implements AppBarLayout.OnOff
     }
 
     private void getProductDetail(){
+        dialogLoading.show();
         Subscription productSubscription = service.getProduct(productId, new Service.GetProductCallback() {
             @Override
             public void onSuccess(ProductResponse productResponse) {
+                loadingFinish[0] = true;
+                if(loadingFinish[1]){
+                    dialogLoading.dismiss();
+                }
                 product = productResponse.getProduct();
                 if(product != null){
                     setDataProduct();
@@ -162,8 +232,11 @@ public class ProductDetailActivity extends BaseApp implements AppBarLayout.OnOff
         Subscription productOptionSubscription = service.getProductOption(productId, new Service.GetProductOptionCallback() {
             @Override
             public void onSuccess(ProductOptionResponse productOptionResponse) {
-                productOptions = productOptionResponse.getProductOptions();
-                setDataProductOption();
+                loadingFinish[1] = true;
+                if(loadingFinish[0]){
+                    dialogLoading.dismiss();
+                }
+                setDataProductOption(productOptionResponse.getProductOptions());
             }
 
             @Override
@@ -173,26 +246,28 @@ public class ProductDetailActivity extends BaseApp implements AppBarLayout.OnOff
         });
 
         subscriptions.add(productOptionSubscription);
-
     }
 
     private void setDataProduct(){
         tvDescriptionShort.setText(Html.fromHtml(product.getDescriptionShort()));
         tvDescription.setText(Html.fromHtml(product.getDescription()));
+        tvDescriptionTechnical.setText(Html.fromHtml(product.getDescriptionTechnical()));
         tvName.setText(product.getName());
         tvTitle.setText(product.getName());
     }
 
-    private void setDataProductOption(){
+    private void setDataProductOption(ArrayList<ProductOption> productOptions){
         if(productOptions == null){
             // null
             return;
         }
         int index = 0;
-        for(ProductOption productOption : productOptions){
-            if(productOption.getProductOptionId().equals(optionId)){
+        for(ProductOption p : productOptions){
+            productOptionAdapter.addItem(p);
+            if(p.getProductOptionId().equals(optionId)){
                 try {
-                    chooseOption(index);
+                    productOption = productOptionAdapter.click(index);
+                    chooseOption(productOption);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -200,18 +275,16 @@ public class ProductDetailActivity extends BaseApp implements AppBarLayout.OnOff
             index++;
         }
         try {
-            chooseOption(0);
+            productOption = productOptionAdapter.click(0);
+            chooseOption(productOption);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    private void chooseOption(int index) throws Exception {
-        if(index >= productOptions.size())
-            throw new Exception("Out of index");
-
-        ProductOption productOption = productOptions.get(index);
-
+    private void chooseOption(ProductOption productOption){
+        if(productOption == null)
+            return;
         float discount = Float.parseFloat(productOption.getDiscount());
         float price = Float.parseFloat(productOption.getPrice());
         tvDiscount.setAmount(discount);
@@ -224,8 +297,8 @@ public class ProductDetailActivity extends BaseApp implements AppBarLayout.OnOff
             tvSale.setText("-" + sale + "%");
         }
 
-
         DefaultSliderView defaultSliderView = null;
+        sliderLayout.removeAllSliders();
         for(ProductOptionImage image: productOption.getImages()){
             defaultSliderView = new DefaultSliderView(this);
             defaultSliderView.image(BuildConfig.BASEURL_IMAGES + image.getImage())
@@ -257,5 +330,19 @@ public class ProductDetailActivity extends BaseApp implements AppBarLayout.OnOff
     @Override
     public void onSliderClick(BaseSliderView slider) {
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (subscriptions != null) {
+            subscriptions.unsubscribe();
+        }
     }
 }

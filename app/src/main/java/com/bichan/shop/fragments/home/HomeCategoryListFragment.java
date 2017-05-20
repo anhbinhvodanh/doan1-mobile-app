@@ -205,10 +205,10 @@ public class HomeCategoryListFragment extends BaseFragment implements BaseSlider
             String id = (String) slider.getBundle().get("id");
             String type = (String) slider.getBundle().get("type");
             switch (type){
-                case "product":
+                case "category":
                     openProductsActivity(id, "", "");
                     break;
-                case "category":
+                case "product":
                     openProductDetailActivity(id);
                     break;
             }

@@ -15,6 +15,7 @@ import butterknife.ButterKnife;
 
 public class ProductDescriptionActivity extends AppCompatActivity {
     public static final String EXTRA_DATA = "EXTRA_DATA";
+    public static final String EXTRA_TITLE = "EXTRA_TITLE";
     private String data;
 
     @BindView(R.id.btnBack)
@@ -23,29 +24,29 @@ public class ProductDescriptionActivity extends AppCompatActivity {
     TextView tvTitle;
     @BindView(R.id.webview)
     WebView webview;
-
+    private String title;
     private void init(){
-        tvTitle.setText("Mô tả sản phẩm");
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
         if(bundle != null) {
             data = bundle.getString(EXTRA_DATA);
+            title = bundle.getString(EXTRA_TITLE);
         }else {
             data = "";
         }
     }
 
     private void initView(){
+        tvTitle.setText(title);
+
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onBackPressed();
             }
         });
-
         final String mimeType = "text/html";
         final String encoding = "UTF-8";
-
         webview.loadDataWithBaseURL("", data, mimeType, encoding, "");
     }
 

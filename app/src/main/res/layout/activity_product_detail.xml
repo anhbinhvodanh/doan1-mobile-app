@@ -52,8 +52,10 @@
 
     </android.support.design.widget.AppBarLayout>
     <android.support.v4.widget.NestedScrollView
+        android:id="@+id/nestedScrollView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:paddingBottom="48dp"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
         <LinearLayout
             android:orientation="vertical"
@@ -122,7 +124,25 @@
                 </LinearLayout>
             </LinearLayout>
             <LinearLayout
-                android:visibility="gone"
+                android:padding="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="@drawable/layout_backgound_border">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:maxLines="2"
+                    android:text="Những lựa chọn khác"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="@color/md_black_1000"/>
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rvProductOption"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
+            <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -156,7 +176,6 @@
                     android:textColor="@color/md_black_1000"/>
             </LinearLayout>
             <LinearLayout
-                android:visibility="gone"
                 android:padding="8dp"
                 android:layout_marginTop="8dp"
                 android:layout_width="match_parent"
@@ -196,7 +215,28 @@
                     android:text="Thông tin chi tiết"
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:textColor="@color/md_black_1000"/>
-
+                <TextView
+                    android:layout_marginTop="4dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginBottom="4dp"
+                    android:layout_marginRight="4dp"
+                    android:id="@+id/tvDescriptionTechnical"
+                    android:maxLines="5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textColor="@color/md_black_1000"/>
+                <Button
+                    android:id="@+id/btnDescriptionTechnicalMore"
+                    android:layout_width="match_parent"
+                    android:layout_height="42dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:text="Xem tất cả"
+                    android:textAllCaps="false"
+                    android:background="@drawable/selector_light_theme"
+                    android:textColor="@color/colorAccent" />
             </LinearLayout>
             <LinearLayout
                 android:padding="8dp"
