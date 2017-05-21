@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "572952762590",
+    "project_id": "shop-22043"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:572952762590:android:904180fae8547e7b",
+        "android_client_info": {
+          "package_name": "com.bichan.shop"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "572952762590-fonqf1oqk276ftav77s063g34ttdr7vm.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.bichan.shop",
+            "certificate_hash": "1705f03a38312db6cd84ef1501d50208bdcfcb7a"
+          }
+        },
+        {
+          "client_id": "572952762590-eqhog4hgnd8hpg46vh5qeib6tf6uob05.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBHZXMroTrowyHqKOR5hCCS2q2mvD1m9r0"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
