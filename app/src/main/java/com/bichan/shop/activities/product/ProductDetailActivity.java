@@ -1,5 +1,6 @@
 package com.bichan.shop.activities.product;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
@@ -105,6 +106,9 @@ public class ProductDetailActivity extends BaseApp implements AppBarLayout.OnOff
 
     @BindView(R.id.rvCategoryProduct)
     RecyclerView rvCategoryProduct;
+
+    @BindView(R.id.btnNewReview)
+    Button btnNewReview;
 
     private ProductOptionAdapter productOptionAdapter;
     StaggeredGridLayoutManager manager;
@@ -226,6 +230,19 @@ public class ProductDetailActivity extends BaseApp implements AppBarLayout.OnOff
                 onBackPressed();
             }
         });
+
+        btnNewReview.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openProductAddReviewActivity(productId);
+            }
+        });
+    }
+
+    private void openProductAddReviewActivity(String productId){
+        Intent productAddReviewIntent = new Intent(this, ProductAddReviewActivity.class);
+        productAddReviewIntent.putExtra(ProductAddReviewActivity.EXTRA_PRODUCT_ID, productId);
+        startActivityForResult(productAddReviewIntent, 1);
     }
 
     private void openProductsActivity(String categoryId, String name, String nameSearch){
@@ -308,6 +325,12 @@ public class ProductDetailActivity extends BaseApp implements AppBarLayout.OnOff
 
         subscriptions.add(productOptionSubscription);
 
+        getProductReview();
+
+    }
+
+    private void getProductReview(){
+
         Subscription productReviewSubscription = service.getProductReview(productId, new Service.GetProductReviewCallback() {
             @Override
             public void onSuccess(ReviewResponse reviewResponse) {
@@ -319,10 +342,7 @@ public class ProductDetailActivity extends BaseApp implements AppBarLayout.OnOff
 
             }
         });
-
         subscriptions.add(productReviewSubscription);
-
-
     }
 
     private void getProductsSame(){
@@ -351,6 +371,7 @@ public class ProductDetailActivity extends BaseApp implements AppBarLayout.OnOff
     }
 
     private void setDataProductReview(ArrayList<Review> reviews){
+        productReviewAdapter.clear();
         for(int i = 0 ; i < 2; i++){
             if(reviews.size() == i)
                 break;
@@ -423,6 +444,22 @@ public class ProductDetailActivity extends BaseApp implements AppBarLayout.OnOff
             sliderLayout.addSlider(defaultSliderView);
         }
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 1) {
+            if(resultCode == Activity.RESULT_OK){
+                boolean added = data.getBooleanExtra(ProductAddReviewActivity.EXTRA_ADDED_REVIEW, false);
+                if(added){
+                    getProductReview();
+                }
+            }
+            if (resultCode == Activity.RESULT_CANCELED) {
+                //Write your code if there's no result
+            }
+        }
+    }
+
 
     @Override
     public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {

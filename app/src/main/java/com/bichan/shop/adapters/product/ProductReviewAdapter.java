@@ -67,6 +67,11 @@ public class ProductReviewAdapter extends RecyclerView.Adapter<RecyclerView.View
         return lists.size();
     }
 
+    public void clear() {
+        this.lists.clear();
+        notifyDataSetChanged();
+    }
+
     private class ProductReviewViewHolder extends RecyclerView.ViewHolder{
         protected RatingBar ratingBar;
         protected TextView tvName, tvDateAdded, tvBuy, tvText;

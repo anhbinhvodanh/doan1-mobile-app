@@ -11,7 +11,7 @@ import com.pixplicity.easyprefs.library.Prefs;
 
 public class MyApplication extends Application {
     public static final String KEY_SEARCH_HISTORY = "KEY_SEARCH_HISTORY";
-    private String userToken = "1qxpogwbnf";
+    private String userToken = "i49s37x6mb";
     @Override
     public void onCreate() {
         super.onCreate();

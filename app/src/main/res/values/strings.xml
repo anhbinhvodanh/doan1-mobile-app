@@ -7,4 +7,8 @@
     <string name="title_choose_sort_product">Sắp xếp theo:</string>
     <string name="dialog_loading_title">Vui lòng đợi</string>
     <string name="dialog_loading_mess">Dữ liệu đang được cập nhập...</string>
+
+    <string name="dialog_error_title">Xảy ra lỗi !!!</string>
+    <string name="dialog_error_mess_add_review">Quá trình thêm đánh giá của bạn đã xảy ra lỗi. Vui lòng thử lại.</string>
+    <string name="dialog_agree">Đồng ý</string>
 </resources>
