@@ -8,6 +8,7 @@ import com.bichan.shop.models.ProductMiniResponse;
 import com.bichan.shop.models.ProductOptionResponse;
 import com.bichan.shop.models.ProductResponse;
 import com.bichan.shop.models.ProductsFilter;
+import com.bichan.shop.models.ReviewAddResponse;
 import com.bichan.shop.models.ReviewResponse;
 
 import rx.Observable;
@@ -285,4 +286,39 @@ public class Service {
                     }
                 });
     }
+
+    public interface AddProductReviewCallback {
+        void onSuccess(ReviewAddResponse reviewAddResponse);
+        void onError(NetworkError networkError);
+    }
+
+    public Subscription addProductReview(String productId, String text, String rating, String token, final AddProductReviewCallback callback) {
+        return networkService.addProductReview(productId, text, rating, token)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .onErrorResumeNext(new Func1<Throwable, Observable<? extends ReviewAddResponse>>() {
+                    @Override
+                    public Observable<? extends ReviewAddResponse> call(Throwable throwable) {
+                        return Observable.error(throwable);
+                    }
+                })
+                .subscribe(new Subscriber<ReviewAddResponse>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        callback.onError(new NetworkError(e));
+
+                    }
+
+                    @Override
+                    public void onNext(ReviewAddResponse reviewAddResponse) {
+                        callback.onSuccess(reviewAddResponse);
+                    }
+                });
+    }
+
 }

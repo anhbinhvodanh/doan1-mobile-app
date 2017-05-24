@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.AppCompatImageButton;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.text.Html;
@@ -19,12 +20,22 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.bichan.shop.BaseApp;
 import com.bichan.shop.BuildConfig;
 import com.bichan.shop.R;
+import com.bichan.shop.activities.products.ProductsActivity;
+import com.bichan.shop.adapters.home.CategoryProductAdapter;
+import com.bichan.shop.adapters.home.ProductsAdapter;
 import com.bichan.shop.adapters.product.ProductOptionAdapter;
+import com.bichan.shop.adapters.product.ProductReviewAdapter;
+import com.bichan.shop.models.HomeCategory;
 import com.bichan.shop.models.Product;
+import com.bichan.shop.models.ProductMini;
+import com.bichan.shop.models.ProductMiniResponse;
 import com.bichan.shop.models.ProductOption;
 import com.bichan.shop.models.ProductOptionImage;
 import com.bichan.shop.models.ProductOptionResponse;
 import com.bichan.shop.models.ProductResponse;
+import com.bichan.shop.models.ProductsFilter;
+import com.bichan.shop.models.Review;
+import com.bichan.shop.models.ReviewResponse;
 import com.bichan.shop.networking.NetworkError;
 import com.bichan.shop.networking.Service;
 import com.daimajia.slider.library.Animations.DescriptionAnimation;
@@ -75,11 +86,6 @@ public class ProductDetailActivity extends BaseApp implements AppBarLayout.OnOff
     TextView tvDescription;
     @BindView(R.id.btnDescriptionMore)
     Button btnDescriptionMore;
-    @BindView(R.id.tvDescriptionTechnical)
-    TextView tvDescriptionTechnical;
-    @BindView(R.id.btnDescriptionTechnicalMore)
-    Button btnDescriptionTechnicalMore;
-
     @BindView(R.id.tvName)
     TextView tvName;
     @BindView(R.id.tvDiscount)
@@ -94,8 +100,17 @@ public class ProductDetailActivity extends BaseApp implements AppBarLayout.OnOff
     @BindView(R.id.rvProductOption)
     RecyclerView rvProductOption;
 
+    @BindView(R.id.rvProductReview)
+    RecyclerView rvProductReview;
+
+    @BindView(R.id.rvCategoryProduct)
+    RecyclerView rvCategoryProduct;
+
     private ProductOptionAdapter productOptionAdapter;
     StaggeredGridLayoutManager manager;
+
+    private ProductReviewAdapter productReviewAdapter;
+    StaggeredGridLayoutManager manager2;
 
     private MaterialDialog dialogLoading;
 
@@ -106,7 +121,13 @@ public class ProductDetailActivity extends BaseApp implements AppBarLayout.OnOff
     private Product product;
     private ProductOption productOption;
 
+    private ArrayList<HomeCategory> homeCategories;
+    private CategoryProductAdapter adapter;
+
+    private ProductsFilter productsFilter;
+
     private boolean[] loadingFinish;
+
 
 
     private void init(){
@@ -129,6 +150,8 @@ public class ProductDetailActivity extends BaseApp implements AppBarLayout.OnOff
         for(int i = 0 ; i < loadingFinish.length; i++){
             loadingFinish[i] = false;
         }
+
+        productsFilter = new ProductsFilter(10);
     }
 
     private void initView(){
@@ -151,6 +174,22 @@ public class ProductDetailActivity extends BaseApp implements AppBarLayout.OnOff
         rvProductOption.setLayoutManager(manager);
         rvProductOption.setAdapter(productOptionAdapter);
 
+        rvProductReview.setHasFixedSize(true);
+        rvProductReview.setNestedScrollingEnabled(false);
+        productReviewAdapter = new ProductReviewAdapter(this);
+        manager2 = new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL);
+        manager2.setSpanCount(1);
+        rvProductReview.setLayoutManager(manager2);
+        rvProductReview.setAdapter(productReviewAdapter);
+
+        homeCategories = new ArrayList<>();
+        rvCategoryProduct.setHasFixedSize(true);
+        adapter = new CategoryProductAdapter(this, homeCategories);
+        rvCategoryProduct.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        rvCategoryProduct.setAdapter(adapter);
+        rvCategoryProduct.setNestedScrollingEnabled(false);
+
+
         productOptionAdapter.setOnProductOptionItemClick(new ProductOptionAdapter.OnProductOptionItemClick() {
             @Override
             public void onClick(ProductOption productOption) {
@@ -167,12 +206,17 @@ public class ProductDetailActivity extends BaseApp implements AppBarLayout.OnOff
             }
         });
 
-        btnDescriptionTechnicalMore.setOnClickListener(new View.OnClickListener() {
+        adapter.setOnItemClickListener(new CategoryProductAdapter.OnItemClickListener() {
             @Override
-            public void onClick(View v) {
-                if(product != null){
-                    openActivityDescription("Thông tin chi tiết", product.getDescriptionTechnical());
-                }
+            public void onClick(HomeCategory homeCategory) {
+                openProductsActivity(homeCategory.getCategoryId(), homeCategory.getName(), "");
+            }
+        });
+
+        adapter.setOnItemProductClickListener(new ProductsAdapter.OnItemProductClickListener() {
+            @Override
+            public void onClick(ProductMini productMini) {
+                openProductDetailActivity(productMini.getProductId());
             }
         });
 
@@ -182,6 +226,22 @@ public class ProductDetailActivity extends BaseApp implements AppBarLayout.OnOff
                 onBackPressed();
             }
         });
+    }
+
+    private void openProductsActivity(String categoryId, String name, String nameSearch){
+        Intent productsIntent = new Intent(this, ProductsActivity.class);
+        productsIntent.putExtra(ProductsActivity.EXTRA_CATEGORY_ID, categoryId);
+        productsIntent.putExtra(ProductsActivity.EXTRA_CATEGORY_NAME, name);
+        productsIntent.putExtra(ProductsActivity.EXTRA_NAME_SEARCH, "");
+        startActivity(productsIntent);
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+    }
+
+    private void openProductDetailActivity(String productId){
+        Intent intent = new Intent(this, ProductDetailActivity.class);
+        intent.putExtra(ProductDetailActivity.EXTRA_PRODUCT_ID, productId);
+        startActivity(intent);
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
     }
 
 
@@ -216,6 +276,7 @@ public class ProductDetailActivity extends BaseApp implements AppBarLayout.OnOff
                 product = productResponse.getProduct();
                 if(product != null){
                     setDataProduct();
+                    getProductsSame();
                 }else{
                     // null handler
                 }
@@ -246,14 +307,68 @@ public class ProductDetailActivity extends BaseApp implements AppBarLayout.OnOff
         });
 
         subscriptions.add(productOptionSubscription);
+
+        Subscription productReviewSubscription = service.getProductReview(productId, new Service.GetProductReviewCallback() {
+            @Override
+            public void onSuccess(ReviewResponse reviewResponse) {
+                setDataProductReview(reviewResponse.getReviews());
+            }
+
+            @Override
+            public void onError(NetworkError networkError) {
+
+            }
+        });
+
+        subscriptions.add(productReviewSubscription);
+
+
     }
+
+    private void getProductsSame(){
+        productsFilter.setCategoryId(product.getCategoryId());
+        Subscription subscription = service.getProducts(productsFilter, new Service.GetProductsCallback() {
+            @Override
+            public void onSuccess(ProductMiniResponse productMiniResponse) {
+                setDataProductSame(productMiniResponse.getProductMinis());
+            }
+
+            @Override
+            public void onError(NetworkError networkError) {
+
+            }
+        });
+        subscriptions.add(subscription);
+    }
+
+    private void setDataProductSame(ArrayList<ProductMini> productMinis){
+        HomeCategory homeCategory = new HomeCategory();
+        homeCategory.setCategoryId(product.getCategoryId());
+        homeCategory.setName("Sản phẩm tương tự");
+        homeCategory.setProductMinis(productMinis);
+        homeCategories.add(homeCategory);
+        adapter.notifyDataSetChanged();
+    }
+
+    private void setDataProductReview(ArrayList<Review> reviews){
+        for(int i = 0 ; i < 2; i++){
+            if(reviews.size() == i)
+                break;
+            productReviewAdapter.addItem(reviews.get(i));
+        }
+    }
+
 
     private void setDataProduct(){
         tvDescriptionShort.setText(Html.fromHtml(product.getDescriptionShort()));
         tvDescription.setText(Html.fromHtml(product.getDescription()));
-        tvDescriptionTechnical.setText(Html.fromHtml(product.getDescriptionTechnical()));
         tvName.setText(product.getName());
         tvTitle.setText(product.getName());
+        try{
+            ratingBar.setRating(Float.parseFloat(product.getRating()));
+        }catch (Exception e){
+            ratingBar.setRating(0);
+        }
     }
 
     private void setDataProductOption(ArrayList<ProductOption> productOptions){

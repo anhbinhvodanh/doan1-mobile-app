@@ -131,7 +131,12 @@ public class ProductsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                     singleItemRowHolder.tvSale.setText("-" + sale + "%");
                 }
 
-                singleItemRowHolder.ratingBar.setRating(2);
+                try{
+                    singleItemRowHolder.ratingBar.setRating(Float.parseFloat(singleItem.getRating()));
+                }catch (Exception e){
+                    singleItemRowHolder.ratingBar.setRating(0);
+                }
+
                 Picasso.with(mContext).load(BuildConfig.BASEURL_IMAGES + singleItem.getImage()).into(singleItemRowHolder.image);
 
                 singleItemRowHolder.layout.setOnClickListener(new View.OnClickListener() {

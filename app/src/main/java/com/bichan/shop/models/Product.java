@@ -82,7 +82,7 @@ public class Product {
     private String category;
     @SerializedName("rating")
     @Expose
-    private Object rating;
+    private String rating;
 
     public String getDescription() {
         return description;
@@ -284,11 +284,11 @@ public class Product {
         this.category = category;
     }
 
-    public Object getRating() {
+    public String getRating() {
         return rating;
     }
 
-    public void setRating(Object rating) {
+    public void setRating(String rating) {
         this.rating = rating;
     }
 

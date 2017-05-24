@@ -14,6 +14,7 @@ import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.Profile;
+import com.facebook.ProfileTracker;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
@@ -68,14 +69,26 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         LoginManager.getInstance().logOut();
 
         LoginManager.getInstance().registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+            private ProfileTracker mProfileTracker;
             @Override
             public void onSuccess(LoginResult loginResult) {
                 // App code
-                Log.e("TAG", "success");
+                Log.d("TAG", "success");
                 AccessToken accessToken = loginResult.getAccessToken();
-                Profile profile = Profile.getCurrentProfile();
-                Log.e("TAG", accessToken.getUserId());
-                Log.e("TAG", profile.getName());
+                Log.d("TAG", accessToken.getUserId());
+                if(Profile.getCurrentProfile() == null) {
+                    mProfileTracker = new ProfileTracker() {
+                        @Override
+                        protected void onCurrentProfileChanged(Profile profile, Profile profile2) {
+                            Log.v("TAG", profile2.getName());
+                            mProfileTracker.stopTracking();
+                        }
+                    };
+                }
+                else {
+                    Profile profile = Profile.getCurrentProfile();
+                    Log.v("TAG", profile.getName());
+                }
             }
 
             @Override

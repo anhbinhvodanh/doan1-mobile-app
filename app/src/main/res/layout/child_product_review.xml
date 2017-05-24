@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:padding="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@drawable/layout_backgound_border">
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:maxLines="2"
+                android:text="Đánh giá và Nhận xét"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/md_black_1000"/>
+            <Button
+                android:id="@+id/btnNewReview"
+                android:layout_width="wrap_content"
+                android:layout_height="42dp"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:text="Viết đánh giá"
+                android:textAllCaps="false"
+                android:background="@drawable/selector_light_theme"
+                android:textColor="@color/colorAccent" />
+        </LinearLayout>
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rvProductReview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        <Button
+            android:id="@+id/btnDescriptionMore"
+            android:layout_width="match_parent"
+            android:layout_height="42dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:text="Xem tất cả nhận xét"
+            android:textAllCaps="false"
+            android:background="@drawable/selector_light_theme"
+            android:textColor="@color/colorAccent" />
+    </LinearLayout>
+</LinearLayout>

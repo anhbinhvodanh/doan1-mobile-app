@@ -4,7 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
-import com.bichan.shop.activities.login.LoginActivity;
+import com.bichan.shop.activities.product.ProductDetailActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -15,13 +15,13 @@ public class MainActivity extends AppCompatActivity {
 
 
         // test
-        Intent intent = new Intent(this, LoginActivity.class);
-        startActivity(intent);
-        finish();
-
-        /*Intent intent = new Intent(this, ProductDetailActivity.class);
-        intent.putExtra(ProductDetailActivity.EXTRA_PRODUCT_ID, "113");
+        /*Intent intent = new Intent(this, ProductAddReviewActivity.class);
         startActivity(intent);
         finish();*/
+
+        Intent intent = new Intent(this, ProductDetailActivity.class);
+        intent.putExtra(ProductDetailActivity.EXTRA_PRODUCT_ID, "113");
+        startActivity(intent);
+        finish();
     }
 }

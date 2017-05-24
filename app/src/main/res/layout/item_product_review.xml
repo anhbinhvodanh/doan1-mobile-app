@@ -2,9 +2,10 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:background="@color/md_white_1000"
-    android:padding="8dp">
+    android:padding="8dp"
+    android:layout_marginBottom="16dp">
     <RatingBar
         android:id="@+id/ratingBar"
         android:layout_width="wrap_content"
@@ -50,6 +51,7 @@
         android:layout_height="wrap_content"
         android:text="Khách đã mua hàng"
         android:textColor="@color/colorAccent"
+        android:textAppearance="?android:attr/textAppearanceSmall"
         android:background="@drawable/product_review_tag_bg"/>
     <TextView
         android:id="@+id/tvText"

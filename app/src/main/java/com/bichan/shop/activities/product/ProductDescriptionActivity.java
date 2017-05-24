@@ -47,7 +47,7 @@ public class ProductDescriptionActivity extends AppCompatActivity {
         });
         final String mimeType = "text/html";
         final String encoding = "UTF-8";
-        webview.loadDataWithBaseURL("", data, mimeType, encoding, "");
+        webview.loadDataWithBaseURL("", "<style>img{display: inline;height: auto;max-width: 100%;}</style>" + data, mimeType, encoding, "");
     }
 
     @Override

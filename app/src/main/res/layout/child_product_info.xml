@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:padding="8dp"
+        android:background="@drawable/layout_backgound_border"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="8dp"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/tvName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:maxLines="2"
+                android:text="Ten san pham"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/md_black_1000"/>
+            <org.fabiomsr.moneytextview.MoneyTextView
+                android:id="@+id/tvDiscount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:baseTextSize="16dp"
+                app:symbol="₫"
+                app:baseTextColor="@color/md_red_700"
+                app:includeDecimalSeparator="true"
+                app:decimalDigitsTextSize="0dp"
+                app:amount="100000" />
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <org.fabiomsr.moneytextview.MoneyTextView
+                    android:id="@+id/tvPrice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:baseTextSize="14dp"
+                    app:symbol="₫"
+                    app:baseTextColor="@color/md_grey_700"
+                    app:includeDecimalSeparator="true"
+                    app:decimalDigitsTextSize="0dp"
+                    app:amount="100000" />
+                <TextView
+                    android:id="@+id/tvSale"
+                    android:layout_weight="1"
+                    android:textSize="11dp"
+                    android:layout_gravity="center"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:maxLines="1"
+                    android:text="-17%"/>
+            </LinearLayout>
+            <RatingBar
+                android:id="@+id/ratingBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:rating="2.5"
+                android:clickable="false"
+                android:isIndicator="true"
+                style="@style/RatingBar"/>
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>
