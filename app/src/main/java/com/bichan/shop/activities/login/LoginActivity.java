@@ -6,7 +6,6 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 
 import com.astuetz.PagerSlidingTabStrip;
@@ -15,6 +14,10 @@ import com.bichan.shop.R;
 import com.bichan.shop.adapters.FragmentAdapter;
 import com.bichan.shop.fragments.login.LoginFragment;
 import com.bichan.shop.fragments.login.RegisterFragment;
+import com.bichan.shop.models.DataRegister;
+import com.bichan.shop.models.RegisterResponse;
+import com.bichan.shop.models.Social;
+import com.bichan.shop.networking.NetworkError;
 import com.bichan.shop.networking.Service;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
@@ -38,8 +41,13 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import rx.Subscription;
+import rx.subscriptions.CompositeSubscription;
 
-public class LoginActivity extends BaseApp implements GoogleApiClient.OnConnectionFailedListener {
+public class LoginActivity extends BaseApp implements
+        GoogleApiClient.OnConnectionFailedListener,
+        RegisterFragment.OnSocialClickListener,
+        RegisterFragment.OnRegisterClickListener{
     @Inject
     public Service service;
 
@@ -67,7 +75,13 @@ public class LoginActivity extends BaseApp implements GoogleApiClient.OnConnecti
     private LoginFragment loginFragment;
     private RegisterFragment registerFragment;
 
+    private Fragment fragmentCurrent;
+
+    private CompositeSubscription subscriptions;
+
     private void init(){
+        subscriptions = new CompositeSubscription();
+
         gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
                 .build();
@@ -92,6 +106,7 @@ public class LoginActivity extends BaseApp implements GoogleApiClient.OnConnecti
                         @Override
                         protected void onCurrentProfileChanged(Profile profile, Profile profile2) {
                             Log.v("TAG", profile2.getName());
+                            sendData("", profile2.getName(), profile2.getId(), Social.FACEBOOK);
                             mProfileTracker.stopTracking();
                         }
                     };
@@ -102,9 +117,9 @@ public class LoginActivity extends BaseApp implements GoogleApiClient.OnConnecti
                 }
             }
             @Override
-            public void onCancel() { Log.e("TAG", "onCancel"); }
+            public void onCancel() { Log.e("TAG", "onCancel"); sendData(); }
             @Override
-            public void onError(FacebookException exception) { Log.e("TAG", exception.toString()); }
+            public void onError(FacebookException exception) { Log.e("TAG", exception.toString()); sendData();}
         });
 
 
@@ -126,20 +141,6 @@ public class LoginActivity extends BaseApp implements GoogleApiClient.OnConnecti
 
     private void initView(){
 
-        btnLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                LoginManager.getInstance().logInWithReadPermissions(LoginActivity.this, Arrays.asList("email", "public_profile"));
-            }
-        });
-
-        btnLogin2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
-                startActivityForResult(signInIntent, RC_SIGN_IN);
-            }
-        });
     }
 
 
@@ -178,8 +179,89 @@ public class LoginActivity extends BaseApp implements GoogleApiClient.OnConnecti
             Log.d("ahihi", acct.getEmail());
             Log.d("ahihi", acct.getPhotoUrl().toString());
             Log.d("ahihi", acct.getId());
+            sendData(acct.getEmail(), acct.getDisplayName(), acct.getId(), Social.GOOGLE);
         } else {
-
+            sendData();
         }
+    }
+
+    @Override
+    public void onClick(Social social, Fragment fragment) {
+        fragmentCurrent = fragment;
+        switch (social){
+            case FACEBOOK:
+                linkToFacebook();
+                break;
+            case GOOGLE:
+                linkToGoogle();
+                break;
+        }
+    }
+
+    private void linkToFacebook(){
+        LoginManager.getInstance().logInWithReadPermissions(LoginActivity.this, Arrays.asList("email", "public_profile"));
+    }
+
+    private void linkToGoogle(){
+        Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
+        startActivityForResult(signInIntent, RC_SIGN_IN);
+    }
+
+    private void sendData(){
+        if(fragmentCurrent instanceof RegisterFragment){
+            ((RegisterFragment) fragmentCurrent).receiveDataRegister(null);
+        }
+    }
+
+    private void sendData(String email, String name, String id, Social social){
+        if(fragmentCurrent instanceof RegisterFragment){
+            DataRegister dataRegister = new DataRegister();
+            dataRegister.setEmail(email);
+            dataRegister.setFirstname(name);
+            dataRegister.setSocial_id(id);
+            dataRegister.setSocial(social);
+            ((RegisterFragment) fragmentCurrent).receiveDataRegister(dataRegister);
+        }
+    }
+
+    @Override
+    public void onClick(DataRegister dataRegister) {
+        register(dataRegister);
+    }
+
+    private void register(DataRegister dataRegister){
+        if(dataRegister == null)
+            return;
+
+        Subscription subscription = service.register(
+                dataRegister.getEmail(),
+                dataRegister.getFirstname(),
+                dataRegister.getLastname(),
+                dataRegister.getPassword(),
+                dataRegister.getSocial_id(),
+                dataRegister.getNetwork(),
+                new Service.RegisterCallback() {
+                    @Override
+                    public void onSuccess(RegisterResponse registerResponse) {
+                        if(registerResponse.isStatus()){
+                            Log.d("TAG", "Dang ky thanh cong");
+                            return;
+                        }
+                        Log.d("TAG", "Dang ky that bai");
+                    }
+
+                    @Override
+                    public void onError(NetworkError networkError) {
+
+                    }
+                });
+        subscriptions.add(subscription);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if(subscriptions != null)
+            subscriptions.unsubscribe();
     }
 }

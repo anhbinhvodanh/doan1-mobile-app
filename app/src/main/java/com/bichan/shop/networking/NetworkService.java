@@ -6,6 +6,7 @@ import com.bichan.shop.models.HomeSliderResponse;
 import com.bichan.shop.models.ProductMiniResponse;
 import com.bichan.shop.models.ProductOptionResponse;
 import com.bichan.shop.models.ProductResponse;
+import com.bichan.shop.models.RegisterResponse;
 import com.bichan.shop.models.ReviewAddResponse;
 import com.bichan.shop.models.ReviewResponse;
 
@@ -55,4 +56,13 @@ public interface NetworkService {
             @Query("text") String text,
             @Query("rating") String rating,
             @Query("token") String token);
+
+    @GET("api/customer?act=register")
+    Observable<RegisterResponse> register(
+            @Query("email") String email,
+            @Query("firstname") String firstname,
+            @Query("lastname") String lastname,
+            @Query("password") String password,
+            @Query("social_id") String social_id,
+            @Query("network") String network);
 }

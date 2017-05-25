@@ -103,14 +103,13 @@
                     android:background="@drawable/button_buy"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:enabled="false"
                     android:text="Đăng ký"/>
             </com.balysv.materialripple.MaterialRippleLayout>
 
             <TextView
                 android:layout_marginTop="32dp"
                 android:layout_gravity="center"
-                android:text="Hoặc đăng ký bằng"
+                android:text="Liên kết tài khoản"
                 android:textColor="@color/md_black_1000"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
@@ -150,6 +149,14 @@
                     android:textColor="@color/md_red_700"
                     android:text="Google" />
             </LinearLayout>
+
+            <TextView
+                android:layout_marginTop="8dp"
+                android:padding="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/note_bg"
+                android:text="Việc liên kết đến các tài khoản mạng xã hội giúp bạn có thể đăng nhập nhanh và nhận thông báo từ chúng tôi."/>
         </LinearLayout>
     </ScrollView>
 </FrameLayout>

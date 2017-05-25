@@ -8,6 +8,7 @@ import com.bichan.shop.models.ProductMiniResponse;
 import com.bichan.shop.models.ProductOptionResponse;
 import com.bichan.shop.models.ProductResponse;
 import com.bichan.shop.models.ProductsFilter;
+import com.bichan.shop.models.RegisterResponse;
 import com.bichan.shop.models.ReviewAddResponse;
 import com.bichan.shop.models.ReviewResponse;
 
@@ -317,6 +318,46 @@ public class Service {
                     @Override
                     public void onNext(ReviewAddResponse reviewAddResponse) {
                         callback.onSuccess(reviewAddResponse);
+                    }
+                });
+    }
+
+    public interface RegisterCallback {
+        void onSuccess(RegisterResponse registerResponse);
+        void onError(NetworkError networkError);
+    }
+
+    public Subscription register(String email,
+                                 String firstname,
+                                 String lastname,
+                                 String password,
+                                 String social_id,
+                                 String network,
+                                 final RegisterCallback callback) {
+        return networkService.register(email, firstname, lastname, password, social_id, network)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .onErrorResumeNext(new Func1<Throwable, Observable<? extends RegisterResponse>>() {
+                    @Override
+                    public Observable<? extends RegisterResponse> call(Throwable throwable) {
+                        return Observable.error(throwable);
+                    }
+                })
+                .subscribe(new Subscriber<RegisterResponse>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        callback.onError(new NetworkError(e));
+
+                    }
+
+                    @Override
+                    public void onNext(RegisterResponse registerResponse) {
+                        callback.onSuccess(registerResponse);
                     }
                 });
     }

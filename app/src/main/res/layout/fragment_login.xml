@@ -74,7 +74,7 @@
             <TextView
                 android:layout_marginTop="32dp"
                 android:layout_gravity="center"
-                android:text="Hoặc đăng ký bằng"
+                android:text="Hoặc đăng nhập bằng"
                 android:textColor="@color/md_black_1000"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
