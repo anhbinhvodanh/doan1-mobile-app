@@ -1,8 +1,10 @@
 package com.bichan.shop.deps;
 
 import com.bichan.shop.activities.home.HomeActivity;
+import com.bichan.shop.activities.login.LoginActivity;
 import com.bichan.shop.activities.product.ProductAddReviewActivity;
 import com.bichan.shop.activities.product.ProductDetailActivity;
+import com.bichan.shop.activities.product.ProductReviewActivity;
 import com.bichan.shop.activities.products.ProductsActivity;
 import com.bichan.shop.fragments.home.CategoryFragment;
 import com.bichan.shop.fragments.home.HomeCategoryListFragment;
@@ -25,5 +27,7 @@ public interface Deps {
     void inject(CategoryFragment categoryFragment);
     void inject(ProductsActivity productsActivity);
     void inject(ProductDetailActivity productDetailActivity);
+    void inject(ProductReviewActivity productReviewActivity);
     void inject(ProductAddReviewActivity productAddReviewActivity);
+    void inject(LoginActivity loginActivity);
 }

@@ -1,8 +1,8 @@
 <component name="libraryTable">
   <library name="numberpicker-1.0.6">
     <CLASSES>
-      <root url="file://$USER_HOME$/.android/build-cache/3f51e3ba6f9433a50cb7079dd81445061417b47a/output/res" />
-      <root url="jar://$USER_HOME$/.android/build-cache/3f51e3ba6f9433a50cb7079dd81445061417b47a/output/jars/classes.jar!/" />
+      <root url="jar://$USER_HOME$/.android/build-cache/704f4095597b5098c916d313f31249c71c570cd0/output/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.android/build-cache/704f4095597b5098c916d313f31249c71c570cd0/output/res" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>

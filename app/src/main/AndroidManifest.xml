@@ -43,7 +43,8 @@
         <activity android:name=".activities.product.ProductDetailActivity" />
         <activity android:name=".activities.product.ProductDescriptionActivity" />
         <activity android:name=".activities.login.LoginActivity" />
-        <activity android:name=".activities.product.ProductAddReviewActivity"></activity>
+        <activity android:name=".activities.product.ProductAddReviewActivity" />
+        <activity android:name=".activities.product.ProductReviewActivity"></activity>
     </application>
 
 </manifest>

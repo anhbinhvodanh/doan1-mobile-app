@@ -134,7 +134,7 @@ public class Review {
     }
 
     public String getName(){
-        return firstname + lastname;
+        return lastname  + " " + firstname;
     }
 
     public String getLastname() {

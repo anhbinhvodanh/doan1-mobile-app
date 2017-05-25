@@ -7,6 +7,11 @@
     <color name="colorBackgound">#f1f1f1</color>
     <color name="colorMaterialRipple">#d7000000</color>
     <color name="actionbar_opacity">#33000000</color>
+
+    <!-- tab -->
+    <color name="tab_title_color">#000000</color>
+    <color name="tab_indicator_color">@color/colorAccent</color>
+
     <color name="md_red_50">#FFEBEE</color>
     <color name="md_red_100">#FFCDD2</color>
     <color name="md_red_200">#EF9A9A</color>

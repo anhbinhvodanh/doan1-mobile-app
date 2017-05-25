@@ -15,7 +15,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         // test
-        /*Intent intent = new Intent(this, ProductAddReviewActivity.class);
+        /*Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
         finish();*/
 

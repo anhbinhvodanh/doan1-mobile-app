@@ -106,9 +106,10 @@ public class ProductDetailActivity extends BaseApp implements AppBarLayout.OnOff
 
     @BindView(R.id.rvCategoryProduct)
     RecyclerView rvCategoryProduct;
-
     @BindView(R.id.btnNewReview)
     Button btnNewReview;
+    @BindView(R.id.btnReviewMore)
+    Button btnReviewMore;
 
     private ProductOptionAdapter productOptionAdapter;
     StaggeredGridLayoutManager manager;
@@ -237,6 +238,19 @@ public class ProductDetailActivity extends BaseApp implements AppBarLayout.OnOff
                 openProductAddReviewActivity(productId);
             }
         });
+
+        btnReviewMore.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openProductReviewActivity(productId);
+            }
+        });
+    }
+
+    private void openProductReviewActivity(String productId){
+        Intent productReviewIntent = new Intent(this, ProductReviewActivity.class);
+        productReviewIntent.putExtra(ProductReviewActivity.EXTRA_PRODUCT_ID, productId);
+        startActivityForResult(productReviewIntent, 1);
     }
 
     private void openProductAddReviewActivity(String productId){
