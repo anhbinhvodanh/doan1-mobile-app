@@ -4,13 +4,16 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.widget.AppCompatImageButton;
 import android.view.View;
 
 import com.balysv.materialripple.MaterialRippleLayout;
 import com.bichan.shop.BaseApp;
+import com.bichan.shop.Prefs.PrefsUser;
 import com.bichan.shop.R;
 import com.bichan.shop.activities.search.SearchActivity;
-import com.bichan.shop.fragments.home.AccountFragment;
+import com.bichan.shop.activities.wish.WishActivity;
+import com.bichan.shop.fragments.CustomerFragment;
 import com.bichan.shop.fragments.home.CartFragment;
 import com.bichan.shop.fragments.home.CategoryFragment;
 import com.bichan.shop.fragments.home.HomeCategoryListFragment;
@@ -34,13 +37,15 @@ public class HomeActivity extends BaseApp implements OnTabSelectListener, OnTabR
     BottomBar bottomBar;
     @BindView(R.id.favoriteBadge)
     NotificationBadge favoriteBadge;
+    @BindView(R.id.btnFavorite)
+    AppCompatImageButton btnFavorite;
     @BindView(R.id.btnSearch)
     MaterialRippleLayout btnSearch;
 
     private HomeCategoryListFragment homeCategoryListFragment;
     private CategoryFragment categoryFragment;
     private CartFragment cartFragment;
-    private AccountFragment accountFragment;
+    private CustomerFragment customerFragment;
     BottomBarTab cartTab;
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -63,14 +68,33 @@ public class HomeActivity extends BaseApp implements OnTabSelectListener, OnTabR
                 overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
             }
         });
+
+        btnFavorite.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent Intent = new Intent(HomeActivity.this, WishActivity.class);
+                startActivity(Intent);
+                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+            }
+        });
+
         cartTab = bottomBar.getTabWithId(R.id.tab_cart);
-        cartTab.setBadgeCount(5);
-        favoriteBadge.setNumber(3);
+
     }
 
     private void init(){
         homeCategoryListFragment = HomeCategoryListFragment.newInstance();
         categoryFragment = CategoryFragment.newInstance();
+        customerFragment = new CustomerFragment();
+        cartFragment = new CartFragment();
+    }
+
+
+    private void updateBadge(){
+        int cartNum = PrefsUser.getCartNum();
+        int wishNum = PrefsUser.getWishNum();
+        cartTab.setBadgeCount(cartNum);
+        favoriteBadge.setNumber(wishNum);
     }
 
     @Override
@@ -83,8 +107,10 @@ public class HomeActivity extends BaseApp implements OnTabSelectListener, OnTabR
                 showCategoryFragment();
                 break;
             case R.id.tab_cart:
+                showCartFragment();
                 break;
             case R.id.tab_account:
+                showCustomerFragment();
                 break;
         }
     }
@@ -101,7 +127,8 @@ public class HomeActivity extends BaseApp implements OnTabSelectListener, OnTabR
         }
 
         if (categoryFragment.isAdded()) { ft.hide(categoryFragment); }
-
+        if (customerFragment.isAdded()) { ft.hide(customerFragment); }
+        if (cartFragment.isAdded()) { ft.hide(cartFragment); }
         ft.commit();
     }
 
@@ -116,6 +143,42 @@ public class HomeActivity extends BaseApp implements OnTabSelectListener, OnTabR
         }
 
         if (homeCategoryListFragment.isAdded()) { ft.hide(homeCategoryListFragment); }
+        if (customerFragment.isAdded()) { ft.hide(customerFragment); }
+        if (cartFragment.isAdded()) { ft.hide(cartFragment); }
+
+        ft.commit();
+    }
+
+    private void showCustomerFragment(){
+        FragmentTransaction ft = getSupportFragmentManager()
+                .beginTransaction();
+
+        if (customerFragment.isAdded()) {
+            ft.show(customerFragment);
+        } else {
+            ft.add(R.id.placeFragment, customerFragment, "Customer");
+        }
+
+        if (homeCategoryListFragment.isAdded()) { ft.hide(homeCategoryListFragment); }
+        if (categoryFragment.isAdded()) { ft.hide(categoryFragment); }
+        if (cartFragment.isAdded()) { ft.hide(cartFragment); }
+
+        ft.commit();
+    }
+
+    private void showCartFragment(){
+        FragmentTransaction ft = getSupportFragmentManager()
+                .beginTransaction();
+
+        if (cartFragment.isAdded()) {
+            ft.show(cartFragment);
+        } else {
+            ft.add(R.id.placeFragment, cartFragment, "Cart");
+        }
+
+        if (homeCategoryListFragment.isAdded()) { ft.hide(homeCategoryListFragment); }
+        if (categoryFragment.isAdded()) { ft.hide(categoryFragment); }
+        if (customerFragment.isAdded()) { ft.hide(customerFragment); }
 
         ft.commit();
     }
@@ -135,6 +198,11 @@ public class HomeActivity extends BaseApp implements OnTabSelectListener, OnTabR
 
     protected OnBackPressedListener onBackPressedListener;
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        updateBadge();
+    }
 
     public interface OnBackPressedListener {
         void doBack();

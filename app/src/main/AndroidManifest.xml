@@ -44,7 +44,9 @@
         <activity android:name=".activities.product.ProductDescriptionActivity" />
         <activity android:name=".activities.login.LoginActivity" />
         <activity android:name=".activities.product.ProductAddReviewActivity" />
-        <activity android:name=".activities.product.ProductReviewActivity"></activity>
+        <activity android:name=".activities.product.ProductReviewActivity" />
+        <activity android:name=".activities.wish.WishActivity" />
+        <activity android:name=".activities.cart.CartActivity"></activity>
     </application>
 
 </manifest>

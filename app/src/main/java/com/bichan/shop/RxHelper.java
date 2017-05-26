@@ -3,6 +3,7 @@ package com.bichan.shop;
 import android.support.annotation.NonNull;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.RatingBar;
 
@@ -27,6 +28,15 @@ public class RxHelper {
             @Override
             public void afterTextChanged(Editable s) {
                 subject.onNext(s.toString());
+            }
+        });
+
+        editText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(!hasFocus){
+                    subject.onNext(editText.getText().toString());
+                }
             }
         });
 

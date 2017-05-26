@@ -2,14 +2,19 @@ package com.bichan.shop.networking;
 
 import com.bichan.shop.BuildConfig;
 import com.bichan.shop.models.CategoryResponse;
+import com.bichan.shop.models.CustomerRespone;
 import com.bichan.shop.models.HomeCategoryResponse;
 import com.bichan.shop.models.HomeSliderResponse;
+import com.bichan.shop.models.LoginResponse;
+import com.bichan.shop.models.ProductMiniCartResponse;
 import com.bichan.shop.models.ProductMiniResponse;
 import com.bichan.shop.models.ProductOptionResponse;
 import com.bichan.shop.models.ProductResponse;
 import com.bichan.shop.models.RegisterResponse;
 import com.bichan.shop.models.ReviewAddResponse;
 import com.bichan.shop.models.ReviewResponse;
+import com.bichan.shop.models.SubmitResponse;
+import com.bichan.shop.models.TotalResponse;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -95,6 +100,11 @@ public class NetworkModule {
         gsonBuilder.registerTypeAdapter(ReviewResponse.class, new JsonResponseDeserializer());
         gsonBuilder.registerTypeAdapter(ReviewAddResponse.class, new JsonResponseDeserializer());
         gsonBuilder.registerTypeAdapter(RegisterResponse.class, new JsonResponseDeserializer());
+        gsonBuilder.registerTypeAdapter(LoginResponse.class, new JsonResponseDeserializer());
+        gsonBuilder.registerTypeAdapter(SubmitResponse.class, new JsonResponseDeserializer());
+        gsonBuilder.registerTypeAdapter(ProductMiniCartResponse.class, new JsonResponseDeserializer());
+        gsonBuilder.registerTypeAdapter(CustomerRespone.class, new JsonResponseDeserializer());
+        gsonBuilder.registerTypeAdapter(TotalResponse.class, new JsonResponseDeserializer());
         Gson gson = gsonBuilder.create();
         return GsonConverterFactory.create(gson);
     }

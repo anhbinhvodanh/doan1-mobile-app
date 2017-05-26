@@ -3,6 +3,7 @@ package com.bichan.shop.fragments.login;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,11 +12,16 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.bichan.shop.R;
+import com.bichan.shop.RxHelper;
 import com.bichan.shop.models.DataRegister;
 import com.bichan.shop.models.Social;
+import com.blankj.utilcode.util.RegexUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import rx.Observable;
+import rx.functions.Action1;
+import rx.functions.Func4;
 
 public class RegisterFragment extends Fragment{
     @BindView(R.id.btnFacebook)
@@ -30,10 +36,25 @@ public class RegisterFragment extends Fragment{
     EditText edtPass;
     @BindView(R.id.edtRePass)
     EditText edtRePass;
+
+    @BindView(R.id.tilName)
+    TextInputLayout tilName;
+    @BindView(R.id.tilEmail)
+    TextInputLayout tilEmail;
+    @BindView(R.id.tilPass)
+    TextInputLayout tilPass;
+    @BindView(R.id.tilRePass)
+    TextInputLayout tilRePass;
+
     @BindView(R.id.btnRegister)
     Button btnRegister;
 
     DataRegister dataRegister;
+
+    Observable<String> edtNameObservable;
+    Observable<String> edtEmailObservable;
+    Observable<String> edtPassObservable;
+    Observable<String> edtRePassObservable;
 
     OnSocialClickListener onSocialClickListener;
     public interface OnSocialClickListener{
@@ -66,6 +87,60 @@ public class RegisterFragment extends Fragment{
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        edtNameObservable = RxHelper.getTextWatcherObservable(edtName);
+        edtEmailObservable = RxHelper.getTextWatcherObservable(edtEmail);
+        edtPassObservable = RxHelper.getTextWatcherObservable(edtPass);
+        edtRePassObservable = RxHelper.getTextWatcherObservable(edtRePass);
+
+        Observable.combineLatest(edtNameObservable, edtEmailObservable, edtPassObservable, edtRePassObservable,
+                new Func4<String, String, String, String, Boolean>() {
+                    @Override
+                    public Boolean call(String s, String s2, String s3, String s4) {
+                        // name
+                        if(s.trim().equals("")){
+                            tilName.setError("Vui lòng nhập tên");
+                            return false;
+                        }else{
+                            tilName.setErrorEnabled(false);
+                        }
+                        // email
+                        if(!RegexUtils.isEmail(s2)){
+                            tilEmail.setError("Vui lòng nhập đúng định dạng email");
+                            return false;
+                        }else{
+                            tilEmail.setErrorEnabled(false);
+                        }
+                        // password
+                        String pass = s3.trim();
+                        String rePass = s4.trim();
+                        if(pass.equals("")){
+                            tilPass.setError("Vui lòng nhập mật khẩu");
+                            return false;
+                        }else{
+                            tilPass.setErrorEnabled(false);
+                        }
+                        if(!pass.equals(rePass)){
+                            tilRePass.setError("Mật khẩu không khớp");
+                            return false;
+                        }else{
+                            tilRePass.setErrorEnabled(false);
+                        }
+                        if(pass.length() < 6){
+                            tilPass.setError("Mật khẩu phải chứa ít nhất 6 ký tự");
+                            return false;
+                        }else{
+                            tilPass.setErrorEnabled(false);
+                        }
+                        return true;
+                    }
+                }
+        ).subscribe(new Action1<Boolean>() {
+            @Override
+            public void call(Boolean aBoolean) {
+                btnRegister.setEnabled(aBoolean);
+            }
+        });
 
         btnFacebook.setOnClickListener(new View.OnClickListener() {
             @Override

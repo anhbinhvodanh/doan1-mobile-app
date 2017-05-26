@@ -3,9 +3,11 @@ package com.bichan.shop.activities.product;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.PorterDuff;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.AppCompatImageButton;
 import android.support.v7.widget.LinearLayoutManager;
@@ -20,8 +22,14 @@ import android.widget.TextView;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.bichan.shop.BaseApp;
 import com.bichan.shop.BuildConfig;
+import com.bichan.shop.MyApplication;
+import com.bichan.shop.Prefs.PrefsUser;
 import com.bichan.shop.R;
+import com.bichan.shop.activities.cart.CartActivity;
+import com.bichan.shop.activities.home.HomeActivity;
+import com.bichan.shop.activities.login.LoginActivity;
 import com.bichan.shop.activities.products.ProductsActivity;
+import com.bichan.shop.activities.search.SearchActivity;
 import com.bichan.shop.adapters.home.CategoryProductAdapter;
 import com.bichan.shop.adapters.home.ProductsAdapter;
 import com.bichan.shop.adapters.product.ProductOptionAdapter;
@@ -37,6 +45,7 @@ import com.bichan.shop.models.ProductResponse;
 import com.bichan.shop.models.ProductsFilter;
 import com.bichan.shop.models.Review;
 import com.bichan.shop.models.ReviewResponse;
+import com.bichan.shop.models.SubmitResponse;
 import com.bichan.shop.networking.NetworkError;
 import com.bichan.shop.networking.Service;
 import com.daimajia.slider.library.Animations.DescriptionAnimation;
@@ -65,14 +74,14 @@ public class ProductDetailActivity extends BaseApp implements AppBarLayout.OnOff
 
     @BindView(R.id.appbar)
     AppBarLayout appBar;
+    @BindView(R.id.btnWish)
+    FloatingActionButton btnWish;
+
     @BindView(R.id.tvTitle)
     TextView tvTitle;
     @BindView(R.id.btnBack)
     AppCompatImageButton btnBack;
-    @BindView(R.id.btnFavorite)
-    AppCompatImageButton btnFavorite;
-    @BindView(R.id.favoriteBadge)
-    NotificationBadge favoriteBadge;
+
     @BindView(R.id.btnCart)
     AppCompatImageButton btnCart;
     @BindView(R.id.cartBadge)
@@ -98,6 +107,9 @@ public class ProductDetailActivity extends BaseApp implements AppBarLayout.OnOff
     @BindView(R.id.ratingBar)
     RatingBar ratingBar;
 
+    @BindView(R.id.btnAddToCart)
+    Button btnAddToCart;
+
     @BindView(R.id.rvProductOption)
     RecyclerView rvProductOption;
 
@@ -110,6 +122,8 @@ public class ProductDetailActivity extends BaseApp implements AppBarLayout.OnOff
     Button btnNewReview;
     @BindView(R.id.btnReviewMore)
     Button btnReviewMore;
+
+    MyApplication mApp;
 
     private ProductOptionAdapter productOptionAdapter;
     StaggeredGridLayoutManager manager;
@@ -133,9 +147,16 @@ public class ProductDetailActivity extends BaseApp implements AppBarLayout.OnOff
 
     private boolean[] loadingFinish;
 
+    private boolean addToCart;
+    private boolean addToWish;
 
+    private boolean wish = false;
 
     private void init(){
+        wish = false;
+        addToCart = false;
+        addToWish = false;
+        mApp = ((MyApplication)getApplicationContext());
         appBar.addOnOffsetChangedListener(this);
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
@@ -147,9 +168,10 @@ public class ProductDetailActivity extends BaseApp implements AppBarLayout.OnOff
         }
         subscriptions = new CompositeSubscription();
         dialogLoading = new MaterialDialog.Builder(this)
-                .title(R.string.dialog_loading_title)
-                .content(R.string.dialog_loading_mess)
-                .progress(true, 0).build();
+                .customView(R.layout.layout_dialog_loading, false)
+                .canceledOnTouchOutside(true)
+                .build();
+        dialogLoading.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
 
         loadingFinish = new boolean[2];
         for(int i = 0 ; i < loadingFinish.length; i++){
@@ -160,11 +182,9 @@ public class ProductDetailActivity extends BaseApp implements AppBarLayout.OnOff
     }
 
     private void initView(){
+        btnWish.setEnabled(false);
         Drawable drawable = ratingBar.getProgressDrawable();
         drawable.setColorFilter(getResources().getColor(R.color.md_yellow_600), PorterDuff.Mode.SRC_ATOP);
-
-        favoriteBadge.setNumber(3);
-        cartBadge.setNumber(5);
 
         sliderLayout.setPresetTransformer(SliderLayout.Transformer.DepthPage);
         sliderLayout.setPresetIndicator(SliderLayout.PresetIndicators.Center_Bottom);
@@ -194,6 +214,39 @@ public class ProductDetailActivity extends BaseApp implements AppBarLayout.OnOff
         rvCategoryProduct.setAdapter(adapter);
         rvCategoryProduct.setNestedScrollingEnabled(false);
 
+
+        btnSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent productsIntent = new Intent(ProductDetailActivity.this, SearchActivity.class);
+                startActivity(productsIntent);
+                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+            }
+        });
+
+        btnAddToCart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                addToCartCheck();
+            }
+        });
+
+        btnWish.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                addToWishCheck();
+            }
+        });
+
+
+        btnCart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent Intent = new Intent(ProductDetailActivity.this, CartActivity.class);
+                startActivity(Intent);
+                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+            }
+        });
 
         productOptionAdapter.setOnProductOptionItemClick(new ProductOptionAdapter.OnProductOptionItemClick() {
             @Override
@@ -247,6 +300,105 @@ public class ProductDetailActivity extends BaseApp implements AppBarLayout.OnOff
         });
     }
 
+    private void addToCartCheck() {
+        if(!mApp.hasToken()){
+            addToCart = true;
+            Intent i = new Intent(this, LoginActivity.class);
+            startActivityForResult(i, 1);
+        }else{
+            addToCart(productOption);
+        }
+    }
+
+    private void addToWishCheck(){
+        if(!mApp.hasToken()){
+            addToWish = true;
+            Intent i = new Intent(this, LoginActivity.class);
+            startActivityForResult(i, 1);
+        }else{
+            if(wish){
+                deleteWish();
+            }else{
+                addToWish();
+            }
+        }
+    }
+
+
+    private void addToCart(ProductOption productOption){
+        dialogLoading.show();
+        String token = mApp.getUserToken();
+        Subscription subscription = service.addCart(
+                token,
+                productOption.getProductOptionId(),
+                Integer.toString(1),
+                new Service.AddCartCallback() {
+                    @Override
+                    public void onSuccess(SubmitResponse submitResponse) {
+                        dialogLoading.dismiss();
+                        if(submitResponse.isStatus()){
+                            PrefsUser.updateCartNum(true);
+                            updateBadge();
+                        }else{
+
+                        }
+                    }
+
+                    @Override
+                    public void onError(NetworkError networkError) {
+
+                    }
+                });
+        subscriptions.add(subscription);
+    }
+
+    private void addToWish(){
+        dialogLoading.show();
+        String token = mApp.getUserToken();
+        Subscription subscription = service.addWish(token, product.getProductId(),
+                new Service.AddWishCallback() {
+                    @Override
+                    public void onSuccess(SubmitResponse submitResponse) {
+                        dialogLoading.dismiss();
+                        wish = submitResponse.isStatus();
+                        if(submitResponse.isStatus()){
+                            PrefsUser.updateWishNum(true);
+                        }
+                        updateBadge();
+                    }
+
+                    @Override
+                    public void onError(NetworkError networkError) {
+
+                    }
+                });
+
+    }
+
+    private void deleteWish(){
+        dialogLoading.show();
+        String token = mApp.getUserToken();
+        Subscription subscription = service.deleteWish(token, product.getProductId(),
+                new Service.DeleteWishCallback() {
+                    @Override
+                    public void onSuccess(SubmitResponse submitResponse) {
+                        dialogLoading.dismiss();
+                        wish = !submitResponse.isStatus();
+                        if(submitResponse.isStatus()){
+                            PrefsUser.updateWishNum(false);
+                        }
+                        updateBadge();
+                    }
+
+                    @Override
+                    public void onError(NetworkError networkError) {
+
+                    }
+                });
+
+    }
+
+
     private void openProductReviewActivity(String productId){
         Intent productReviewIntent = new Intent(this, ProductReviewActivity.class);
         productReviewIntent.putExtra(ProductReviewActivity.EXTRA_PRODUCT_ID, productId);
@@ -295,6 +447,28 @@ public class ProductDetailActivity extends BaseApp implements AppBarLayout.OnOff
         getProductDetail();
     }
 
+    private void checkWish(){
+        dialogLoading.show();
+        if(mApp.hasToken()){
+            Subscription subscription = service.checkWished(mApp.getUserToken(), product.getProductId(),
+                    new Service.CheckWishedCallback() {
+                        @Override
+                        public void onSuccess(SubmitResponse submitResponse) {
+                            dialogLoading.dismiss();
+                            wish = submitResponse.isStatus();
+                            updateBadge();
+                        }
+
+                        @Override
+                        public void onError(NetworkError networkError) {
+
+                        }
+                    });
+            subscriptions.add(subscription);
+        }
+    }
+
+
     private void getProductDetail(){
         dialogLoading.show();
         Subscription productSubscription = service.getProduct(productId, new Service.GetProductCallback() {
@@ -308,6 +482,7 @@ public class ProductDetailActivity extends BaseApp implements AppBarLayout.OnOff
                 if(product != null){
                     setDataProduct();
                     getProductsSame();
+                    checkWish();
                 }else{
                     // null handler
                 }
@@ -468,8 +643,19 @@ public class ProductDetailActivity extends BaseApp implements AppBarLayout.OnOff
                     getProductReview();
                 }
             }
-            if (resultCode == Activity.RESULT_CANCELED) {
-                //Write your code if there's no result
+            if (resultCode == LoginActivity.LOGIN_SUCCESSFULL) {
+                if(addToCart){
+                    addToCart(productOption);
+                    addToCart = false;
+                }
+                if(addToWish){
+                    if(wish){
+                        deleteWish();
+                    }else{
+                        addToWish();
+                    }
+                    addToWish = false;
+                }
             }
         }
     }
@@ -482,14 +668,12 @@ public class ProductDetailActivity extends BaseApp implements AppBarLayout.OnOff
             btnBack.setColorFilter(ContextCompat.getColor(this,R.color.md_white_1000));
             btnCart.setColorFilter(ContextCompat.getColor(this,R.color.md_white_1000));
             btnSearch.setColorFilter(ContextCompat.getColor(this,R.color.md_white_1000));
-            btnFavorite.setColorFilter(ContextCompat.getColor(this,R.color.md_white_1000));
 
         }else{
             tvTitle.setTextColor(ContextCompat.getColor(this,R.color.md_black_1000));
             btnCart.setColorFilter(ContextCompat.getColor(this,R.color.md_black_1000));
             btnBack.setColorFilter(ContextCompat.getColor(this,R.color.md_black_1000));
             btnSearch.setColorFilter(ContextCompat.getColor(this,R.color.md_black_1000));
-            btnFavorite.setColorFilter(ContextCompat.getColor(this,R.color.md_black_1000));
         }
     }
 
@@ -510,5 +694,19 @@ public class ProductDetailActivity extends BaseApp implements AppBarLayout.OnOff
         if (subscriptions != null) {
             subscriptions.unsubscribe();
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        updateBadge();
+    }
+
+    private void updateBadge(){
+        int cartNum = PrefsUser.getCartNum();
+        int wishNum = PrefsUser.getWishNum();
+        cartBadge.setNumber(cartNum);
+        btnWish.setEnabled(true);
+        btnWish.setImageResource(wish?R.drawable.ic_favorite_black_24dp:R.drawable.ic_favorite_border_black_24dp);
     }
 }

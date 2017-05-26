@@ -1,14 +1,19 @@
 package com.bichan.shop.networking;
 
 import com.bichan.shop.models.CategoryResponse;
+import com.bichan.shop.models.CustomerRespone;
 import com.bichan.shop.models.HomeCategoryResponse;
 import com.bichan.shop.models.HomeSliderResponse;
+import com.bichan.shop.models.LoginResponse;
+import com.bichan.shop.models.ProductMiniCartResponse;
 import com.bichan.shop.models.ProductMiniResponse;
 import com.bichan.shop.models.ProductOptionResponse;
 import com.bichan.shop.models.ProductResponse;
 import com.bichan.shop.models.RegisterResponse;
 import com.bichan.shop.models.ReviewAddResponse;
 import com.bichan.shop.models.ReviewResponse;
+import com.bichan.shop.models.SubmitResponse;
+import com.bichan.shop.models.TotalResponse;
 
 import retrofit2.http.GET;
 import retrofit2.http.Query;
@@ -65,4 +70,77 @@ public interface NetworkService {
             @Query("password") String password,
             @Query("social_id") String social_id,
             @Query("network") String network);
+
+    @GET("api/customer?act=login")
+    Observable<LoginResponse> login(
+            @Query("email") String email,
+            @Query("password") String password);
+
+    @GET("api/customer?act=login")
+    Observable<LoginResponse> loginSocial(
+            @Query("social_id") String social_id,
+            @Query("network") String network);
+
+    @GET("api/customer?act=getWish")
+    Observable<ProductMiniResponse> getWish(
+            @Query("token") String token);
+
+    @GET("api/customer?act=clearWish")
+    Observable<SubmitResponse> clearWish(
+            @Query("token") String token);
+
+    @GET("api/customer?act=deleteWish")
+    Observable<SubmitResponse> deleteWish(
+            @Query("token") String token,
+            @Query("product_id") String product_id);
+
+    @GET("api/customer?act=addWish")
+    Observable<SubmitResponse> addWish(
+            @Query("token") String token,
+            @Query("product_id") String product_id);
+
+
+    @GET("api/customer?act=getCart")
+    Observable<ProductMiniCartResponse> getCart(
+            @Query("token") String token);
+
+    @GET("api/customer?act=addCart")
+    Observable<SubmitResponse> addCart(
+            @Query("token") String token,
+            @Query("product_option_id") String product_option_id,
+            @Query("quantity") String quantity);
+
+    @GET("api/customer?act=updateCart")
+    Observable<SubmitResponse> updateCart(
+            @Query("token") String token,
+            @Query("product_option_id") String product_id,
+            @Query("quantity") String quantity);
+
+    @GET("api/customer?act=deleteCart")
+    Observable<SubmitResponse> deleteCart(
+            @Query("token") String token,
+            @Query("product_option_id") String product_id);
+
+    @GET("api/customer?act=clearCart")
+    Observable<SubmitResponse> clearCart(
+            @Query("token") String token);
+
+    @GET("api/customer?act=getCustomer")
+    Observable<CustomerRespone> getCustomer(
+            @Query("token") String token);
+
+
+    @GET("api/customer?act=getWishTotal")
+    Observable<TotalResponse> getWishTotal(
+            @Query("token") String token);
+
+    @GET("api/customer?act=getCartTotal")
+    Observable<TotalResponse> getCartTotal(
+            @Query("token") String token);
+
+    @GET("api/customer?act=checkWished")
+    Observable<SubmitResponse> checkWished(
+            @Query("token") String token,
+            @Query("product_id") String product_id);
+
 }

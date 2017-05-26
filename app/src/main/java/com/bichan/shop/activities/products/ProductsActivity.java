@@ -12,9 +12,12 @@ import android.widget.TextView;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.balysv.materialripple.MaterialRippleLayout;
 import com.bichan.shop.BaseApp;
+import com.bichan.shop.Prefs.PrefsUser;
 import com.bichan.shop.R;
+import com.bichan.shop.activities.cart.CartActivity;
 import com.bichan.shop.activities.product.ProductDetailActivity;
 import com.bichan.shop.activities.search.SearchActivity;
+import com.bichan.shop.activities.wish.WishActivity;
 import com.bichan.shop.adapters.home.ProductsAdapter;
 import com.bichan.shop.models.ProductMini;
 import com.bichan.shop.models.ProductMiniResponse;
@@ -45,6 +48,7 @@ public class ProductsActivity extends BaseApp implements View.OnClickListener{
     TextView tvTitle;
     @BindView(R.id.btnBack)
     AppCompatImageButton btnBack;
+
     @BindView(R.id.btnFavorite)
     AppCompatImageButton btnFavorite;
     @BindView(R.id.favoriteBadge)
@@ -53,6 +57,7 @@ public class ProductsActivity extends BaseApp implements View.OnClickListener{
     AppCompatImageButton btnCart;
     @BindView(R.id.cartBadge)
     NotificationBadge cartBadge;
+
 
     @BindView(R.id.rvProducts)
     RecyclerView rvProducts;
@@ -89,8 +94,6 @@ public class ProductsActivity extends BaseApp implements View.OnClickListener{
 
     private void initView(){
         tvTitle.setText(title);
-        favoriteBadge.setNumber(3);
-        cartBadge.setNumber(5);
         btnBack.setOnClickListener(this);
         imgChangeView.setOnClickListener(this);
         btnSort.setOnClickListener(new View.OnClickListener() {
@@ -110,6 +113,25 @@ public class ProductsActivity extends BaseApp implements View.OnClickListener{
                 overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
             }
         });
+
+        btnFavorite.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent Intent = new Intent(ProductsActivity.this, WishActivity.class);
+                startActivity(Intent);
+                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+            }
+        });
+
+        btnCart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent Intent = new Intent(ProductsActivity.this, CartActivity.class);
+                startActivity(Intent);
+                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+            }
+        });
+
         rvProducts.setHasFixedSize(true);
         productsAdapter = new ProductsAdapter(this);
         manager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
@@ -262,5 +284,18 @@ public class ProductsActivity extends BaseApp implements View.OnClickListener{
 
     private void changeViewListIcon( boolean single){
         imgChangeView.setImageResource(single?R.drawable.ic_view_module_black_24dp:R.drawable.ic_view_list_black_24dp);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        updateBadge();
+    }
+
+    private void updateBadge(){
+        int cartNum = PrefsUser.getCartNum();
+        int wishNum = PrefsUser.getWishNum();
+        cartBadge.setNumber(cartNum);
+        favoriteBadge.setNumber(wishNum);
     }
 }

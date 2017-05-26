@@ -21,6 +21,7 @@ public class DataRegister {
         lastname = "";
         password = "";
         social_id = "";
+        social = Social.NONE;
     }
 
     public String getEmail() {
@@ -48,7 +49,7 @@ public class DataRegister {
     }
 
     public String getPassword() {
-        return EncryptUtils.encryptMD5ToString(password);
+        return EncryptUtils.encryptMD5ToString(password).toLowerCase();
     }
 
     public void setPassword(String password) {
@@ -69,7 +70,7 @@ public class DataRegister {
                 network = "fb";
                 break;
             case GOOGLE:
-                network = "gg";
+                network = "google";
                 break;
             default:
                 network = "";

@@ -49,6 +49,8 @@ public class SearchActivity extends AppCompatActivity {
     @BindView(R.id.btnBarcode)
     AppCompatImageButton btnBarcode;
 
+
+
     Set<String> textSearchHistory;
     private String categoryId;
     private String categoryName;

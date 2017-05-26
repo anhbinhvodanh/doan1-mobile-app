@@ -1,109 +1,239 @@
 package com.bichan.shop.fragments.home;
 
 import android.content.Context;
-import android.net.Uri;
+import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import android.support.annotation.Nullable;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
+import com.afollestad.materialdialogs.MaterialDialog;
+import com.bichan.shop.BaseFragment;
+import com.bichan.shop.MyApplication;
+import com.bichan.shop.Prefs.PrefsUser;
 import com.bichan.shop.R;
+import com.bichan.shop.activities.product.ProductDetailActivity;
+import com.bichan.shop.adapters.cart.ProductCartAdapter;
+import com.bichan.shop.models.ProductMiniCart;
+import com.bichan.shop.models.ProductMiniCartResponse;
+import com.bichan.shop.models.SubmitResponse;
+import com.bichan.shop.networking.NetworkError;
+import com.bichan.shop.networking.Service;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link CartFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link CartFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class CartFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+import javax.inject.Inject;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import rx.Subscription;
+import rx.subscriptions.CompositeSubscription;
 
-    private OnFragmentInteractionListener mListener;
+import static com.facebook.FacebookSdk.getApplicationContext;
+
+public class CartFragment extends BaseFragment {
+    @Inject
+    public Service service;
+
+    @BindView(R.id.rvProducts)
+    RecyclerView rvProducts;
+    @BindView(R.id.btnClearCart)
+    Button btnClearCart;
+
+    private ProductCartAdapter productCartAdapter;
+    StaggeredGridLayoutManager manager;
+
+    private MaterialDialog dialogLoading;
+
+    private String token;
+    private CompositeSubscription subscriptions;
 
     public CartFragment() {
-        // Required empty public constructor
+
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment CartFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static CartFragment newInstance(String param1, String param2) {
-        CartFragment fragment = new CartFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+        getDeps().inject(this);
+        MyApplication mApp = ((MyApplication)getApplicationContext());
+        if(!mApp.hasToken()){
+            // login
+            getActivity().finish();
         }
+        token = mApp.getUserToken();
+
+
+        subscriptions = new CompositeSubscription();
+
+        dialogLoading = new MaterialDialog.Builder(getActivity())
+                .customView(R.layout.layout_dialog_loading, false)
+                .canceledOnTouchOutside(true)
+                .build();
+        dialogLoading.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_cart, container, false);
+        View view = inflater.inflate(R.layout.fragment_cart, container, false);
+        ButterKnife.bind(this, view);
+        return view;
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        rvProducts.setHasFixedSize(true);
+        productCartAdapter = new ProductCartAdapter(getActivity());
+        productCartAdapter.changeView();
+        manager = new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL);
+        manager.setSpanCount(1);
+        rvProducts.setLayoutManager(manager);
+        rvProducts.setAdapter(productCartAdapter);
+
+        productCartAdapter.setOnItemProductClickListener(new ProductCartAdapter.OnItemProductClickListener() {
+            @Override
+            public void onClick(ProductMiniCart productMini) {
+                Intent intent = new Intent(getActivity(), ProductDetailActivity.class);
+                intent.putExtra(ProductDetailActivity.EXTRA_PRODUCT_ID, productMini.getProductId());
+                getActivity().startActivity(intent);
+                getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+            }
+        });
+
+        productCartAdapter.setOnRemoveClickListener(new ProductCartAdapter.OnRemoveClickListener() {
+            @Override
+            public void onClick(ProductMiniCart productMini, int position) {
+                removeCart(productMini, position);
+            }
+        });
+
+        productCartAdapter.setOnCartQuantityChangeListener(new ProductCartAdapter.OnCartQuantityChangeListener() {
+
+            @Override
+            public void onClick(ProductMiniCart productMini, int value) {
+                updateCart(productMini, value);
+            }
+        });
+
+        btnClearCart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                clearCart();
+            }
+        });
+    }
+
+    private void getCart(){
+        productCartAdapter.clearAll();
+        productCartAdapter.startLoading();
+        Subscription subscription = service.getCart(token, new Service.GetCartCallback() {
+            @Override
+            public void onSuccess(ProductMiniCartResponse productMiniResponse) {
+                productCartAdapter.stopLoading();
+                productCartAdapter.addProducts(productMiniResponse.getProductMinis());
+                int num = 0;
+                for(ProductMiniCart productMiniCart: productMiniResponse.getProductMinis()){
+                    try{
+                        num += Integer.parseInt(productMiniCart.getQuantityCart());
+                    }catch (Exception e){
+                        num += 0;
+                    }
+                }
+                PrefsUser.setCartNum(num);
+            }
+
+            @Override
+            public void onError(NetworkError networkError) {
+            }
+        });
+        subscriptions.add(subscription);
+    }
+
+
+    private void clearCart(){
+        dialogLoading.show();
+        Subscription subscription = service.clearCart(token, new Service.ClearCartCallback() {
+            @Override
+            public void onSuccess(SubmitResponse submitResponse) {
+                dialogLoading.dismiss();
+                if(submitResponse.isStatus()){
+                    productCartAdapter.clearAll();
+                    PrefsUser.setCartNum(0);
+                }else{
+
+                }
+            }
+
+            @Override
+            public void onError(NetworkError networkError) {
+
+            }
+        });
+        subscriptions.add(subscription);
+    }
+
+    private void removeCart(final ProductMiniCart productMini, final int position){
+        dialogLoading.show();
+        Subscription subscription = service.deleteCart(token, productMini.getProductOptionId(), new Service.DeleteCartCallback() {
+            @Override
+            public void onSuccess(SubmitResponse submitResponse) {
+                dialogLoading.dismiss();
+                if(submitResponse.isStatus()){
+                    productCartAdapter.removeProduct(position);
+                    int num = PrefsUser.getCartNum();
+                    PrefsUser.setCartNum(num - Integer.parseInt(productMini.getQuantityCart()));
+                }else{
+
+                }
+            }
+
+            @Override
+            public void onError(NetworkError networkError) {
+
+            }
+        });
+        subscriptions.add(subscription);
+    }
+
+
+    private void updateCart(ProductMiniCart productMini, final int value){
+        dialogLoading.show();
+        Subscription subscription = service.updateCart(token, productMini.getProductOptionId(), Integer.toString(value), new Service.UpdateCartCallback() {
+            @Override
+            public void onSuccess(SubmitResponse submitResponse) {
+                dialogLoading.dismiss();
+                PrefsUser.setCartNum(value);
+            }
+
+            @Override
+            public void onError(NetworkError networkError) {
+
+            }
+        });
+        subscriptions.add(subscription);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        getCart();
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
+
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
-        mListener = null;
-    }
-
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
     }
 }

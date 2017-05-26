@@ -2,8 +2,11 @@ package com.bichan.shop.networking;
 
 
 import com.bichan.shop.models.CategoryResponse;
+import com.bichan.shop.models.CustomerRespone;
 import com.bichan.shop.models.HomeCategoryResponse;
 import com.bichan.shop.models.HomeSliderResponse;
+import com.bichan.shop.models.LoginResponse;
+import com.bichan.shop.models.ProductMiniCartResponse;
 import com.bichan.shop.models.ProductMiniResponse;
 import com.bichan.shop.models.ProductOptionResponse;
 import com.bichan.shop.models.ProductResponse;
@@ -11,6 +14,8 @@ import com.bichan.shop.models.ProductsFilter;
 import com.bichan.shop.models.RegisterResponse;
 import com.bichan.shop.models.ReviewAddResponse;
 import com.bichan.shop.models.ReviewResponse;
+import com.bichan.shop.models.SubmitResponse;
+import com.bichan.shop.models.TotalResponse;
 
 import rx.Observable;
 import rx.Subscriber;
@@ -18,7 +23,6 @@ import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Func1;
 import rx.schedulers.Schedulers;
-
 
 
 /**
@@ -362,4 +366,526 @@ public class Service {
                 });
     }
 
+    public interface LoginCallback {
+        void onSuccess(LoginResponse loginResponse);
+        void onError(NetworkError networkError);
+    }
+
+    public Subscription login(String email,
+                                 String password,
+                                 final LoginCallback callback) {
+        return networkService.login(email, password)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .onErrorResumeNext(new Func1<Throwable, Observable<? extends LoginResponse>>() {
+                    @Override
+                    public Observable<? extends LoginResponse> call(Throwable throwable) {
+                        return Observable.error(throwable);
+                    }
+                })
+                .subscribe(new Subscriber<LoginResponse>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        callback.onError(new NetworkError(e));
+
+                    }
+
+                    @Override
+                    public void onNext(LoginResponse loginResponse) {
+                        callback.onSuccess(loginResponse);
+                    }
+                });
+    }
+
+    public interface LoginSocialCallback {
+        void onSuccess(LoginResponse loginResponse);
+        void onError(NetworkError networkError);
+    }
+
+    public Subscription loginSocial(String social_id,
+                                    String network,
+                                    final LoginSocialCallback callback) {
+        return networkService.loginSocial(social_id, network)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .onErrorResumeNext(new Func1<Throwable, Observable<? extends LoginResponse>>() {
+                    @Override
+                    public Observable<? extends LoginResponse> call(Throwable throwable) {
+                        return Observable.error(throwable);
+                    }
+                })
+                .subscribe(new Subscriber<LoginResponse>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        callback.onError(new NetworkError(e));
+
+                    }
+
+                    @Override
+                    public void onNext(LoginResponse loginResponse) {
+                        callback.onSuccess(loginResponse);
+                    }
+                });
+    }
+
+
+    public interface GetWishCallback {
+        void onSuccess(ProductMiniResponse productMiniResponse);
+        void onError(NetworkError networkError);
+    }
+
+    public Subscription getWish(String token, final GetWishCallback callback) {
+        return networkService.getWish(token)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .onErrorResumeNext(new Func1<Throwable, Observable<? extends ProductMiniResponse>>() {
+                    @Override
+                    public Observable<? extends ProductMiniResponse> call(Throwable throwable) {
+                        return Observable.error(throwable);
+                    }
+                })
+                .subscribe(new Subscriber<ProductMiniResponse>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        callback.onError(new NetworkError(e));
+                    }
+
+                    @Override
+                    public void onNext(ProductMiniResponse productMiniResponse) {
+                        callback.onSuccess(productMiniResponse);
+                    }
+                });
+    }
+
+    public interface ClearWishCallback {
+        void onSuccess(SubmitResponse submitResponse);
+        void onError(NetworkError networkError);
+    }
+
+    public Subscription clearWish(String token, final ClearWishCallback callback) {
+        return networkService.clearWish(token)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .onErrorResumeNext(new Func1<Throwable, Observable<? extends SubmitResponse>>() {
+                    @Override
+                    public Observable<? extends SubmitResponse> call(Throwable throwable) {
+                        return Observable.error(throwable);
+                    }
+                })
+                .subscribe(new Subscriber<SubmitResponse>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        callback.onError(new NetworkError(e));
+
+                    }
+
+                    @Override
+                    public void onNext(SubmitResponse submitResponse) {
+                        callback.onSuccess(submitResponse);
+                    }
+                });
+    }
+
+
+    public interface DeleteWishCallback {
+        void onSuccess(SubmitResponse submitResponse);
+        void onError(NetworkError networkError);
+    }
+
+    public Subscription deleteWish(String token, String product_id, final DeleteWishCallback callback) {
+        return networkService.deleteWish(token, product_id)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .onErrorResumeNext(new Func1<Throwable, Observable<? extends SubmitResponse>>() {
+                    @Override
+                    public Observable<? extends SubmitResponse> call(Throwable throwable) {
+                        return Observable.error(throwable);
+                    }
+                })
+                .subscribe(new Subscriber<SubmitResponse>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        callback.onError(new NetworkError(e));
+
+                    }
+
+                    @Override
+                    public void onNext(SubmitResponse submitResponse) {
+                        callback.onSuccess(submitResponse);
+                    }
+                });
+    }
+
+    public interface AddWishCallback {
+        void onSuccess(SubmitResponse submitResponse);
+        void onError(NetworkError networkError);
+    }
+
+    public Subscription addWish(String token, String product_id, final AddWishCallback callback) {
+        return networkService.addWish(token, product_id)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .onErrorResumeNext(new Func1<Throwable, Observable<? extends SubmitResponse>>() {
+                    @Override
+                    public Observable<? extends SubmitResponse> call(Throwable throwable) {
+                        return Observable.error(throwable);
+                    }
+                })
+                .subscribe(new Subscriber<SubmitResponse>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        callback.onError(new NetworkError(e));
+
+                    }
+
+                    @Override
+                    public void onNext(SubmitResponse submitResponse) {
+                        callback.onSuccess(submitResponse);
+                    }
+                });
+    }
+
+    /////////////////// API CART ////////////////////
+
+    public interface GetCartCallback {
+        void onSuccess(ProductMiniCartResponse productMiniCartResponse);
+        void onError(NetworkError networkError);
+    }
+
+    public Subscription getCart(String token, final GetCartCallback callback) {
+        return networkService.getCart(token)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .onErrorResumeNext(new Func1<Throwable, Observable<? extends ProductMiniCartResponse>>() {
+                    @Override
+                    public Observable<? extends ProductMiniCartResponse> call(Throwable throwable) {
+                        return Observable.error(throwable);
+                    }
+                })
+                .subscribe(new Subscriber<ProductMiniCartResponse>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        callback.onError(new NetworkError(e));
+
+                    }
+
+                    @Override
+                    public void onNext(ProductMiniCartResponse productMiniCartResponse) {
+                        callback.onSuccess(productMiniCartResponse);
+                    }
+                });
+    }
+
+
+    public interface AddCartCallback {
+        void onSuccess(SubmitResponse submitResponse);
+        void onError(NetworkError networkError);
+    }
+
+    public Subscription addCart(String token, String product_option_id, String quantity, final AddCartCallback callback) {
+        return networkService.addCart(token, product_option_id, quantity)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .onErrorResumeNext(new Func1<Throwable, Observable<? extends SubmitResponse>>() {
+                    @Override
+                    public Observable<? extends SubmitResponse> call(Throwable throwable) {
+                        return Observable.error(throwable);
+                    }
+                })
+                .subscribe(new Subscriber<SubmitResponse>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        callback.onError(new NetworkError(e));
+
+                    }
+
+                    @Override
+                    public void onNext(SubmitResponse submitResponse) {
+                        callback.onSuccess(submitResponse);
+                    }
+                });
+    }
+
+    public interface UpdateCartCallback {
+        void onSuccess(SubmitResponse submitResponse);
+        void onError(NetworkError networkError);
+    }
+
+    public Subscription updateCart(String token, String product_id, String quantity, final UpdateCartCallback callback) {
+        return networkService.updateCart(token, product_id, quantity)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .onErrorResumeNext(new Func1<Throwable, Observable<? extends SubmitResponse>>() {
+                    @Override
+                    public Observable<? extends SubmitResponse> call(Throwable throwable) {
+                        return Observable.error(throwable);
+                    }
+                })
+                .subscribe(new Subscriber<SubmitResponse>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        callback.onError(new NetworkError(e));
+
+                    }
+
+                    @Override
+                    public void onNext(SubmitResponse submitResponse) {
+                        callback.onSuccess(submitResponse);
+                    }
+                });
+    }
+
+    public interface DeleteCartCallback {
+        void onSuccess(SubmitResponse submitResponse);
+        void onError(NetworkError networkError);
+    }
+
+    public Subscription deleteCart(String token, String product_id, final DeleteCartCallback callback) {
+        return networkService.deleteCart(token, product_id)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .onErrorResumeNext(new Func1<Throwable, Observable<? extends SubmitResponse>>() {
+                    @Override
+                    public Observable<? extends SubmitResponse> call(Throwable throwable) {
+                        return Observable.error(throwable);
+                    }
+                })
+                .subscribe(new Subscriber<SubmitResponse>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        callback.onError(new NetworkError(e));
+
+                    }
+
+                    @Override
+                    public void onNext(SubmitResponse submitResponse) {
+                        callback.onSuccess(submitResponse);
+                    }
+                });
+    }
+
+    public interface ClearCartCallback {
+        void onSuccess(SubmitResponse submitResponse);
+        void onError(NetworkError networkError);
+    }
+
+    public Subscription clearCart(String token, final ClearCartCallback callback) {
+        return networkService.clearCart(token)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .onErrorResumeNext(new Func1<Throwable, Observable<? extends SubmitResponse>>() {
+                    @Override
+                    public Observable<? extends SubmitResponse> call(Throwable throwable) {
+                        return Observable.error(throwable);
+                    }
+                })
+                .subscribe(new Subscriber<SubmitResponse>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        callback.onError(new NetworkError(e));
+
+                    }
+
+                    @Override
+                    public void onNext(SubmitResponse submitResponse) {
+                        callback.onSuccess(submitResponse);
+                    }
+                });
+    }
+
+    ////////////////// API CUSTOMER /////////////////
+
+    public interface GetCustomerCallback {
+        void onSuccess(CustomerRespone customerRespone);
+        void onError(NetworkError networkError);
+    }
+
+    public Subscription getCustomer(String token, final GetCustomerCallback callback) {
+        return networkService.getCustomer(token)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .onErrorResumeNext(new Func1<Throwable, Observable<? extends CustomerRespone>>() {
+                    @Override
+                    public Observable<? extends CustomerRespone> call(Throwable throwable) {
+                        return Observable.error(throwable);
+                    }
+                })
+                .subscribe(new Subscriber<CustomerRespone>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        callback.onError(new NetworkError(e));
+
+                    }
+
+                    @Override
+                    public void onNext(CustomerRespone customerRespone) {
+                        callback.onSuccess(customerRespone);
+                    }
+                });
+    }
+
+
+
+    public interface GetCartTotalCallback {
+        void onSuccess(TotalResponse totalResponse);
+        void onError(NetworkError networkError);
+    }
+
+    public Subscription getCartTotal(String token, final GetCartTotalCallback callback) {
+        return networkService.getCartTotal(token)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .onErrorResumeNext(new Func1<Throwable, Observable<? extends TotalResponse>>() {
+                    @Override
+                    public Observable<? extends TotalResponse> call(Throwable throwable) {
+                        return Observable.error(throwable);
+                    }
+                })
+                .subscribe(new Subscriber<TotalResponse>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        callback.onError(new NetworkError(e));
+
+                    }
+
+                    @Override
+                    public void onNext(TotalResponse totalResponse) {
+                        callback.onSuccess(totalResponse);
+                    }
+                });
+    }
+
+    public interface GetWishTotalCallback {
+        void onSuccess(TotalResponse totalResponse);
+        void onError(NetworkError networkError);
+    }
+
+    public Subscription getWishTotal(String token, final GetWishTotalCallback callback) {
+        return networkService.getWishTotal(token)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .onErrorResumeNext(new Func1<Throwable, Observable<? extends TotalResponse>>() {
+                    @Override
+                    public Observable<? extends TotalResponse> call(Throwable throwable) {
+                        return Observable.error(throwable);
+                    }
+                })
+                .subscribe(new Subscriber<TotalResponse>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        callback.onError(new NetworkError(e));
+
+                    }
+
+                    @Override
+                    public void onNext(TotalResponse totalResponse) {
+                        callback.onSuccess(totalResponse);
+                    }
+                });
+    }
+
+
+    public interface CheckWishedCallback {
+        void onSuccess(SubmitResponse submitResponse);
+        void onError(NetworkError networkError);
+    }
+
+    public Subscription checkWished(String token, String product_id,final CheckWishedCallback callback) {
+        return networkService.checkWished(token, product_id)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .onErrorResumeNext(new Func1<Throwable, Observable<? extends SubmitResponse>>() {
+                    @Override
+                    public Observable<? extends SubmitResponse> call(Throwable throwable) {
+                        return Observable.error(throwable);
+                    }
+                })
+                .subscribe(new Subscriber<SubmitResponse>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        callback.onError(new NetworkError(e));
+
+                    }
+
+                    @Override
+                    public void onNext(SubmitResponse submitResponse) {
+                        callback.onSuccess(submitResponse);
+                    }
+                });
+    }
 }

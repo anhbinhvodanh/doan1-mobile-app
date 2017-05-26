@@ -5,5 +5,5 @@ package com.bichan.shop.models;
  */
 
 public enum  Social {
-    FACEBOOK, GOOGLE
+    FACEBOOK, GOOGLE, NONE
 }

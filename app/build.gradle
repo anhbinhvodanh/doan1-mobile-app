@@ -61,6 +61,8 @@ dependencies {
     compile 'me.dm7.barcodescanner:zbar:1.9.2'
     compile 'com.blankj:utilcode:1.5.1'
     compile 'com.github.travijuu:numberpicker:1.0.6'
+    compile 'cn.carbs.android:AvatarImageView:1.0.3'
+
     compile 'com.google.android.gms:play-services-auth:10.2.6'
     compile 'com.facebook.android:facebook-android-sdk:4.+'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
@@ -77,6 +79,10 @@ dependencies {
     testCompile 'junit:junit:4.12'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
 }
+
+
+
+
 
 
 

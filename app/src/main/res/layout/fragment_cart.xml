@@ -3,11 +3,30 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.bichan.shop.fragments.home.CartFragment">
-
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Cart" />
-
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rvProducts"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            </android.support.v7.widget.RecyclerView>
+            <Button
+                android:layout_marginTop="16dp"
+                android:id="@+id/btnClearCart"
+                android:layout_width="match_parent"
+                android:layout_height="42dp"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:text="Dọn dẹp giỏ hàng"
+                android:textAllCaps="false"
+                android:background="@drawable/selector_light_theme"
+                android:textColor="@color/colorAccent" />
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
 </FrameLayout>

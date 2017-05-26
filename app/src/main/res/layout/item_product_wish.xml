@@ -29,7 +29,7 @@
                 app:ratioWidth="5"/>
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:padding="8dp"
                 android:orientation="vertical">
                 <TextView
@@ -94,12 +94,13 @@
                         app:mrl_rippleOverlay="true">
                         <Button
                             android:id="@+id/btnAddToCart"
-                            android:textColor="#ffffff"
-                            android:textStyle="bold"
-                            android:padding="2dp"
-                            android:background="@drawable/button_buy"
+                            android:textColor="@color/colorAccent"
+                            android:background="@drawable/button_border"
                             android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
+                            android:paddingLeft="8dp"
+                            android:paddingRight="8dp"
+                            android:layout_height="40dp"
+                            android:textAllCaps="false"
                             android:text="Thêm vào giỏ hàng"/>
                     </com.balysv.materialripple.MaterialRippleLayout>
                     <android.support.v7.widget.AppCompatImageButton
