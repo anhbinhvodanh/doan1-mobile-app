@@ -26,7 +26,6 @@ import com.bichan.shop.MyApplication;
 import com.bichan.shop.Prefs.PrefsUser;
 import com.bichan.shop.R;
 import com.bichan.shop.activities.cart.CartActivity;
-import com.bichan.shop.activities.home.HomeActivity;
 import com.bichan.shop.activities.login.LoginActivity;
 import com.bichan.shop.activities.products.ProductsActivity;
 import com.bichan.shop.activities.search.SearchActivity;
@@ -182,7 +181,7 @@ public class ProductDetailActivity extends BaseApp implements AppBarLayout.OnOff
     }
 
     private void initView(){
-        btnWish.setEnabled(false);
+        btnWish.setVisibility(View.GONE);
         Drawable drawable = ratingBar.getProgressDrawable();
         drawable.setColorFilter(getResources().getColor(R.color.md_yellow_600), PorterDuff.Mode.SRC_ATOP);
 
@@ -456,6 +455,7 @@ public class ProductDetailActivity extends BaseApp implements AppBarLayout.OnOff
                         public void onSuccess(SubmitResponse submitResponse) {
                             dialogLoading.dismiss();
                             wish = submitResponse.isStatus();
+                            btnWish.setVisibility(View.VISIBLE);
                             updateBadge();
                         }
 
@@ -482,7 +482,9 @@ public class ProductDetailActivity extends BaseApp implements AppBarLayout.OnOff
                 if(product != null){
                     setDataProduct();
                     getProductsSame();
-                    checkWish();
+                    if(mApp.hasToken()){
+                        checkWish();
+                    }
                 }else{
                     // null handler
                 }
@@ -700,13 +702,15 @@ public class ProductDetailActivity extends BaseApp implements AppBarLayout.OnOff
     protected void onResume() {
         super.onResume();
         updateBadge();
+        if(btnWish.getVisibility() == View.GONE && mApp.hasToken() && product != null){
+            checkWish();
+        }
     }
 
     private void updateBadge(){
         int cartNum = PrefsUser.getCartNum();
         int wishNum = PrefsUser.getWishNum();
         cartBadge.setNumber(cartNum);
-        btnWish.setEnabled(true);
         btnWish.setImageResource(wish?R.drawable.ic_favorite_black_24dp:R.drawable.ic_favorite_border_black_24dp);
     }
 }

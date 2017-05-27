@@ -3,6 +3,7 @@ package com.bichan.shop;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.bichan.shop.Prefs.PrefsUser;
@@ -102,6 +103,7 @@ public class MainActivity extends BaseApp {
                             PrefsUser.setSocial(dataLoginSocial.getSocial(), dataLoginSocial.getSocial_id());
                             mApp.setUserToken(loginResponse.getToken());
                             getCartTotal(loginResponse.getToken());
+                            Log.d("ahihi", loginResponse.getToken());
                         }else{
                             mApp.removeToken();
                         }

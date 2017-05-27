@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.bichan.shop.R;
 import com.bichan.shop.RxHelper;
@@ -196,7 +197,7 @@ public class RegisterFragment extends Fragment{
     private void setDataRegister(DataRegister dataRegister){
         if(dataRegister == null)
             return;
-
+        Toast.makeText(getActivity(), "Đã liên kết tài khoản thành công, vui lòng điền các thông tin còn thiếu để hoàn tất quá trình đăng ký", Toast.LENGTH_LONG).show();
         if(!dataRegister.getEmail().equals("")){
             edtEmail.setText(dataRegister.getEmail());
         }

@@ -888,4 +888,39 @@ public class Service {
                     }
                 });
     }
+
+
+    public interface GetCartMoneyCallback {
+        void onSuccess(TotalResponse totalResponse);
+        void onError(NetworkError networkError);
+    }
+
+    public Subscription getCartMoney(String token, final GetCartMoneyCallback callback) {
+        return networkService.getCartMoney(token)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .onErrorResumeNext(new Func1<Throwable, Observable<? extends TotalResponse>>() {
+                    @Override
+                    public Observable<? extends TotalResponse> call(Throwable throwable) {
+                        return Observable.error(throwable);
+                    }
+                })
+                .subscribe(new Subscriber<TotalResponse>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        callback.onError(new NetworkError(e));
+
+                    }
+
+                    @Override
+                    public void onNext(TotalResponse totalResponse) {
+                        callback.onSuccess(totalResponse);
+                    }
+                });
+    }
 }

@@ -7,6 +7,8 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.WindowManager;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.astuetz.PagerSlidingTabStrip;
@@ -27,6 +29,7 @@ import com.bichan.shop.models.RegisterResponse;
 import com.bichan.shop.models.Social;
 import com.bichan.shop.networking.NetworkError;
 import com.bichan.shop.networking.Service;
+import com.blankj.utilcode.util.ToastUtils;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
@@ -181,6 +184,7 @@ public class LoginActivity extends BaseApp implements
         getDeps().inject(this);
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         init();
         initView();
     }

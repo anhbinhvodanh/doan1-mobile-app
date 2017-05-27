@@ -143,4 +143,8 @@ public interface NetworkService {
             @Query("token") String token,
             @Query("product_id") String product_id);
 
+    @GET("api/customer?act=getCartMoney")
+    Observable<TotalResponse> getCartMoney(
+            @Query("token") String token);
+
 }

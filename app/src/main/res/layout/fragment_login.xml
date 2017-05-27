@@ -88,16 +88,15 @@
                 <Button
                     android:id="@+id/btnFacebook"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="60dp"
                     android:layout_margin="4dp"
                     android:padding="8dp"
                     android:layout_weight="1"
-                    android:background="@drawable/button_login_facebook"
+                    android:backgroundTint="@color/md_blue_700"
                     android:tag="facebook_login_button"
-                    android:drawableTint="@color/md_blue_700"
-                    android:drawableLeft="@drawable/ic_facebook_white_36dp"
-                    android:drawableStart="@drawable/ic_facebook_white_36dp"
-                    android:textColor="@color/md_blue_700"
+                    android:drawableLeft="@drawable/ic_facebook_icon"
+                    android:drawableStart="@drawable/ic_facebook_icon"
+                    android:textColor="@color/md_white_1000"
                     android:text="Facebook" />
 
                 <Button
@@ -105,14 +104,13 @@
                     android:padding="8dp"
                     android:layout_width="0dp"
                     android:layout_margin="4dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="60dp"
                     android:layout_weight="1"
                     android:tag="google_login_button"
-                    android:drawableTint="@color/md_red_700"
-                    android:background="@drawable/button_login_google"
-                    android:drawableLeft="@drawable/ic_google_plus_white_36dp"
-                    android:drawableStart="@drawable/ic_google_plus_white_36dp"
-                    android:textColor="@color/md_red_700"
+                    android:backgroundTint="@color/md_red_700"
+                    android:drawableLeft="@drawable/ic_google_icon"
+                    android:drawableStart="@drawable/ic_google_icon"
+                    android:textColor="@color/md_white_1000"
                     android:text="Google" />
             </LinearLayout>
         </LinearLayout>

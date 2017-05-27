@@ -6,7 +6,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.bichan.shop.activities.wish.WishActivity">
-    <LinearLayout
+    <com.kennyc.view.MultiStateView
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:id="@+id/layoutStateLogin"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:msv_errorView="@layout/state_error_login"
+        app:msv_emptyView="@layout/state_empty"
+        app:msv_loadingView="@layout/state_loading"
+        app:msv_viewState="content">
+        <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
@@ -56,4 +65,5 @@
             </LinearLayout>
         </android.support.v4.widget.NestedScrollView>
     </LinearLayout>
+    </com.kennyc.view.MultiStateView>
 </android.support.constraint.ConstraintLayout>

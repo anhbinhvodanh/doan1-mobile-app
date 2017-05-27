@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bichan.shop.MainActivity;
@@ -45,6 +46,9 @@ public class CustomerFragment extends Fragment {
 
     @BindView(R.id.item_avatar)
     AvatarImageView item_avatar;
+
+    @BindView(R.id.layoutSocial)
+    LinearLayout layoutSocial;
 
     MyApplication mApp;
 
@@ -106,14 +110,14 @@ public class CustomerFragment extends Fragment {
     private void checkLogin(){
 
         if(mApp.hasToken()){
-            item_avatar.setTextAndColor(PrefsUser.getFirstname(), AvatarImageView.COLORS[2]);
+            //item_avatar.setTextAndColor(PrefsUser.getFirstname(), AvatarImageView.COLORS[2]);
+            item_avatar.setImageResource(R.drawable.default_user_icon_profile);
             tvName.setText(PrefsUser.getLastname() + " " + PrefsUser.getFirstname());
             tvDateAdded.setText(PrefsUser.getDate_added());
             tvEmail.setText(PrefsUser.getEmail());
             tvTelephone.setText(PrefsUser.getTelephone());
             btnLogin.setVisibility(View.GONE);
-            btnFacebook.setEnabled(true);
-            btnGoogle.setEnabled(true);
+            layoutSocial.setVisibility(View.VISIBLE);
             btnLogout.setVisibility(View.VISIBLE);
         }else{
             item_avatar.setImageResource(R.drawable.default_user_icon_profile);
@@ -122,8 +126,7 @@ public class CustomerFragment extends Fragment {
             tvEmail.setText("Chưa có thông tin");
             tvTelephone.setText("Chưa có thông tin");
             btnLogin.setVisibility(View.VISIBLE);
-            btnFacebook.setEnabled(false);
-            btnGoogle.setEnabled(false);
+            layoutSocial.setVisibility(View.GONE);
             btnLogout.setVisibility(View.GONE);
         }
     }

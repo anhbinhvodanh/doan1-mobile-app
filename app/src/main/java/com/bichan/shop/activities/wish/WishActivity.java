@@ -14,14 +14,15 @@ import com.bichan.shop.BaseApp;
 import com.bichan.shop.MyApplication;
 import com.bichan.shop.Prefs.PrefsUser;
 import com.bichan.shop.R;
+import com.bichan.shop.activities.login.LoginActivity;
 import com.bichan.shop.activities.product.ProductDetailActivity;
-import com.bichan.shop.activities.products.ProductsActivity;
 import com.bichan.shop.adapters.wish.ProductsWishAdapter;
 import com.bichan.shop.models.ProductMini;
 import com.bichan.shop.models.ProductMiniResponse;
 import com.bichan.shop.models.SubmitResponse;
 import com.bichan.shop.networking.NetworkError;
 import com.bichan.shop.networking.Service;
+import com.kennyc.view.MultiStateView;
 
 import javax.inject.Inject;
 
@@ -41,6 +42,9 @@ public class WishActivity extends BaseApp {
     @BindView(R.id.btnBack)
     AppCompatImageButton btnBack;
 
+    @BindView(R.id.layoutStateLogin)
+    MultiStateView layoutStateLogin;
+
     private ProductsWishAdapter productsWishAdapter;
     StaggeredGridLayoutManager manager;
 
@@ -48,13 +52,11 @@ public class WishActivity extends BaseApp {
 
     private String token;
     private CompositeSubscription subscriptions;
+    MyApplication mApp;
 
     private void init(){
-        MyApplication mApp = ((MyApplication)getApplicationContext());
-        if(!mApp.hasToken()){
-            // login
-            finish();
-        }
+        mApp = ((MyApplication)getApplicationContext());
+
         token = mApp.getUserToken();
         subscriptions = new CompositeSubscription();
 
@@ -80,6 +82,15 @@ public class WishActivity extends BaseApp {
                 onBackPressed();
             }
         });
+
+        layoutStateLogin.getView(MultiStateView.VIEW_STATE_ERROR).findViewById(R.id.retry)
+                .setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent i = new Intent(WishActivity.this, LoginActivity.class);
+                        startActivity(i);
+                    }
+                });
 
         productsWishAdapter.setOnItemProductClickListener(new ProductsWishAdapter.OnItemProductClickListener() {
             @Override
@@ -114,7 +125,6 @@ public class WishActivity extends BaseApp {
         ButterKnife.bind(this);
         init();
         initView();
-        getWish();
 
     }
 
@@ -182,6 +192,16 @@ public class WishActivity extends BaseApp {
         subscriptions.add(subscription);
     }
 
+    public void onResume() {
+        super.onResume();
+        if(!mApp.hasToken()){
+            layoutStateLogin.setViewState(MultiStateView.VIEW_STATE_ERROR);
+        }else{
+            layoutStateLogin.setViewState(MultiStateView.VIEW_STATE_CONTENT);
+            token = mApp.getUserToken();
+            getWish();
+        }
+    }
 
     @Override
     protected void onDestroy() {

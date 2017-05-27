@@ -17,6 +17,7 @@ import com.bichan.shop.BaseFragment;
 import com.bichan.shop.MyApplication;
 import com.bichan.shop.Prefs.PrefsUser;
 import com.bichan.shop.R;
+import com.bichan.shop.activities.login.LoginActivity;
 import com.bichan.shop.activities.product.ProductDetailActivity;
 import com.bichan.shop.adapters.cart.ProductCartAdapter;
 import com.bichan.shop.models.ProductMiniCart;
@@ -24,6 +25,11 @@ import com.bichan.shop.models.ProductMiniCartResponse;
 import com.bichan.shop.models.SubmitResponse;
 import com.bichan.shop.networking.NetworkError;
 import com.bichan.shop.networking.Service;
+import com.kennyc.view.MultiStateView;
+
+import org.fabiomsr.moneytextview.MoneyTextView;
+
+import java.util.ArrayList;
 
 import javax.inject.Inject;
 
@@ -43,6 +49,14 @@ public class CartFragment extends BaseFragment {
     @BindView(R.id.btnClearCart)
     Button btnClearCart;
 
+    @BindView(R.id.btnCheckout)
+    Button btnCheckout;
+    @BindView(R.id.tvTotalDiscount)
+    MoneyTextView tvTotalDiscount;
+
+    @BindView(R.id.layoutStateLogin)
+    MultiStateView layoutStateLogin;
+
     private ProductCartAdapter productCartAdapter;
     StaggeredGridLayoutManager manager;
 
@@ -50,7 +64,7 @@ public class CartFragment extends BaseFragment {
 
     private String token;
     private CompositeSubscription subscriptions;
-
+    MyApplication mApp;
     public CartFragment() {
 
     }
@@ -60,13 +74,7 @@ public class CartFragment extends BaseFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getDeps().inject(this);
-        MyApplication mApp = ((MyApplication)getApplicationContext());
-        if(!mApp.hasToken()){
-            // login
-            getActivity().finish();
-        }
-        token = mApp.getUserToken();
-
+        mApp = ((MyApplication)getApplicationContext());
 
         subscriptions = new CompositeSubscription();
 
@@ -96,6 +104,15 @@ public class CartFragment extends BaseFragment {
         manager.setSpanCount(1);
         rvProducts.setLayoutManager(manager);
         rvProducts.setAdapter(productCartAdapter);
+
+        layoutStateLogin.getView(MultiStateView.VIEW_STATE_ERROR).findViewById(R.id.retry)
+                .setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent i = new Intent(getActivity(), LoginActivity.class);
+                        getActivity().startActivity(i);
+                    }
+                });
 
         productCartAdapter.setOnItemProductClickListener(new ProductCartAdapter.OnItemProductClickListener() {
             @Override
@@ -130,6 +147,18 @@ public class CartFragment extends BaseFragment {
         });
     }
 
+    private void getCartMoney(){
+        int total = 0;
+        ArrayList<Object> productObjects = productCartAdapter.getItemsList();
+        for(int i = 0 ; i < productObjects.size(); i++){
+            Object o = productObjects.get(i);
+            if(o instanceof ProductMiniCart){
+                total+= Integer.parseInt(((ProductMiniCart) o).getDiscount()) * Integer.parseInt(((ProductMiniCart) o).getQuantityCart());
+            }
+        }
+        tvTotalDiscount.setAmount(total);
+    }
+
     private void getCart(){
         productCartAdapter.clearAll();
         productCartAdapter.startLoading();
@@ -147,6 +176,7 @@ public class CartFragment extends BaseFragment {
                     }
                 }
                 PrefsUser.setCartNum(num);
+                getCartMoney();
             }
 
             @Override
@@ -166,6 +196,7 @@ public class CartFragment extends BaseFragment {
                 if(submitResponse.isStatus()){
                     productCartAdapter.clearAll();
                     PrefsUser.setCartNum(0);
+                    getCartMoney();
                 }else{
 
                 }
@@ -189,6 +220,7 @@ public class CartFragment extends BaseFragment {
                     productCartAdapter.removeProduct(position);
                     int num = PrefsUser.getCartNum();
                     PrefsUser.setCartNum(num - Integer.parseInt(productMini.getQuantityCart()));
+                    getCartMoney();
                 }else{
 
                 }
@@ -203,13 +235,15 @@ public class CartFragment extends BaseFragment {
     }
 
 
-    private void updateCart(ProductMiniCart productMini, final int value){
+    private void updateCart(final ProductMiniCart productMini, final int value){
         dialogLoading.show();
         Subscription subscription = service.updateCart(token, productMini.getProductOptionId(), Integer.toString(value), new Service.UpdateCartCallback() {
             @Override
             public void onSuccess(SubmitResponse submitResponse) {
                 dialogLoading.dismiss();
+                productMini.setQuantityCart(Integer.toString(value));
                 PrefsUser.setCartNum(value);
+                getCartMoney();
             }
 
             @Override
@@ -223,7 +257,13 @@ public class CartFragment extends BaseFragment {
     @Override
     public void onResume() {
         super.onResume();
-        getCart();
+        if(!mApp.hasToken()){
+            layoutStateLogin.setViewState(MultiStateView.VIEW_STATE_ERROR);
+        }else{
+            layoutStateLogin.setViewState(MultiStateView.VIEW_STATE_CONTENT);
+            token = mApp.getUserToken();
+            getCart();
+        }
     }
 
     @Override
