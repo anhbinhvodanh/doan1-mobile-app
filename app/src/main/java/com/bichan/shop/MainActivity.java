@@ -132,6 +132,7 @@ public class MainActivity extends BaseApp {
                             PrefsUser.setPassword(dataLogin.getPassword());
                             mApp.setUserToken(loginResponse.getToken());
                             getCartTotal(loginResponse.getToken());
+                            Log.d("ahihi", loginResponse.getToken());
                         }else{
                             mApp.removeToken();
                         }
@@ -153,6 +154,7 @@ public class MainActivity extends BaseApp {
         Subscription subscription = service.getCartTotal(token, new Service.GetCartTotalCallback() {
             @Override
             public void onSuccess(TotalResponse totalResponse) {
+                dialogLoading.dismiss();
                 if(totalResponse.isStatus()){
                     PrefsUser.setCartNum(totalResponse.getData());
                 }
@@ -173,6 +175,7 @@ public class MainActivity extends BaseApp {
         Subscription subscription = service.getWishTotal(token, new Service.GetWishTotalCallback() {
             @Override
             public void onSuccess(TotalResponse totalResponse) {
+                dialogLoading.dismiss();
                 if(totalResponse.isStatus()){
                     PrefsUser.setWishNum(totalResponse.getData());
                 }
