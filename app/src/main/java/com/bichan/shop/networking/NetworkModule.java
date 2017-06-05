@@ -6,6 +6,8 @@ import com.bichan.shop.models.CustomerRespone;
 import com.bichan.shop.models.HomeCategoryResponse;
 import com.bichan.shop.models.HomeSliderResponse;
 import com.bichan.shop.models.LoginResponse;
+import com.bichan.shop.models.OrderDetalResponse;
+import com.bichan.shop.models.OrderResponse;
 import com.bichan.shop.models.ProductMiniCartResponse;
 import com.bichan.shop.models.ProductMiniResponse;
 import com.bichan.shop.models.ProductOptionResponse;
@@ -105,6 +107,8 @@ public class NetworkModule {
         gsonBuilder.registerTypeAdapter(ProductMiniCartResponse.class, new JsonResponseDeserializer());
         gsonBuilder.registerTypeAdapter(CustomerRespone.class, new JsonResponseDeserializer());
         gsonBuilder.registerTypeAdapter(TotalResponse.class, new JsonResponseDeserializer());
+        gsonBuilder.registerTypeAdapter(OrderResponse.class, new JsonResponseDeserializer());
+        gsonBuilder.registerTypeAdapter(OrderDetalResponse.class, new JsonResponseDeserializer());
         Gson gson = gsonBuilder.create();
         return GsonConverterFactory.create(gson);
     }

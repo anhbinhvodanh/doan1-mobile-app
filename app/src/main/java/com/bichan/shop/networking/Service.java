@@ -6,6 +6,8 @@ import com.bichan.shop.models.CustomerRespone;
 import com.bichan.shop.models.HomeCategoryResponse;
 import com.bichan.shop.models.HomeSliderResponse;
 import com.bichan.shop.models.LoginResponse;
+import com.bichan.shop.models.OrderDetalResponse;
+import com.bichan.shop.models.OrderResponse;
 import com.bichan.shop.models.ProductMiniCartResponse;
 import com.bichan.shop.models.ProductMiniResponse;
 import com.bichan.shop.models.ProductOptionResponse;
@@ -920,6 +922,75 @@ public class Service {
                     @Override
                     public void onNext(TotalResponse totalResponse) {
                         callback.onSuccess(totalResponse);
+                    }
+                });
+    }
+
+    public interface GetOrdersCallback {
+        void onSuccess(OrderResponse orderResponse);
+        void onError(NetworkError networkError);
+    }
+
+    public Subscription getOrders(String token, final GetOrdersCallback callback) {
+        return networkService.getOrders(token)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .onErrorResumeNext(new Func1<Throwable, Observable<? extends OrderResponse>>() {
+                    @Override
+                    public Observable<? extends OrderResponse> call(Throwable throwable) {
+                        return Observable.error(throwable);
+                    }
+                })
+                .subscribe(new Subscriber<OrderResponse>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        callback.onError(new NetworkError(e));
+
+                    }
+
+                    @Override
+                    public void onNext(OrderResponse orderResponse) {
+                        callback.onSuccess(orderResponse);
+                    }
+                });
+    }
+
+
+    public interface GetOrderCallback {
+        void onSuccess(OrderDetalResponse orderDetalResponse);
+        void onError(NetworkError networkError);
+    }
+
+    public Subscription getOrder(String token, String order_id, final GetOrderCallback callback) {
+        return networkService.getOrder(token, order_id)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .onErrorResumeNext(new Func1<Throwable, Observable<? extends OrderDetalResponse>>() {
+                    @Override
+                    public Observable<? extends OrderDetalResponse> call(Throwable throwable) {
+                        return Observable.error(throwable);
+                    }
+                })
+                .subscribe(new Subscriber<OrderDetalResponse>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        callback.onError(new NetworkError(e));
+
+                    }
+
+                    @Override
+                    public void onNext(OrderDetalResponse orderDetalResponse) {
+                        callback.onSuccess(orderDetalResponse);
                     }
                 });
     }

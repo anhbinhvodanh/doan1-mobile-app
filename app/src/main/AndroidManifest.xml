@@ -46,7 +46,10 @@
         <activity android:name=".activities.product.ProductAddReviewActivity" />
         <activity android:name=".activities.product.ProductReviewActivity" />
         <activity android:name=".activities.wish.WishActivity" />
-        <activity android:name=".activities.cart.CartActivity"></activity>
+        <activity android:name=".activities.cart.CartActivity" />
+        <activity android:name=".activities.order.OrderActivity" />
+        <activity android:name=".activities.order.OrderDetalActivity" />
+        <activity android:name=".activities.cart.CheckoutActivity"></activity>
     </application>
 
 </manifest>

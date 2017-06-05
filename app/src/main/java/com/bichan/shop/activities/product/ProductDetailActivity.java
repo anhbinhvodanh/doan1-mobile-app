@@ -18,6 +18,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.bichan.shop.BaseApp;
@@ -339,7 +340,7 @@ public class ProductDetailActivity extends BaseApp implements AppBarLayout.OnOff
                             PrefsUser.updateCartNum(true);
                             updateBadge();
                         }else{
-
+                            Toast.makeText(getApplicationContext(), "Sản phẩm vượt quá số lượng cho phép.", Toast.LENGTH_SHORT).show();
                         }
                     }
 

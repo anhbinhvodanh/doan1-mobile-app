@@ -17,6 +17,7 @@ import com.bichan.shop.BaseFragment;
 import com.bichan.shop.MyApplication;
 import com.bichan.shop.Prefs.PrefsUser;
 import com.bichan.shop.R;
+import com.bichan.shop.activities.cart.CheckoutActivity;
 import com.bichan.shop.activities.login.LoginActivity;
 import com.bichan.shop.activities.product.ProductDetailActivity;
 import com.bichan.shop.adapters.cart.ProductCartAdapter;
@@ -143,6 +144,15 @@ public class CartFragment extends BaseFragment {
             @Override
             public void onClick(View v) {
                 clearCart();
+            }
+        });
+
+        btnCheckout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), CheckoutActivity.class);
+                getActivity().startActivity(intent);
+                getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
             }
         });
     }

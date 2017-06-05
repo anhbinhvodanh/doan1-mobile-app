@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
@@ -33,10 +34,15 @@ public class ProductsWishAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     public static final int VIEW_TYPE_PRODUCT = 1;
     private OnItemProductClickListener onItemProductClickListener;
     private OnRemoveClickListener onRemoveClickListener;
+    private OnAddToCartClickListener onAddToCartClickListener;
     private boolean single = false;
 
     private ArrayList<Object> itemsList;
     private Context mContext;
+
+    public void setOnAddToCartClickListener(OnAddToCartClickListener onAddToCartClickListener){
+        this.onAddToCartClickListener = onAddToCartClickListener;
+    }
 
     public void setOnItemProductClickListener(OnItemProductClickListener onItemProductClickListener){
         this.onItemProductClickListener = onItemProductClickListener;
@@ -173,6 +179,15 @@ public class ProductsWishAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     }
                 });
 
+                singleItemRowHolder.btnAddToCart.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if(onAddToCartClickListener != null){
+                            onAddToCartClickListener.onClick(singleItem);
+                        }
+                    }
+                });
+
                 break;
         }
 
@@ -202,6 +217,7 @@ public class ProductsWishAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         protected RatingBar ratingBar;
         protected MaterialRippleLayout layout;
         protected AppCompatImageButton btnRemove;
+        protected Button btnAddToCart;
         public SingleItemRowHolder(View view) {
             super(view);
             this.tvName = (TextView) view.findViewById(R.id.tvName);
@@ -211,6 +227,8 @@ public class ProductsWishAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             this.image = (ImageViewRatio) view.findViewById(R.id.image);
             this.ratingBar = (RatingBar) view.findViewById(R.id.ratingBar);
             this.layout = (MaterialRippleLayout) view.findViewById(R.id.ripple);
+
+            btnAddToCart = (Button) view.findViewById(R.id.btnAddToCart);
 
             btnRemove = (AppCompatImageButton) view.findViewById(R.id.btnRemove);
 
@@ -227,5 +245,9 @@ public class ProductsWishAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     public interface OnRemoveClickListener{
         void onClick(ProductMini productMini, int position);
+    }
+
+    public interface OnAddToCartClickListener{
+        void onClick(ProductMini productMini);
     }
 }

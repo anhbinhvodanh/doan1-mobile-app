@@ -40,6 +40,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="42dp">
                 <com.balysv.materialripple.MaterialRippleLayout
+                    android:visibility="gone"
                     android:layout_weight="2.5"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
@@ -70,18 +71,19 @@
                 </com.balysv.materialripple.MaterialRippleLayout>
                 <com.balysv.materialripple.MaterialRippleLayout
                     android:id="@+id/btnSort"
-                    android:layout_weight="2.5"
+                    android:layout_weight="5"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     app:mrl_rippleColor="@color/colorMaterialRipple"
                     app:mrl_rippleHover="true"
                     app:mrl_rippleOverlay="true">
                     <LinearLayout
-                        android:gravity="center"
+                        android:gravity="center|left"
                         android:orientation="horizontal"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent">
                         <ImageView
+                            android:layout_marginLeft="16dp"
                             android:layout_gravity="center"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"

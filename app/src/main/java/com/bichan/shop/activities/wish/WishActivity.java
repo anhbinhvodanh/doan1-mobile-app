@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.bichan.shop.BaseApp;
@@ -109,6 +110,13 @@ public class WishActivity extends BaseApp {
             }
         });
 
+        productsWishAdapter.setOnAddToCartClickListener(new ProductsWishAdapter.OnAddToCartClickListener() {
+            @Override
+            public void onClick(ProductMini productMini) {
+                addToCart(productMini.getProductOptionId());
+            }
+        });
+
         btnClearWish.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -126,6 +134,33 @@ public class WishActivity extends BaseApp {
         init();
         initView();
 
+    }
+
+
+    private void addToCart(String id){
+        dialogLoading.show();
+        String token = mApp.getUserToken();
+        Subscription subscription = service.addCart(
+                token,
+                id,
+                Integer.toString(1),
+                new Service.AddCartCallback() {
+                    @Override
+                    public void onSuccess(SubmitResponse submitResponse) {
+                        dialogLoading.dismiss();
+                        if(submitResponse.isStatus()){
+                            PrefsUser.updateCartNum(true);
+                        }else{
+                            Toast.makeText(getApplicationContext(), "Sản phẩm vượt quá số lượng cho phép.", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onError(NetworkError networkError) {
+
+                    }
+                });
+        subscriptions.add(subscription);
     }
 
     private void getWish(){

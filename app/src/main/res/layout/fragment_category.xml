@@ -45,7 +45,7 @@
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:text="See all"
+                android:text="Xem"
                 android:background="@drawable/selector_light_theme"
                 android:textColor="@color/colorPrimary" />
         </LinearLayout>

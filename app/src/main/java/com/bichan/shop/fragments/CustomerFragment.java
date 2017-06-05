@@ -12,11 +12,13 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.balysv.materialripple.MaterialRippleLayout;
 import com.bichan.shop.MainActivity;
 import com.bichan.shop.MyApplication;
 import com.bichan.shop.Prefs.PrefsUser;
 import com.bichan.shop.R;
 import com.bichan.shop.activities.login.LoginActivity;
+import com.bichan.shop.activities.order.OrderActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -49,6 +51,9 @@ public class CustomerFragment extends Fragment {
 
     @BindView(R.id.layoutSocial)
     LinearLayout layoutSocial;
+
+    @BindView(R.id.btnOrder)
+    MaterialRippleLayout btnOrder;
 
     MyApplication mApp;
 
@@ -92,6 +97,15 @@ public class CustomerFragment extends Fragment {
                 login();
             }
         });
+
+        btnOrder.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), OrderActivity.class);
+                getActivity().startActivity(intent);
+                getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+            }
+        });
     }
 
     private void login(){
@@ -117,8 +131,9 @@ public class CustomerFragment extends Fragment {
             tvEmail.setText(PrefsUser.getEmail());
             tvTelephone.setText(PrefsUser.getTelephone());
             btnLogin.setVisibility(View.GONE);
-            layoutSocial.setVisibility(View.VISIBLE);
+            layoutSocial.setVisibility(View.GONE);
             btnLogout.setVisibility(View.VISIBLE);
+            btnOrder.setVisibility(View.VISIBLE);
         }else{
             item_avatar.setImageResource(R.drawable.default_user_icon_profile);
             tvName.setText("Chưa đăng nhập");
@@ -128,6 +143,7 @@ public class CustomerFragment extends Fragment {
             btnLogin.setVisibility(View.VISIBLE);
             layoutSocial.setVisibility(View.GONE);
             btnLogout.setVisibility(View.GONE);
+            btnOrder.setVisibility(View.GONE);
         }
     }
 

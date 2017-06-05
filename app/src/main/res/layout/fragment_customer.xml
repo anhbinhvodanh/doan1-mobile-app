@@ -102,6 +102,40 @@
                     android:text="cuong95nd@gmail.com"/>
             </LinearLayout>
 
+            <com.balysv.materialripple.MaterialRippleLayout
+                android:id="@+id/btnOrder"
+                android:layout_marginTop="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:mrl_rippleColor="@color/colorMaterialRipple"
+                app:mrl_rippleHover="true"
+                app:mrl_rippleOverlay="true">
+            <LinearLayout
+                android:paddingTop="12dp"
+                android:paddingBottom="12dp"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:background="@drawable/layout_backgound_border">
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:tint="@color/colorAccent"
+                    android:src="@drawable/ic_shopping_cart_black_24dp"/>
+                <TextView
+                    android:layout_marginLeft="4dp"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/md_black_1000"
+                    android:text="Quản lý đơn hàng"/>
+            </LinearLayout>
+            </com.balysv.materialripple.MaterialRippleLayout>
+
+
             <LinearLayout
                 android:id="@+id/layoutSocial"
                 android:layout_marginTop="8dp"
@@ -155,13 +189,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <com.balysv.materialripple.MaterialRippleLayout
+                    android:layout_margin="8dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:mrl_rippleColor="@color/colorMaterialRipple"
                     app:mrl_rippleHover="true"
                     app:mrl_rippleOverlay="true">
                     <Button
-                        android:layout_margin="8dp"
                         android:id="@+id/btnLogin"
                         android:textColor="@color/colorAccent"
                         android:textStyle="bold"

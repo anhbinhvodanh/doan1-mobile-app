@@ -91,7 +91,6 @@
                         android:background="@drawable/button_buy"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:enabled="false"
                         android:text="Tiến hành thanh toán"/>
                 </com.balysv.materialripple.MaterialRippleLayout>
             </LinearLayout>

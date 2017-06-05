@@ -5,6 +5,8 @@ import com.bichan.shop.models.CustomerRespone;
 import com.bichan.shop.models.HomeCategoryResponse;
 import com.bichan.shop.models.HomeSliderResponse;
 import com.bichan.shop.models.LoginResponse;
+import com.bichan.shop.models.OrderDetalResponse;
+import com.bichan.shop.models.OrderResponse;
 import com.bichan.shop.models.ProductMiniCartResponse;
 import com.bichan.shop.models.ProductMiniResponse;
 import com.bichan.shop.models.ProductOptionResponse;
@@ -146,5 +148,14 @@ public interface NetworkService {
     @GET("api/customer?act=getCartMoney")
     Observable<TotalResponse> getCartMoney(
             @Query("token") String token);
+
+    @GET("api/order?act=getOrders")
+    Observable<OrderResponse> getOrders(
+            @Query("token") String token);
+
+    @GET("api/order?act=getOrder")
+    Observable<OrderDetalResponse> getOrder(
+            @Query("token") String token,
+            @Query("order_id") String order_id);
 
 }
